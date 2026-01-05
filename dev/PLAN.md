@@ -34,23 +34,29 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] Task-System analysiert (Tags, Parent-Child, Status)
 - [x] Executor-System analysiert (9 Agents, MCP-Integration)
 - [x] Frontend-Architektur analysiert (Zustand, Hooks, API)
-- [x] Dokumentiert in `dev/research/system-analysis.md`
+- [x] Testing/Deployment Pipeline analysiert
+- [x] Dokumentiert in `dev/research/`
 
-### 1.2 Integration-Strategien
-- [x] Deep Research Tools evaluiert (GPT-Researcher, CrewAI)
-- [x] OpenALEX/ArXiv Integration konzipiert (MCP Server)
-- [x] Memory-Funktion konzipiert (Tasks oder MCP)
-- [x] Todo-Kategorien definiert (8 Tags)
-- [x] Dokumentiert in `dev/research/integration-strategies.md`
+### 1.2 MCP Ecosystem Research
+- [x] Existierende MCP Server recherchiert
+- [x] **Scientific-Papers-MCP** gefunden (ArXiv + OpenALEX + 4 weitere)
+- [x] **mcp-memory-service** gefunden (1062⭐)
+- [x] **arxiv-mcp-server** gefunden
+- [x] Dokumentiert in `dev/research/existing-mcp-servers.md`
 
-### 1.3 MCP-Konzepte
-- [x] OpenALEX MCP Server spezifiziert
-- [x] ArXiv MCP Server spezifiziert
-- [x] Memory MCP Server spezifiziert
-- [x] Dokumentiert in `dev/research/mcp-extensions.md`
+### 1.3 GitHub Patterns
+- [x] GPT-Researcher Architektur analysiert
+- [x] mem0 Memory Layer evaluiert
+- [x] Chroma Vector DB API verstanden
 
-### Key Insight: KISS-Strategie
-**Viel existiert bereits!** Tags, Parent-Child Tasks, MCP-System - nutzen statt neu bauen.
+### Key Insight: KISS++
+**Noch mehr existiert als gedacht!**
+- Tags für Kategorien → ✅ Vorhanden
+- Parent-Child Tasks → ✅ Vorhanden
+- MCP System → ✅ Vorhanden
+- ArXiv MCP Server → ✅ Existiert bereits!
+- OpenALEX MCP Server → ✅ Existiert bereits!
+- Memory MCP Server → ✅ Existiert bereits!
 
 ---
 
@@ -58,42 +64,42 @@ Ein modulares Wissensmanagement-Tool für:
 
 **Status:** Nächste Session
 
-### 2.1 Tags für Kategorien (Effort: Minimal)
+### 2.1 Tags für Kategorien
 - [ ] SQL-Script für Knowledge-Tags erstellen
-- [ ] Tags anlegen: `research`, `deep-research`, `idea`, `request`, `review`, `debug`, `docs`, `code`
-- [ ] Tag-Templates definieren (Prompt-Vorlagen)
+- [ ] 8 Tags anlegen mit Templates:
+  - `research` - Web-Recherche
+  - `deep-research` - Multi-Step Analysis
+  - `code` - Programmierung
+  - `idea` - Brainstorming
+  - `request` - Externe Anfragen
+  - `review` - Prüfung
+  - `debug` - Fehlerbehebung
+  - `docs` - Dokumentation
 
-### 2.2 Memory MCP Server (Effort: 1 Tag)
-- [ ] Package-Struktur anlegen (`packages/memory-mcp/`)
-- [ ] SQLite-basierte Speicherung implementieren
-- [ ] Tools: `remember`, `recall`, `forget`, `list_memories`
-- [ ] Tests schreiben
-- [ ] In MCP-Config integrieren
+### 2.2 MCP Server Integration
+- [ ] Scientific-Papers-MCP konfigurieren
+- [ ] mcp-memory-service evaluieren/konfigurieren
+- [ ] MCP Config in Vibe Kanban anpassen
+- [ ] Testen mit allen Agents
 
-### 2.3 OpenALEX MCP Server (Effort: 1 Tag)
-- [ ] Package-Struktur anlegen (`packages/openalex-mcp/`)
-- [ ] API-Client implementieren
-- [ ] Tools: `search_works`, `get_work`, `get_citations`
-- [ ] Tests schreiben
-- [ ] In MCP-Config integrieren
+### 2.3 Context-Engineering
+- [ ] Dev-Ordner konsolidieren
+- [ ] CONTEXT.md erstellen (was Agent IMMER lesen soll)
+- [ ] Phasen-Docs erstellen mit MUST USE / DO NOT CREATE Sections
+- [ ] CLAUDE.md mit Constraints aktualisieren
 
 ---
 
-## Phase 3: Extended Features 🚀
+## Phase 3: Knowledge Features 🚀
 
 **Status:** Geplant
 
-### 3.1 ArXiv MCP Server
-- [ ] Package-Struktur anlegen
-- [ ] Atom XML Parser implementieren
-- [ ] Tools: `search_arxiv`, `get_paper`, `get_pdf_url`
-
-### 3.2 Research Templates
+### 3.1 Research Templates
 - [ ] Multi-Step Research Template (Tag: `deep-research`)
 - [ ] Quick Research Template (Tag: `research`)
 - [ ] Idea Capture Template (Tag: `idea`)
 
-### 3.3 Knowledge View (Frontend)
+### 3.2 Knowledge View (Frontend)
 - [ ] Neuer Zustand Store für Knowledge
 - [ ] Knowledge-Liste Komponente
 - [ ] Tag-Filter UI
@@ -106,7 +112,7 @@ Ein modulares Wissensmanagement-Tool für:
 **Status:** Geplant
 
 ### 4.1 Remote Hosting
-- [ ] Docker Compose Setup
+- [ ] Docker Compose Setup (existiert bereits in `crates/remote/`)
 - [ ] Cloudflare Tunnel Konfiguration
 - [ ] Security Hardening
 
@@ -117,25 +123,43 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## 📊 Effort-Schätzung
+## 📊 Ressourcen-Übersicht
 
-| Phase | Tasks | Effort |
-|-------|-------|--------|
-| Phase 2.1 | Tags | < 1h |
-| Phase 2.2 | Memory MCP | 1 Tag |
-| Phase 2.3 | OpenALEX MCP | 1 Tag |
-| Phase 3.1 | ArXiv MCP | 0.5 Tag |
-| Phase 3.2 | Templates | < 1h |
-| Phase 3.3 | Knowledge View | 2 Tage |
-| Phase 4 | Remote/Mobile | 2-3 Tage |
+### Existierende MCP Server (KEINE Entwicklung nötig!)
 
-**Gesamt für MVP:** ~5-6 Tage
+| Server | Installation | Features |
+|--------|--------------|----------|
+| Scientific-Papers-MCP | `npx -y @futurelab-studio/latest-science-mcp@latest` | 6 Quellen, Full-Text |
+| arxiv-mcp-server | `uv tool install arxiv-mcp-server` | ArXiv Search/Download |
+| alex-mcp | `uvx --from git+...` | OpenALEX Author Disambiguation |
+| mcp-memory-service | `npx -y @doobidoo/mcp-memory-service` | Persistent Memory |
+
+### Existierende Vibe Kanban Features (NUTZEN!)
+
+| Feature | Wie nutzen |
+|---------|------------|
+| Tags | Kategorien für Knowledge Items |
+| Parent-Child Tasks | Research Hierarchien |
+| MCP Support | Alle 9 Agents können MCP nutzen |
+| Docker Setup | Remote Deployment ready |
+
+---
+
+## 📂 Research Dokumentation
+
+| Datei | Inhalt |
+|-------|--------|
+| `dev/research/system-analysis.md` | Task, Executor, Frontend Analyse |
+| `dev/research/integration-strategies.md` | KISS-Antworten auf Fragen |
+| `dev/research/existing-mcp-servers.md` | **NEU** - Existierende MCP Server |
+| `dev/research/testing-deployment.md` | **NEU** - CI/CD Pipeline |
+| `dev/research/mcp-extensions.md` | MCP Konzepte (historisch) |
 
 ---
 
 ## 📝 Notes
 
-- Jede Phase = 1-2 Sessions
-- Research-Ergebnisse in `dev/research/` dokumentieren
+- **KEINE eigene MCP Server Entwicklung** - Existierende nutzen!
 - KISS-Prinzip: Bestehendes nutzen, minimal erweitern
-- MCP Server sind modular und wiederverwendbar
+- Context-Engineering für effiziente AI-Nutzung
+- Jede Phase = 1-2 Sessions
