@@ -1,107 +1,72 @@
-## Overview
+# 🧠 Knowledge Orchestrator
 
-AI coding agents are increasingly writing the world's code and human engineers now spend the majority of their time planning, reviewing, and orchestrating tasks. Vibe Kanban streamlines this process, enabling you to:
+> **Ein Wissensmanagement-System basierend auf [Vibe Kanban](https://github.com/BloopAI/vibe-kanban)**
 
-- Easily switch between different coding agents
-- Orchestrate the execution of multiple coding agents in parallel or in sequence
-- Quickly review work and start dev servers
-- Track the status of tasks that your coding agents are working on
-- Centralise configuration of coding agent MCP configs
-- Open projects remotely via SSH when running Vibe Kanban on a remote server
+---
 
-You can watch a video overview [here](https://youtu.be/TFT3KnZOOAk).
+## ⚠️ Status: Experimentell
 
-## Installation
+Dieses Projekt ist **nicht lauffähig** und befindet sich in aktiver Entwicklung. Es dient als persönliches Lernprojekt.
 
-Make sure you have authenticated with your favourite coding agent. A full list of supported coding agents can be found in the [docs](https://vibekanban.com/docs). Then in your terminal run:
+**Für eine funktionierende Version → [Original Vibe Kanban](https://github.com/BloopAI/vibe-kanban)**
 
-```bash
-npx vibe-kanban
+---
+
+## 🎯 Vision
+
+Transformation von Vibe Kanban (Coding Agent Orchestrator) zu einem **Knowledge Management Tool**:
+
+| Vibe Kanban | Knowledge Orchestrator |
+|-------------|------------------------|
+| Code schreiben | Recherche orchestrieren |
+| Pull Requests | Markdown-Dokumente |
+| Coding Agents | Research Agents |
+| Task = Feature | Task = Wissenseinheit |
+
+### Ziele
+
+- 📚 **Recherche-Orchestrierung** – AI-Agents für Informationssammlung
+- 📝 **Markdown-First** – Wissen in strukturierten Dokumenten
+- 🔗 **Knowledge Graph** – Verknüpfung von Informationen
+- 🧩 **Modular** – Erweiterungen ohne Core-Änderungen
+
+---
+
+## 🙏 Credits
+
+Dieses Projekt basiert auf der hervorragenden Arbeit von **[BloopAI](https://github.com/BloopAI)**:
+
+<p align="center">
+  <a href="https://github.com/BloopAI/vibe-kanban">
+    <img src="https://img.shields.io/badge/Basiert_auf-Vibe_Kanban-blue?style=for-the-badge&logo=github" alt="Based on Vibe Kanban">
+  </a>
+  <a href="https://vibekanban.com">
+    <img src="https://img.shields.io/badge/Original-vibekanban.com-green?style=for-the-badge" alt="Original Website">
+  </a>
+</p>
+
+**Lizenz**: Apache 2.0 (wie das Original)
+
+---
+
+## 📁 Projektstruktur
+
+```
+├── crates/          # Rust Backend
+├── frontend/        # React Frontend
+├── shared/          # Generierte TypeScript Types
+└── dev/             # Entwicklungsdokumentation
+    ├── questions.md
+    ├── answers.md
+    ├── architecture.md
+    ├── git-workflow.md
+    └── extension-points.md
 ```
 
-## Documentation
+---
 
-Please head to the [website](https://vibekanban.com/docs) for the latest documentation and user guides.
+## 🔗 Links
 
-## Support
-
-We use [GitHub Discussions](https://github.com/BloopAI/vibe-kanban/discussions) for feature requests. Please open a discussion to create a feature request. For bugs please open an issue on this repo.
-
-## Contributing
-
-We would prefer that ideas and changes are first raised with the core team via [GitHub Discussions](https://github.com/BloopAI/vibe-kanban/discussions) or [Discord](https://discord.gg/AC4nwVtJM3), where we can discuss implementation details and alignment with the existing roadmap. Please do not open PRs without first discussing your proposal with the team.
-
-## Development
-
-### Prerequisites
-
-- [Rust](https://rustup.rs/) (latest stable)
-- [Node.js](https://nodejs.org/) (>=18)
-- [pnpm](https://pnpm.io/) (>=8)
-
-Additional development tools:
-```bash
-cargo install cargo-watch
-cargo install sqlx-cli
-```
-
-Install dependencies:
-```bash
-pnpm i
-```
-
-### Running the dev server
-
-```bash
-pnpm run dev
-```
-
-This will start the backend. A blank DB will be copied from the `dev_assets_seed` folder.
-
-### Building the frontend
-
-To build just the frontend:
-
-```bash
-cd frontend
-pnpm build
-```
-
-### Build from source (macOS)
-
-1. Run `./local-build.sh`
-2. Test with `cd npx-cli && node bin/cli.js`
-
-
-### Environment Variables
-
-The following environment variables can be configured at build time or runtime:
-
-| Variable | Type | Default | Description |
-|----------|------|---------|-------------|
-| `POSTHOG_API_KEY` | Build-time | Empty | PostHog analytics API key (disables analytics if empty) |
-| `POSTHOG_API_ENDPOINT` | Build-time | Empty | PostHog analytics endpoint (disables analytics if empty) |
-| `PORT` | Runtime | Auto-assign | **Production**: Server port. **Dev**: Frontend port (backend uses PORT+1) |
-| `BACKEND_PORT` | Runtime | `0` (auto-assign) | Backend server port (dev mode only, overrides PORT+1) |
-| `FRONTEND_PORT` | Runtime | `3000` | Frontend dev server port (dev mode only, overrides PORT) |
-| `HOST` | Runtime | `127.0.0.1` | Backend server host |
-| `DISABLE_WORKTREE_ORPHAN_CLEANUP` | Runtime | Not set | Disable git worktree cleanup (for debugging) |
-
-**Build-time variables** must be set when running `pnpm run build`. **Runtime variables** are read when the application starts.
-
-### Remote Deployment
-
-When running Vibe Kanban on a remote server (e.g., via systemctl, Docker, or cloud hosting), you can configure your editor to open projects via SSH:
-
-1. **Access via tunnel**: Use Cloudflare Tunnel, ngrok, or similar to expose the web UI
-2. **Configure remote SSH** in Settings → Editor Integration:
-   - Set **Remote SSH Host** to your server hostname or IP
-   - Set **Remote SSH User** to your SSH username (optional)
-3. **Prerequisites**:
-   - SSH access from your local machine to the remote server
-   - SSH keys configured (passwordless authentication)
-   - VSCode Remote-SSH extension
-
-When configured, the "Open in VSCode" buttons will generate URLs like `vscode://vscode-remote/ssh-remote+user@host/path` that open your local editor and connect to the remote server.
-
-See the [documentation](https://vibekanban.com/docs/configuration-customisation/global-settings#remote-ssh-configuration) for detailed setup instructions.
+- **Original Projekt**: [github.com/BloopAI/vibe-kanban](https://github.com/BloopAI/vibe-kanban)
+- **Original Docs**: [vibekanban.com/docs](https://vibekanban.com/docs)
+- **Original installieren**: `npx vibe-kanban`
