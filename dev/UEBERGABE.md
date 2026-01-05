@@ -1,68 +1,47 @@
-# 🔄 Übergabe - Session 2026-01-05 (UI Cleanup)
+# 🔄 Übergabe - Session 2026-01-05 (Settings UI Refactor)
 
 ## ✅ Was wurde gemacht
 
-### Phase 2.6: UI Cleanup - Abgeschlossen
+### Phase 2.7: Settings UI Refactor - Abgeschlossen
 
-**1. Rebranding**
-- Logo-Komponente durch Text "Knowledge Orchestrator" ersetzt
-- `frontend/src/components/Logo.tsx` gelöscht
+**1. UI-Komponenten installiert**
+- `@radix-ui/react-accordion`
+- `@radix-ui/react-separator`
 
-**2. Discord entfernt**
-- Discord-Badge aus Navbar entfernt
-- `useDiscordOnlineCount` Hook gelöscht
-- `simple-icons` Package aus dependencies entfernt
-- Discord-Eintrag aus EXTERNAL_LINKS entfernt
+**2. GeneralSettings modularisiert**
+- Von 745 Zeilen auf 130 Zeilen reduziert
+- 8 Sektionen in `sections/` Ordner extrahiert
+- `useSettingsForm.ts` Hook für State-Management
 
-**3. Kontraste verbessert**
-- Diff-Viewer: Opacity 0.7 → 0.85
-- `diff-style-overrides.css` angepasst
-- `DiffCard.tsx` und `EditDiffRenderer.tsx` aktualisiert
+**3. Accordion-Layout implementiert**
+- Einklappbare Sektionen mit Icons
+- Appearance & Editor standardmäßig geöffnet
+- Sticky Save Bar am unteren Rand
 
-### Commit
+### Commits
 ```
-67facef4 style: 🎨 UI cleanup - rebrand & remove Discord
+6d70b1b9 refactor: ♻️ modularize GeneralSettings into sections
+476c8108 checkpoint: before Settings UI refactor
 ```
 
 ---
 
-## 🚀 Nächste Session: Settings UI Refactor
+## 🚀 Nächste Session: Phase 3 - Knowledge Features
 
-### Problem (von David identifiziert)
-- Settings = "Config-Wüste" - alles auf einmal sichtbar
-- Keine visuelle Struktur
-- Überschriften zu groß
-- Keine einklappbaren Bereiche
-- Keine Icons, keine Separatoren
+### 3.1 Research Templates
+- [ ] Multi-Step Research Template (Tag: `deep-research`)
+- [ ] Quick Research Template (Tag: `research`)
+- [ ] Idea Capture Template (Tag: `idea`)
 
-### Lösung: Accordion-basiertes Layout
+### 3.2 Knowledge View (Frontend)
+- [ ] Neuer Zustand Store für Knowledge
+- [ ] Knowledge-Liste Komponente
+- [ ] Tag-Filter UI
+- [ ] Search-Funktion
 
-**1. Pakete installieren**
-```bash
-pnpm add @radix-ui/react-accordion @radix-ui/react-separator
-```
-
-**2. Komponenten erstellen**
-- `frontend/src/components/ui/accordion.tsx`
-- `frontend/src/components/ui/separator.tsx`
-
-**3. Settings refactoren**
-
-| Sektion | Icon | Komponente |
-|---------|------|------------|
-| Appearance | `Palette` | GeneralSettings |
-| Editor | `Code` | GeneralSettings |
-| Git | `GitBranch` | GeneralSettings |
-| Pull Requests | `GitPullRequest` | GeneralSettings |
-| Notifications | `Bell` | GeneralSettings |
-| Privacy | `Shield` | GeneralSettings |
-| Task Templates | `Tags` | GeneralSettings |
-| Safety | `AlertTriangle` | GeneralSettings |
-
-**4. Weitere Seiten (optional)**
-- AgentSettings.tsx
-- ProjectSettings.tsx
-- McpSettings.tsx
+### Offene Items aus Phase 2 (optional)
+- [ ] 8 Knowledge-Tags anlegen (2.2)
+- [ ] Dev-Ordner konsolidieren (2.3)
 
 ---
 
@@ -70,9 +49,9 @@ pnpm add @radix-ui/react-accordion @radix-ui/react-separator
 
 | Datei | Beschreibung |
 |-------|--------------|
-| `dev/PLAN.md` | Phase 2.7 Details |
-| `frontend/src/pages/settings/GeneralSettings.tsx` | Haupt-Target (745 Zeilen) |
-| `frontend/src/components/ui/` | Neue Komponenten hier |
+| `dev/PLAN.md` | Projekt-Roadmap (Phase 3 Details) |
+| `frontend/src/pages/settings/` | Settings-Seiten |
+| `frontend/src/pages/settings/sections/` | Modulare Settings-Sektionen |
 
 ---
 
@@ -80,15 +59,18 @@ pnpm add @radix-ui/react-accordion @radix-ui/react-separator
 
 ```bash
 git log -1 --oneline
-# 67facef4 style: 🎨 UI cleanup - rebrand & remove Discord
+# 6d70b1b9 refactor: ♻️ modularize GeneralSettings into sections
 ```
 
 ---
 
-## 💡 Design-Hinweise von David
+## 📊 Phase 2 Abschluss-Status
 
-- **Einklappbare Sektionen** (Accordions)
-- **Kleinere Überschriften** (Settings-typisch)
-- **Horizontale Separatoren** (weiße Linien)
-- **Icons** für jede Sektion
-- **Visuelle Hierarchie** statt monotoner Cards
+| Sub-Phase | Status |
+|-----------|--------|
+| 2.1 Local MCP Setup | ✅ |
+| 2.2 Tags für Kategorien | ⏳ (optional) |
+| 2.3 Context-Engineering | ⏳ (optional) |
+| 2.5 Testing & Feedback | ✅ |
+| 2.6 UI Cleanup | ✅ |
+| 2.7 Settings UI Refactor | ✅ |

@@ -112,51 +112,50 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 2.7: Settings UI Refactor 🎨
+## Phase 2.7: Settings UI Refactor 🎨 ✅
 
-**Status:** Nächste Session
+**Status:** Abgeschlossen (2026-01-05)
 
-### Problem
-- Settings zeigt alle Sektionen gleichzeitig (Config-Wüste)
-- Keine visuelle Struktur (keine Separatoren, keine Icons)
-- Überschriften zu groß
-- Keine einklappbaren Bereiche
+### Erledigt
+- [x] @radix-ui/react-accordion & react-separator installiert
+- [x] `accordion.tsx` und `separator.tsx` UI-Komponenten erstellt
+- [x] GeneralSettings modularisiert (745 → 130 Zeilen)
+- [x] 8 Sektionen mit Icons extrahiert:
+  - AppearanceSection (Palette)
+  - EditorSection (Code)
+  - GitSection (GitBranch)
+  - PullRequestsSection (GitPullRequest)
+  - NotificationsSection (Bell)
+  - PrivacySection (Shield)
+  - TaskTemplatesSection (Tags)
+  - SafetySection (AlertTriangle)
+- [x] `useSettingsForm.ts` Hook extrahiert
+- [x] Sticky Save Bar implementiert
+- [x] Chrome DevTools Verifizierung bestanden
 
-### Lösung: Accordion-basiertes Settings Layout
+### Commit
+`6d70b1b9` - refactor: ♻️ modularize GeneralSettings into sections
 
-#### 1. Neue Komponenten installieren
-```bash
-pnpm add @radix-ui/react-accordion @radix-ui/react-separator
+### Dateien (neu/geändert)
 ```
-
-#### 2. UI-Komponenten erstellen
-- `frontend/src/components/ui/accordion.tsx`
-- `frontend/src/components/ui/separator.tsx`
-
-#### 3. GeneralSettings refactoren
-| Sektion | Icon |
-|---------|------|
-| Appearance | `Palette` |
-| Editor | `Code` |
-| Git | `GitBranch` |
-| Pull Requests | `GitPullRequest` |
-| Notifications | `Bell` |
-| Privacy | `Shield` |
-| Task Templates | `Tags` |
-| Safety | `AlertTriangle` |
-
-#### 4. Weitere Settings-Seiten
-- AgentSettings.tsx
-- ProjectSettings.tsx
-- McpSettings.tsx
-- OrganizationSettings.tsx
-
-### Dateien
-- `frontend/src/pages/settings/GeneralSettings.tsx`
-- `frontend/src/pages/settings/AgentSettings.tsx`
-- `frontend/src/pages/settings/ProjectSettings.tsx`
-- `frontend/src/components/ui/accordion.tsx` (neu)
-- `frontend/src/components/ui/separator.tsx` (neu)
+frontend/src/pages/settings/
+├── GeneralSettings.tsx          (refactored)
+├── useSettingsForm.ts           (neu)
+└── sections/
+    ├── AppearanceSection.tsx    (neu)
+    ├── EditorSection.tsx        (neu)
+    ├── GitSection.tsx           (neu)
+    ├── NotificationsSection.tsx (neu)
+    ├── PrivacySection.tsx       (neu)
+    ├── PullRequestsSection.tsx  (neu)
+    ├── SafetySection.tsx        (neu)
+    ├── SettingsSection.tsx      (neu)
+    ├── TaskTemplatesSection.tsx (neu)
+    └── index.ts                 (neu)
+frontend/src/components/ui/
+├── accordion.tsx                (neu)
+└── separator.tsx                (neu)
+```
 
 ---
 
