@@ -16,7 +16,14 @@ module.exports = {
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', '@typescript-eslint', 'unused-imports', 'i18next', 'eslint-comments', 'check-file'],
+  plugins: [
+    'react-refresh',
+    '@typescript-eslint',
+    'unused-imports',
+    'i18next',
+    'eslint-comments',
+    'check-file',
+  ],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -72,8 +79,7 @@ module.exports = {
       },
       {
         selector: 'CallExpression[callee.name="showModal"]',
-        message:
-          'Do not use showModal(). Use DialogName.show(props) instead.',
+        message: 'Do not use showModal(). Use DialogName.show(props) instead.',
       },
       {
         selector: 'CallExpression[callee.name="hideModal"]',
@@ -169,7 +175,11 @@ module.exports = {
     },
     {
       // Allow NiceModal usage in lib/modals.ts, App.tsx (for Provider), and dialog component files
-      files: ['src/lib/modals.ts', 'src/App.tsx', 'src/components/dialogs/**/*.{ts,tsx}'],
+      files: [
+        'src/lib/modals.ts',
+        'src/App.tsx',
+        'src/components/dialogs/**/*.{ts,tsx}',
+      ],
       rules: {
         'no-restricted-imports': 'off',
         'no-restricted-syntax': 'off',
