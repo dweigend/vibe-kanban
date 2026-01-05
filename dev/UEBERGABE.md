@@ -1,47 +1,53 @@
-# 🔄 Übergabe - Session 2026-01-05 (Settings UI Refactor)
+# 🔄 Übergabe - Session 2026-01-05 (Consolidation + Knowledge Features)
 
 ## ✅ Was wurde gemacht
 
-### Phase 2.7: Settings UI Refactor - Abgeschlossen
+### Phase 2: Konsolidierung - Abgeschlossen
 
-**1. UI-Komponenten installiert**
-- `@radix-ui/react-accordion`
-- `@radix-ui/react-separator`
+**1. Dev-Ordner aufgeräumt**
+- 6 redundante Dateien gelöscht (~1500 Zeilen)
+- `README-WORKFLOW.md`, `questions.md`, `answers.md`
+- `research/mcp-extensions.md`, `research/mcp-template.md`, `research/context-engineering.md`
 
-**2. GeneralSettings modularisiert**
-- Von 745 Zeilen auf 130 Zeilen reduziert
-- 8 Sektionen in `sections/` Ordner extrahiert
-- `useSettingsForm.ts` Hook für State-Management
+### Phase 3: Knowledge Features - Abgeschlossen
 
-**3. Accordion-Layout implementiert**
-- Einklappbare Sektionen mit Icons
-- Appearance & Editor standardmäßig geöffnet
-- Sticky Save Bar am unteren Rand
+**2. Backend: knowledge_tag_id**
+- Migration: `20260105000000_add_task_knowledge_tag.sql`
+- Task, CreateTask, UpdateTask structs erweitert
+- Alle SQL Queries aktualisiert
+- TypeScript Types regeneriert
+
+**3. Frontend: Knowledge View**
+- `KnowledgePage.tsx` - Neue Seite mit Tag-Filter und Task-Liste
+- `useKnowledgeStore.ts` - Zustand Store für Filter-State
+- Route `/projects/:projectId/knowledge` registriert
+- `paths.knowledge()` und `paths.project()` Helper
+
+**4. knowledge_tag_id Integration**
+- TaskFormDialog, NoServerContent, ProjectTasks aktualisiert
+- Alle CreateTask/UpdateTask Aufrufe erweitert
 
 ### Commits
 ```
-6d70b1b9 refactor: ♻️ modularize GeneralSettings into sections
-476c8108 checkpoint: before Settings UI refactor
+ef4b53cf chore: 🔧 consolidate dev documentation
+41eb9805 feat: ✨ add knowledge_tag_id to tasks
+18703a5a feat: ✨ add knowledge view with tag filtering
 ```
 
 ---
 
-## 🚀 Nächste Session: Phase 3 - Knowledge Features
+## 🚀 Nächste Session
 
-### 3.1 Research Templates
-- [ ] Multi-Step Research Template (Tag: `deep-research`)
-- [ ] Quick Research Template (Tag: `research`)
-- [ ] Idea Capture Template (Tag: `idea`)
+### Noch offen (Phase 3 Vervollständigung)
+- [ ] 8 Knowledge-Tags via Settings UI anlegen
+- [ ] Knowledge-Tag Dropdown in Task-Creation Dialog
+- [ ] Navigation zur Knowledge Page (Sidebar/Header)
+- [ ] DevTools Verifizierung im Browser
 
-### 3.2 Knowledge View (Frontend)
-- [ ] Neuer Zustand Store für Knowledge
-- [ ] Knowledge-Liste Komponente
-- [ ] Tag-Filter UI
-- [ ] Search-Funktion
-
-### Offene Items aus Phase 2 (optional)
-- [ ] 8 Knowledge-Tags anlegen (2.2)
-- [ ] Dev-Ordner konsolidieren (2.3)
+### Phase 4: Remote & Mobile (Geplant)
+- [ ] Docker Compose Setup
+- [ ] Cloudflare Tunnel
+- [ ] PWA Manifest
 
 ---
 
@@ -49,28 +55,30 @@
 
 | Datei | Beschreibung |
 |-------|--------------|
-| `dev/PLAN.md` | Projekt-Roadmap (Phase 3 Details) |
-| `frontend/src/pages/settings/` | Settings-Seiten |
-| `frontend/src/pages/settings/sections/` | Modulare Settings-Sektionen |
+| `crates/db/src/models/task.rs` | Task Model mit knowledge_tag_id |
+| `frontend/src/pages/KnowledgePage.tsx` | Knowledge View Seite |
+| `frontend/src/stores/useKnowledgeStore.ts` | Filter State |
+| `frontend/src/lib/paths.ts` | Route Helper |
 
 ---
 
 ## 🔧 Checkpoint
 
 ```bash
-git log -1 --oneline
-# 6d70b1b9 refactor: ♻️ modularize GeneralSettings into sections
+git log -3 --oneline
+# 18703a5a feat: ✨ add knowledge view with tag filtering
+# 41eb9805 feat: ✨ add knowledge_tag_id to tasks
+# ef4b53cf chore: 🔧 consolidate dev documentation
 ```
 
 ---
 
-## 📊 Phase 2 Abschluss-Status
+## 📊 Phase 3 Status
 
 | Sub-Phase | Status |
 |-----------|--------|
-| 2.1 Local MCP Setup | ✅ |
-| 2.2 Tags für Kategorien | ⏳ (optional) |
-| 2.3 Context-Engineering | ⏳ (optional) |
-| 2.5 Testing & Feedback | ✅ |
-| 2.6 UI Cleanup | ✅ |
-| 2.7 Settings UI Refactor | ✅ |
+| 3.0 Konsolidierung | ✅ |
+| 3.1 Backend (knowledge_tag_id) | ✅ |
+| 3.2 Frontend (Knowledge View) | ✅ |
+| 3.3 Tags anlegen | ⏳ (nächste Session) |
+| 3.4 Task Dialog Integration | ⏳ (nächste Session) |

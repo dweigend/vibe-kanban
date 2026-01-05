@@ -161,18 +161,38 @@ frontend/src/components/ui/
 
 ## Phase 3: Knowledge Features 🚀
 
-**Status:** Geplant
+**Status:** In Progress (2026-01-05)
 
-### 3.1 Research Templates
-- [ ] Multi-Step Research Template (Tag: `deep-research`)
-- [ ] Quick Research Template (Tag: `research`)
-- [ ] Idea Capture Template (Tag: `idea`)
+### 3.0 Konsolidierung ✅
+- [x] 6 redundante Dev-Dateien gelöscht
+- [x] Dev-Ordner aufgeräumt
 
-### 3.2 Knowledge View (Frontend)
-- [ ] Neuer Zustand Store für Knowledge
-- [ ] Knowledge-Liste Komponente
-- [ ] Tag-Filter UI
-- [ ] Search-Funktion
+### 3.1 Backend: knowledge_tag_id ✅
+- [x] Migration für knowledge_tag_id Feld
+- [x] Task, CreateTask, UpdateTask structs erweitert
+- [x] SQL Queries aktualisiert
+- [x] TypeScript Types regeneriert
+
+### 3.2 Knowledge View (Frontend) ✅
+- [x] `useKnowledgeStore.ts` - Zustand Store für Filter-State
+- [x] `KnowledgePage.tsx` - Tag-Filter Sidebar + Task-Liste
+- [x] Route `/projects/:projectId/knowledge` registriert
+- [x] knowledge_tag_id in alle Task-Operationen integriert
+
+### 3.3 Research Templates (Tags)
+- [ ] 8 Knowledge-Tags via Settings UI anlegen
+- [ ] Knowledge-Tag Dropdown in Task-Creation Dialog
+
+### 3.4 Knowledge Navigation
+- [ ] Link zur Knowledge Page in Sidebar/Header
+- [ ] DevTools Verifizierung
+
+### Commits
+```
+ef4b53cf chore: 🔧 consolidate dev documentation
+41eb9805 feat: ✨ add knowledge_tag_id to tasks
+18703a5a feat: ✨ add knowledge view with tag filtering
+```
 
 ---
 
