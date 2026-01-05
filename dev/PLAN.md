@@ -97,18 +97,66 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 2.6: UI Cleanup 🎨
+## Phase 2.6: UI Cleanup 🎨 ✅
+
+**Status:** Abgeschlossen (2026-01-05)
+
+### Erledigt
+- [x] Logo durch Text "Knowledge Orchestrator" ersetzen
+- [x] Discord-Badge + Links entfernen
+- [x] simple-icons Dependency entfernt
+- [x] UI-Kontraste verbessert (Diff-Viewer: 0.7 → 0.85)
+
+### Commit
+`67facef4` - style: 🎨 UI cleanup - rebrand & remove Discord
+
+---
+
+## Phase 2.7: Settings UI Refactor 🎨
 
 **Status:** Nächste Session
 
-### Aufgaben
-- [ ] Logo durch Text "Knowledge Orchestrator" ersetzen
-- [ ] Discord-Badge + Links entfernen
-- [ ] UI-Kontraste verbessern (Settings)
+### Problem
+- Settings zeigt alle Sektionen gleichzeitig (Config-Wüste)
+- Keine visuelle Struktur (keine Separatoren, keine Icons)
+- Überschriften zu groß
+- Keine einklappbaren Bereiche
+
+### Lösung: Accordion-basiertes Settings Layout
+
+#### 1. Neue Komponenten installieren
+```bash
+pnpm add @radix-ui/react-accordion @radix-ui/react-separator
+```
+
+#### 2. UI-Komponenten erstellen
+- `frontend/src/components/ui/accordion.tsx`
+- `frontend/src/components/ui/separator.tsx`
+
+#### 3. GeneralSettings refactoren
+| Sektion | Icon |
+|---------|------|
+| Appearance | `Palette` |
+| Editor | `Code` |
+| Git | `GitBranch` |
+| Pull Requests | `GitPullRequest` |
+| Notifications | `Bell` |
+| Privacy | `Shield` |
+| Task Templates | `Tags` |
+| Safety | `AlertTriangle` |
+
+#### 4. Weitere Settings-Seiten
+- AgentSettings.tsx
+- ProjectSettings.tsx
+- McpSettings.tsx
+- OrganizationSettings.tsx
 
 ### Dateien
-- `frontend/src/components/layout/Navbar.tsx`
-- `frontend/tailwind.config.ts`
+- `frontend/src/pages/settings/GeneralSettings.tsx`
+- `frontend/src/pages/settings/AgentSettings.tsx`
+- `frontend/src/pages/settings/ProjectSettings.tsx`
+- `frontend/src/components/ui/accordion.tsx` (neu)
+- `frontend/src/components/ui/separator.tsx` (neu)
 
 ---
 
