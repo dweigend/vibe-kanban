@@ -265,6 +265,9 @@ pub async fn update_task(
     let parent_workspace_id = payload
         .parent_workspace_id
         .or(existing_task.parent_workspace_id);
+    let knowledge_tag_id = payload
+        .knowledge_tag_id
+        .or(existing_task.knowledge_tag_id);
 
     let task = Task::update(
         &deployment.db().pool,
@@ -274,6 +277,7 @@ pub async fn update_task(
         description,
         status,
         parent_workspace_id,
+        knowledge_tag_id,
     )
     .await?;
 
