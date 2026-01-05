@@ -79,31 +79,36 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 2.5: Testing & Feedback 🧪
+## Phase 2.5: Testing & Feedback 🧪 ✅
 
-**Status:** Aktuelle Phase
+**Status:** Abgeschlossen (2026-01-05)
 
-### Ziel
-Hands-on Testing des Systems, um Anpassungsbedarf zu identifizieren.
+### Ergebnisse
+- [x] System getestet
+- [x] Feedback gesammelt in `dev/FEEDBACK.md`
+- [x] Interview für Task-Typen geführt
+- [x] Roadmap erstellt
 
-### Vorgehen
-1. System im Browser testen (http://localhost:3000)
-2. Workflows durchspielen:
-   - Projekt erstellen/öffnen
-   - Tasks anlegen mit verschiedenen Agents
-   - Tags nutzen
-   - MCP Server testen
-3. Feedback sammeln in `dev/FEEDBACK.md`
+### Key Decisions
+- **Task-Typen = Templates** (MCP + Output Style + System Prompt)
+- **Agents:** Konfigurierbar in Settings
+- **Login:** Komplett entfernen (Single-User)
+- **Workflow:** Iterativ (mehrere Sessions)
 
-### Feedback-Kategorien
-- 🐛 **Bugs** - Fehler und unerwartetes Verhalten
-- 🎨 **UI/UX** - Verbesserungen der Benutzeroberfläche
-- ⚡ **Performance** - Geschwindigkeit und Reaktionsfähigkeit
-- ✨ **Features** - Gewünschte neue Funktionen
-- 🔧 **Config** - Konfigurationsanpassungen
+---
 
-### Deliverable
-`dev/FEEDBACK.md` mit priorisierter Liste von Änderungen
+## Phase 2.6: UI Cleanup 🎨
+
+**Status:** Nächste Session
+
+### Aufgaben
+- [ ] Logo durch Text "Knowledge Orchestrator" ersetzen
+- [ ] Discord-Badge + Links entfernen
+- [ ] UI-Kontraste verbessern (Settings)
+
+### Dateien
+- `frontend/src/components/layout/Navbar.tsx`
+- `frontend/tailwind.config.ts`
 
 ---
 

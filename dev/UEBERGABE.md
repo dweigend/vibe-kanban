@@ -1,50 +1,86 @@
-# 🔄 Übergabe - Session 2026-01-05 (Foundation + Testing Setup)
+# 🔄 Übergabe - Session 2026-01-05 (Feedback & Planung)
 
 ## ✅ Was wurde gemacht
 
-### Phase 2: Foundation - Teilweise abgeschlossen
+### Phase 2.5: Testing & Feedback - Abgeschlossen
 
-**1. DevServer Setup**
-- `pnpm install` - Dependencies installiert
-- `cargo install cargo-watch` - Hot-Reload für Rust
-- `pnpm run dev` - System läuft auf localhost:3000
+**1. Feedback analysiert**
+- Server-Logs durchgegangen (npm warns, Vite errors)
+- UI/UX Probleme identifiziert
+- Feature-Wünsche gesammelt
 
-**2. Local MCP Storage**
-- `data/mcp/` Ordnerstruktur angelegt
-  - `data/mcp/memory/` - Memory Service Storage
-  - `data/mcp/papers/` - Downloaded Papers
-- `.gitignore` aktualisiert
+**2. Interview für Task-Typen geführt**
+- David's Workflow verstanden (Research, Code, Notes)
+- Phasen: Exploration → Planung → Umsetzung
+- 3-5 parallele Projekte, isoliert
 
-**3. MCP Server Konfiguration**
-- `crates/executors/default_mcp.json` erweitert:
-  - `scientific-papers` - ArXiv, OpenALEX, etc.
-  - `memory` - Persistent Memory Service
-- Beide mit lokalem Storage-Pfad
-
-**4. Testing-Phase vorbereitet**
-- `dev/FEEDBACK.md` Template erstellt
-- `dev/PLAN.md` mit Phase 2.5 aktualisiert
+**3. Roadmap erstellt**
+- 6 Sessions geplant
+- Prioritäten festgelegt
+- Plan dokumentiert
 
 ---
 
-## 🚀 Aktuelle Phase: Testing & Feedback
+## 🚀 Nächste Session: UI Cleanup
 
-### System Status
-- **Frontend:** http://localhost:3000
-- **Backend:** http://127.0.0.1:3002
-- **DevServer:** `pnpm run dev` (läuft im Hintergrund)
+### Aufgaben
+1. **Logo durch Text ersetzen**
+   - `frontend/src/components/layout/Navbar.tsx:142-144`
+   - Text: "Knowledge Orchestrator"
 
-### Aufgabe
-1. System im Browser testen
-2. Verschiedene Workflows durchspielen
-3. Feedback in `dev/FEEDBACK.md` sammeln
+2. **Discord entfernen**
+   - Badge entfernen (Zeilen 145-170)
+   - EXTERNAL_LINKS bereinigen
+   - Imports aufräumen (siDiscord, useDiscordOnlineCount, MessageCircle)
 
-### Feedback-Kategorien
-- 🐛 Bugs
-- 🎨 UI/UX
-- ⚡ Performance
-- ✨ Features
-- 🔧 Config
+3. **UI-Kontraste verbessern**
+   - Settings-Bereich analysieren
+   - text-muted-foreground → stärkere Kontraste
+
+### Dateien
+| Datei | Änderung |
+|-------|----------|
+| `frontend/src/components/layout/Navbar.tsx` | Logo-Text, Discord entfernen |
+| `frontend/src/components/Logo.tsx` | Prüfen ob löschbar |
+| `frontend/src/hooks/useDiscordOnlineCount.ts` | Prüfen ob löschbar |
+| `frontend/tailwind.config.ts` | Kontraste |
+
+---
+
+## 📋 Gesamte Roadmap
+
+| Session | Fokus | Status |
+|---------|-------|--------|
+| 1 | Planung & Feedback | ✅ Done |
+| 2 | UI Cleanup | 🔜 Next |
+| 3 | Agent-Settings | ⏳ Planned |
+| 4 | Login entfernen | ⏳ Planned |
+| 5 | Task-Typen | ⏳ Planned |
+| 6+ | Advanced Features | ⏳ Planned |
+
+---
+
+## 💡 Key Decisions
+
+### Task-Typen = Templates
+Ein Task-Typ ist ein vorkonfiguriertes Template mit:
+- MCP Server(s)
+- Output Style (Claude Code)
+- System Prompt
+- Agent-Konfiguration
+
+| Template | MCP | Output Style | Prompt-Fokus |
+|----------|-----|--------------|--------------|
+| **Deep Research** 🔬 | scientific-papers, memory | Structured | Quellenangaben |
+| **Web Research** 🌐 | - | Concise | Fakten, Links |
+| **Code** 💻 | context7 | Code | Technisch |
+| **Note** 📝 | memory | Brief | Minimal |
+| **Brainstorm** 💡 | - | Creative | Offen |
+
+### Weitere Entscheidungen
+- **Agents:** Konfigurierbar in Settings (nicht hardcoded)
+- **Login:** Komplett entfernen (Single-User)
+- **Workflow:** Iterativ (mehrere Sessions)
 
 ---
 
@@ -52,32 +88,18 @@
 
 | Datei | Beschreibung |
 |-------|--------------|
-| `dev/FEEDBACK.md` | **NEU** - Feedback sammeln |
-| `dev/PLAN.md` | Aktualisiert mit Phase 2.5 |
-| `data/mcp/` | **NEU** - Lokaler MCP Storage |
-| `crates/executors/default_mcp.json` | MCP Server Config |
+| `dev/FEEDBACK.md` | Gesammeltes Feedback + Server-Logs |
+| `dev/PLAN.md` | Projekt-Roadmap |
+| `~/.claude/plans/buzzing-honking-yao.md` | Detaillierter Session-Plan |
 
 ---
 
-## 💡 Nächste Session
-
-Nach Testing-Phase:
-1. `dev/FEEDBACK.md` durchgehen
-2. Prioritäten setzen
-3. Änderungen implementieren
-4. Phase 2 abschließen (Tags, Context-Engineering)
-
----
-
-## 🔧 DevServer Commands
+## 🔧 Checkpoint
 
 ```bash
-# Server starten
-pnpm run dev
-
-# Nur Frontend
-pnpm run frontend:dev
-
-# Nur Backend
-pnpm run backend:dev:watch
+# Letzter Commit
+git log -1 --oneline
+# 1a66039f checkpoint: before UI cleanup session
 ```
+
+**Hinweis:** Einige Imports in `Navbar.tsx` wurden bereits entfernt (siDiscord, Logo, useDiscordOnlineCount). Diese Änderungen sind NICHT committed - bei Bedarf mit `git checkout frontend/src/components/layout/Navbar.tsx` zurücksetzen.
