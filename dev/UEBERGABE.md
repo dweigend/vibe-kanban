@@ -1,91 +1,50 @@
-# 🔄 Übergabe - Session 2026-01-05 (Research Phase Complete)
+# 🔄 Übergabe - Session 2026-01-05 (Foundation + Testing Setup)
 
 ## ✅ Was wurde gemacht
 
-### Research Phase - Vollständig abgeschlossen
+### Phase 2: Foundation - Teilweise abgeschlossen
 
-**1. System-Analyse**
-- Task-System: Tags für Kategorien, Parent-Child für Hierarchien
-- Executor-System: 9 Agents, alle mit MCP-Support
-- Frontend: Zustand Stores, React Hooks, WebSocket Streaming
+**1. DevServer Setup**
+- `pnpm install` - Dependencies installiert
+- `cargo install cargo-watch` - Hot-Reload für Rust
+- `pnpm run dev` - System läuft auf localhost:3000
 
-**2. MCP Ecosystem Research** 🎉
-- **Kritische Entdeckung:** Alle benötigten MCP Server existieren bereits!
-  - `Scientific-Papers-MCP` (33⭐) - ArXiv + OpenALEX + 4 weitere Quellen
-  - `mcp-memory-service` (1062⭐) - Persistentes Memory
-  - `arxiv-mcp-server` - ArXiv Suche & Download
+**2. Local MCP Storage**
+- `data/mcp/` Ordnerstruktur angelegt
+  - `data/mcp/memory/` - Memory Service Storage
+  - `data/mcp/papers/` - Downloaded Papers
+- `.gitignore` aktualisiert
 
-**3. Testing/Deployment Analyse**
-- CI/CD Pipeline: test.yml, pre-release.yml, publish.yml
-- Docker Setup existiert in `crates/remote/`
-- Multi-Platform Builds (6 Targets)
+**3. MCP Server Konfiguration**
+- `crates/executors/default_mcp.json` erweitert:
+  - `scientific-papers` - ArXiv, OpenALEX, etc.
+  - `memory` - Persistent Memory Service
+- Beide mit lokalem Storage-Pfad
 
-**4. Context-Engineering Strategie**
-- Layered Context Architecture definiert
-- Anti-Pattern Verhinderung dokumentiert
-- Dev-Ordner Konsolidierung geplant
-
-**5. MCP Template Dokumentation** 🆕
-- FastMCP TypeScript Template erstellt
-- Game Mechanics MCP Beispiel
-- Scientific Facts MCP Beispiel
-- Tag-basierte Tool-Auswahl Konzept
-
-### Dokumentation erstellt
-
-| Datei | Inhalt |
-|-------|--------|
-| `dev/research/existing-mcp-servers.md` | Existierende MCP Server |
-| `dev/research/testing-deployment.md` | CI/CD & Docker Analyse |
-| `dev/research/context-engineering.md` | Context-Engineering Strategie |
-| `dev/research/mcp-template.md` | **NEU** - MCP Server Template |
-| `dev/PLAN.md` | Aktualisiert (keine MCP Entwicklung nötig) |
+**4. Testing-Phase vorbereitet**
+- `dev/FEEDBACK.md` Template erstellt
+- `dev/PLAN.md` mit Phase 2.5 aktualisiert
 
 ---
 
-## 🚀 Key Insights
+## 🚀 Aktuelle Phase: Testing & Feedback
 
-### KISS++: Noch mehr existiert als gedacht!
+### System Status
+- **Frontend:** http://localhost:3000
+- **Backend:** http://127.0.0.1:3002
+- **DevServer:** `pnpm run dev` (läuft im Hintergrund)
 
-| Feature | Status |
-|---------|--------|
-| Tags für Kategorien | ✅ Vorhanden |
-| Parent-Child Tasks | ✅ Vorhanden |
-| MCP System | ✅ Vorhanden |
-| ArXiv MCP Server | ✅ **Existiert bereits!** |
-| OpenALEX MCP Server | ✅ **Existiert bereits!** |
-| Memory MCP Server | ✅ **Existiert bereits!** |
-| Docker Setup | ✅ Vorhanden |
+### Aufgabe
+1. System im Browser testen
+2. Verschiedene Workflows durchspielen
+3. Feedback in `dev/FEEDBACK.md` sammeln
 
-### Eigene MCP Server
-
-Falls eigene Wissensquellen benötigt werden:
-- **Template:** `dev/research/mcp-template.md`
-- **Framework:** FastMCP (TypeScript) oder FastMCP (Python)
-- **Integration:** `default_mcp.json` oder Agent-Settings
-
----
-
-## 📋 Nächste Session (Phase 2: Foundation)
-
-### Priorität 1: Tags für Kategorien
-- SQL-Script erstellen
-- 8 Tags anlegen mit Templates
-- `research`, `deep-research`, `idea`, `request`, `review`, `debug`, `docs`, `code`
-
-### Priorität 2: MCP Server Integration
-- Scientific-Papers-MCP konfigurieren
-- mcp-memory-service evaluieren
-- MCP Config in Vibe Kanban anpassen
-
-### Priorität 3: Context-Engineering
-- `dev/CONTEXT.md` erstellen
-- Dev-Ordner konsolidieren
-- CLAUDE.md mit Constraints erweitern
-
-### Optional: Eigene MCP Server
-- Game Mechanics MCP (falls benötigt)
-- Scientific Facts MCP (falls benötigt)
+### Feedback-Kategorien
+- 🐛 Bugs
+- 🎨 UI/UX
+- ⚡ Performance
+- ✨ Features
+- 🔧 Config
 
 ---
 
@@ -93,54 +52,32 @@ Falls eigene Wissensquellen benötigt werden:
 
 | Datei | Beschreibung |
 |-------|--------------|
-| `dev/PLAN.md` | Aktueller Projektplan |
-| `dev/research/existing-mcp-servers.md` | Existierende MCP Server |
-| `dev/research/mcp-template.md` | **NEU** - MCP Server Template |
-| `dev/research/context-engineering.md` | Context-Engineering Strategie |
-| `crates/executors/default_mcp.json` | MCP Server Konfiguration |
-| `crates/executors/src/mcp_config.rs` | MCP-Integration Code |
+| `dev/FEEDBACK.md` | **NEU** - Feedback sammeln |
+| `dev/PLAN.md` | Aktualisiert mit Phase 2.5 |
+| `data/mcp/` | **NEU** - Lokaler MCP Storage |
+| `crates/executors/default_mcp.json` | MCP Server Config |
 
 ---
 
-## 🛠️ MCP Server zum Nutzen
+## 💡 Nächste Session
 
-### Existierende Server (sofort nutzbar)
-
-```json
-{
-  "mcpServers": {
-    "scientific-papers": {
-      "command": "npx",
-      "args": ["-y", "@futurelab-studio/latest-science-mcp@latest"]
-    },
-    "memory": {
-      "command": "npx",
-      "args": ["-y", "@doobidoo/mcp-memory-service"]
-    }
-  }
-}
-```
-
-### Eigene Server (bei Bedarf)
-
-```json
-{
-  "mcpServers": {
-    "game-mechanics": {
-      "command": "node",
-      "args": ["/path/to/game-mechanics-mcp/dist/index.js"]
-    }
-  }
-}
-```
+Nach Testing-Phase:
+1. `dev/FEEDBACK.md` durchgehen
+2. Prioritäten setzen
+3. Änderungen implementieren
+4. Phase 2 abschließen (Tags, Context-Engineering)
 
 ---
 
-## 💡 Hinweise für nächste Session
+## 🔧 DevServer Commands
 
-1. Mit `/start` beginnen
-2. **KEINE eigenen MCP Server entwickeln** (außer für spezielle Datenquellen)
-3. Existierende Server nutzen: Scientific-Papers, Memory
-4. Bei eigenen Servern: `dev/research/mcp-template.md` als Vorlage
-5. Tags zuerst anlegen (schnellster Win)
-6. Am Ende UEBERGABE.md aktualisieren
+```bash
+# Server starten
+pnpm run dev
+
+# Nur Frontend
+pnpm run frontend:dev
+
+# Nur Backend
+pnpm run backend:dev:watch
+```

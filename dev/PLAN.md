@@ -62,31 +62,48 @@ Ein modulares Wissensmanagement-Tool für:
 
 ## Phase 2: Foundation 🏗️
 
-**Status:** Nächste Session
+**Status:** In Progress (2026-01-05)
 
-### 2.1 Tags für Kategorien
-- [ ] SQL-Script für Knowledge-Tags erstellen
-- [ ] 8 Tags anlegen mit Templates:
-  - `research` - Web-Recherche
-  - `deep-research` - Multi-Step Analysis
-  - `code` - Programmierung
-  - `idea` - Brainstorming
-  - `request` - Externe Anfragen
-  - `review` - Prüfung
-  - `debug` - Fehlerbehebung
-  - `docs` - Dokumentation
+### 2.1 Local MCP Setup ✅
+- [x] `data/mcp/` Ordnerstruktur angelegt
+- [x] Scientific-Papers-MCP in default_mcp.json konfiguriert
+- [x] mcp-memory-service in default_mcp.json konfiguriert
+- [x] `.gitignore` für lokale MCP-Daten aktualisiert
 
-### 2.2 MCP Server Integration
-- [ ] Scientific-Papers-MCP konfigurieren
-- [ ] mcp-memory-service evaluieren/konfigurieren
-- [ ] MCP Config in Vibe Kanban anpassen
-- [ ] Testen mit allen Agents
+### 2.2 Tags für Kategorien
+- [ ] 8 Knowledge-Tags anlegen (nach Testing-Phase)
 
 ### 2.3 Context-Engineering
-- [ ] Dev-Ordner konsolidieren
-- [ ] CONTEXT.md erstellen (was Agent IMMER lesen soll)
-- [ ] Phasen-Docs erstellen mit MUST USE / DO NOT CREATE Sections
-- [ ] CLAUDE.md mit Constraints aktualisieren
+- [ ] Dev-Ordner konsolidieren (nach Testing-Phase)
+- [ ] CONTEXT.md erstellen
+
+---
+
+## Phase 2.5: Testing & Feedback 🧪
+
+**Status:** Aktuelle Phase
+
+### Ziel
+Hands-on Testing des Systems, um Anpassungsbedarf zu identifizieren.
+
+### Vorgehen
+1. System im Browser testen (http://localhost:3000)
+2. Workflows durchspielen:
+   - Projekt erstellen/öffnen
+   - Tasks anlegen mit verschiedenen Agents
+   - Tags nutzen
+   - MCP Server testen
+3. Feedback sammeln in `dev/FEEDBACK.md`
+
+### Feedback-Kategorien
+- 🐛 **Bugs** - Fehler und unerwartetes Verhalten
+- 🎨 **UI/UX** - Verbesserungen der Benutzeroberfläche
+- ⚡ **Performance** - Geschwindigkeit und Reaktionsfähigkeit
+- ✨ **Features** - Gewünschte neue Funktionen
+- 🔧 **Config** - Konfigurationsanpassungen
+
+### Deliverable
+`dev/FEEDBACK.md` mit priorisierter Liste von Änderungen
 
 ---
 
