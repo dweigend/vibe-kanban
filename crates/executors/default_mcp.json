@@ -20,6 +20,26 @@
       "@playwright/mcp@latest"
     ]
   },
+  "scientific-papers": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@futurelab-studio/latest-science-mcp@latest"
+    ],
+    "env": {
+      "STORAGE_PATH": "./data/mcp/papers"
+    }
+  },
+  "memory": {
+    "command": "npx",
+    "args": [
+      "-y",
+      "@doobidoo/mcp-memory-service"
+    ],
+    "env": {
+      "MEMORY_STORAGE_PATH": "./data/mcp/memory"
+    }
+  },
   "meta": {
     "vibe_kanban": {
       "name": "Vibe Kanban",
@@ -38,6 +58,18 @@
       "description": "Browser automation with Playwright",
       "url": "https://github.com/microsoft/playwright-mcp",
       "icon": "mcp/playwright_logo_icon.svg"
+    },
+    "scientific-papers": {
+      "name": "Scientific Papers",
+      "description": "Search academic papers from ArXiv, OpenAlex, and more",
+      "url": "https://github.com/benedict2310/Scientific-Papers-MCP",
+      "icon": "mcp/scientific-papers.svg"
+    },
+    "memory": {
+      "name": "Memory Service",
+      "description": "Persistent memory for AI context",
+      "url": "https://github.com/doobidoo/mcp-memory-service",
+      "icon": "mcp/memory.svg"
     }
   }
 }
