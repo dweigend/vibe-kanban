@@ -26,54 +26,78 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 1: Research 🔬
+## Phase 1: Research 🔬 ✅
+
+**Status:** Abgeschlossen (2026-01-05)
+
+### 1.1 System-Analyse
+- [x] Task-System analysiert (Tags, Parent-Child, Status)
+- [x] Executor-System analysiert (9 Agents, MCP-Integration)
+- [x] Frontend-Architektur analysiert (Zustand, Hooks, API)
+- [x] Dokumentiert in `dev/research/system-analysis.md`
+
+### 1.2 Integration-Strategien
+- [x] Deep Research Tools evaluiert (GPT-Researcher, CrewAI)
+- [x] OpenALEX/ArXiv Integration konzipiert (MCP Server)
+- [x] Memory-Funktion konzipiert (Tasks oder MCP)
+- [x] Todo-Kategorien definiert (8 Tags)
+- [x] Dokumentiert in `dev/research/integration-strategies.md`
+
+### 1.3 MCP-Konzepte
+- [x] OpenALEX MCP Server spezifiziert
+- [x] ArXiv MCP Server spezifiziert
+- [x] Memory MCP Server spezifiziert
+- [x] Dokumentiert in `dev/research/mcp-extensions.md`
+
+### Key Insight: KISS-Strategie
+**Viel existiert bereits!** Tags, Parent-Child Tasks, MCP-System - nutzen statt neu bauen.
+
+---
+
+## Phase 2: Foundation 🏗️
 
 **Status:** Nächste Session
 
-### 1.1 Deep Research Agent
-- [ ] Recherche: Wie integriert man einen Deep Research Agent?
-- [ ] Optionen: Perplexity API, Custom Agent, MCP-basiert
-- [ ] Architektur-Entscheidung dokumentieren
+### 2.1 Tags für Kategorien (Effort: Minimal)
+- [ ] SQL-Script für Knowledge-Tags erstellen
+- [ ] Tags anlegen: `research`, `deep-research`, `idea`, `request`, `review`, `debug`, `docs`, `code`
+- [ ] Tag-Templates definieren (Prompt-Vorlagen)
 
-### 1.2 Agent-Einbindung
-- [ ] Recherche: Claude Code CLI Integration
-- [ ] Recherche: Gemini CLI Integration
-- [ ] Recherche: Weitere Agents (Codex, Cursor, etc.)
-- [ ] Vergleich: Welche Agents für Research vs. Code?
+### 2.2 Memory MCP Server (Effort: 1 Tag)
+- [ ] Package-Struktur anlegen (`packages/memory-mcp/`)
+- [ ] SQLite-basierte Speicherung implementieren
+- [ ] Tools: `remember`, `recall`, `forget`, `list_memories`
+- [ ] Tests schreiben
+- [ ] In MCP-Config integrieren
 
-### 1.3 Remote Hosting
-- [ ] Recherche: Self-Hosting Optionen (VPS, Docker)
-- [ ] Recherche: Tunnel-Lösungen (Cloudflare, ngrok)
-- [ ] Recherche: Multi-User / Multi-Device Setup
-- [ ] Security-Überlegungen dokumentieren
-
-### 1.4 Mobile Version
-- [ ] Recherche: PWA vs. Native App
-- [ ] Recherche: React Native / Expo Optionen
-- [ ] Recherche: Mobile-First UI Patterns
-- [ ] Use Cases definieren (Aufträge sammeln, Review)
+### 2.3 OpenALEX MCP Server (Effort: 1 Tag)
+- [ ] Package-Struktur anlegen (`packages/openalex-mcp/`)
+- [ ] API-Client implementieren
+- [ ] Tools: `search_works`, `get_work`, `get_citations`
+- [ ] Tests schreiben
+- [ ] In MCP-Config integrieren
 
 ---
 
-## Phase 2: Architecture Design 📐
+## Phase 3: Extended Features 🚀
 
 **Status:** Geplant
 
-- [ ] Modulare Architektur definieren
-- [ ] Extension Points identifizieren
-- [ ] API-Design für Knowledge Management
-- [ ] Datenmodell für Wissenseinheiten
+### 3.1 ArXiv MCP Server
+- [ ] Package-Struktur anlegen
+- [ ] Atom XML Parser implementieren
+- [ ] Tools: `search_arxiv`, `get_paper`, `get_pdf_url`
 
----
+### 3.2 Research Templates
+- [ ] Multi-Step Research Template (Tag: `deep-research`)
+- [ ] Quick Research Template (Tag: `research`)
+- [ ] Idea Capture Template (Tag: `idea`)
 
-## Phase 3: Core Implementation 🔨
-
-**Status:** Geplant
-
-- [ ] Knowledge Task Type erstellen
-- [ ] Markdown-Editor erweitern
-- [ ] Research Agent Integration
-- [ ] Tag/Category System
+### 3.3 Knowledge View (Frontend)
+- [ ] Neuer Zustand Store für Knowledge
+- [ ] Knowledge-Liste Komponente
+- [ ] Tag-Filter UI
+- [ ] Search-Funktion
 
 ---
 
@@ -81,9 +105,31 @@ Ein modulares Wissensmanagement-Tool für:
 
 **Status:** Geplant
 
-- [ ] Remote Deployment Setup
-- [ ] Mobile UI/PWA
-- [ ] Sync-System
+### 4.1 Remote Hosting
+- [ ] Docker Compose Setup
+- [ ] Cloudflare Tunnel Konfiguration
+- [ ] Security Hardening
+
+### 4.2 Mobile/PWA
+- [ ] PWA Manifest erstellen
+- [ ] Responsive UI anpassen
+- [ ] Offline-Funktionalität
+
+---
+
+## 📊 Effort-Schätzung
+
+| Phase | Tasks | Effort |
+|-------|-------|--------|
+| Phase 2.1 | Tags | < 1h |
+| Phase 2.2 | Memory MCP | 1 Tag |
+| Phase 2.3 | OpenALEX MCP | 1 Tag |
+| Phase 3.1 | ArXiv MCP | 0.5 Tag |
+| Phase 3.2 | Templates | < 1h |
+| Phase 3.3 | Knowledge View | 2 Tage |
+| Phase 4 | Remote/Mobile | 2-3 Tage |
+
+**Gesamt für MVP:** ~5-6 Tage
 
 ---
 
@@ -91,4 +137,5 @@ Ein modulares Wissensmanagement-Tool für:
 
 - Jede Phase = 1-2 Sessions
 - Research-Ergebnisse in `dev/research/` dokumentieren
-- Architektur-Entscheidungen in `dev/architecture.md` festhalten
+- KISS-Prinzip: Bestehendes nutzen, minimal erweitern
+- MCP Server sind modular und wiederverwendbar
