@@ -1,26 +1,3 @@
-<p align="center">
-  <a href="https://vibekanban.com">
-    <picture>
-      <source srcset="frontend/public/vibe-kanban-logo-dark.svg" media="(prefers-color-scheme: dark)">
-      <source srcset="frontend/public/vibe-kanban-logo.svg" media="(prefers-color-scheme: light)">
-      <img src="frontend/public/vibe-kanban-logo.svg" alt="Vibe Kanban Logo">
-    </picture>
-  </a>
-</p>
-
-<p align="center">Get 10X more out of Claude Code, Gemini CLI, Codex, Amp and other coding agents...</p>
-<p align="center">
-  <a href="https://www.npmjs.com/package/vibe-kanban"><img alt="npm" src="https://img.shields.io/npm/v/vibe-kanban?style=flat-square" /></a>
-  <a href="https://github.com/BloopAI/vibe-kanban/blob/main/.github/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/BloopAI/vibe-kanban/.github%2Fworkflows%2Fpublish.yml" /></a>
-  <a href="https://deepwiki.com/BloopAI/vibe-kanban"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
-</p>
-
-<h1 align="center">
-  <a href="https://jobs.polymer.co/vibe-kanban?source=github"><strong>We're hiring!</strong></a>
-</h1>
-
-![](frontend/public/vibe-kanban-screenshot-overview.png)
-
 ## Overview
 
 AI coding agents are increasingly writing the world's code and human engineers now spend the majority of their time planning, reviewing, and orchestrating tasks. Vibe Kanban streamlines this process, enabling you to:
