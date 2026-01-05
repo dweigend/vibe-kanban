@@ -216,7 +216,7 @@ export default function DiffCard({
   const title = (
     <p
       className="text-sm font-mono overflow-x-auto flex-1"
-      style={{ color: 'hsl(var(--muted-foreground) / 0.7)' }}
+      style={{ color: 'hsl(var(--muted-foreground) / 0.85)' }}
     >
       <Icon className="h-3 w-3 inline mr-2" aria-hidden />
       {label && <span className="mr-2">{label}</span>}
@@ -321,7 +321,7 @@ export default function DiffCard({
       {expanded && !diffFile && (
         <div
           className="px-4 pb-4 text-xs font-mono"
-          style={{ color: 'hsl(var(--muted-foreground) / 0.9)' }}
+          style={{ color: 'hsl(var(--muted-foreground))' }}
         >
           {isOmitted
             ? 'Content omitted due to file size. Open in editor to view.'

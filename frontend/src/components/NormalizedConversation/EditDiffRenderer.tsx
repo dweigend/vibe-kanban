@@ -130,7 +130,7 @@ function EditDiffRenderer({
             <>
               <pre
                 className="px-4 pb-4 text-xs font-mono overflow-x-auto whitespace-pre-wrap"
-                style={{ color: 'hsl(var(--muted-foreground) / 0.9)' }}
+                style={{ color: 'hsl(var(--muted-foreground))' }}
               >
                 {unifiedDiff}
               </pre>

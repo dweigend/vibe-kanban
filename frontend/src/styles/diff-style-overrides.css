@@ -376,17 +376,17 @@
   --diff-expand-content--: hsl(var(--muted));
   --diff-plain-lineNumber--: hsl(var(--muted));
   --diff-expand-lineNumber--: hsl(var(--muted));
-  --diff-plain-lineNumber-color--: hsl(var(--muted-foreground) / 0.7);
-  --diff-expand-lineNumber-color--: hsl(var(--muted-foreground) / 0.7);
+  --diff-plain-lineNumber-color--: hsl(var(--muted-foreground) / 0.85);
+  --diff-expand-lineNumber-color--: hsl(var(--muted-foreground) / 0.85);
   --diff-hunk-content--: hsl(var(--muted));
   --diff-hunk-lineNumber--: hsl(var(--muted));
-  --diff-hunk-lineNumber-hover--: hsl(var(--muted-foreground) / 0.7);
+  --diff-hunk-lineNumber-hover--: hsl(var(--muted-foreground) / 0.85);
   --diff-add-content-highlight--: hsl(var(--console-success) / 0.4);
   --diff-del-content-highlight--: hsl(var(--console-error) / 0.4);
-  --diff-add-widget--: hsl(var(--muted-foreground) / 0.7);
+  --diff-add-widget--: hsl(var(--muted-foreground) / 0.85);
   --diff-add-widget-color--: hsl(var(--muted));
   --diff-empty-content--: hsl(var(--background));
-  --diff-hunk-content-color--: hsl(var(--muted-foreground) / 0.7);
+  --diff-hunk-content-color--: hsl(var(--muted-foreground) / 0.85);
 }
 
 .diff-tailwindcss-wrapper .diff-style-root .diff-line-syntax-raw *,
