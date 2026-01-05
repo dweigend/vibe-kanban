@@ -1,0 +1,9 @@
+export { SettingsSection } from './SettingsSection';
+export { AppearanceSection } from './AppearanceSection';
+export { EditorSection } from './EditorSection';
+export { GitSection } from './GitSection';
+export { PullRequestsSection } from './PullRequestsSection';
+export { NotificationsSection } from './NotificationsSection';
+export { PrivacySection } from './PrivacySection';
+export { TaskTemplatesSection } from './TaskTemplatesSection';
+export { SafetySection } from './SafetySection';
