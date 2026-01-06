@@ -161,7 +161,7 @@ frontend/src/components/ui/
 
 ## Phase 3: Knowledge Features 🚀
 
-**Status:** In Progress (2026-01-05)
+**Status:** In Progress (2026-01-06)
 
 ### 3.0 Konsolidierung ✅
 - [x] 6 redundante Dev-Dateien gelöscht
@@ -179,16 +179,24 @@ frontend/src/components/ui/
 - [x] Route `/projects/:projectId/knowledge` registriert
 - [x] knowledge_tag_id in alle Task-Operationen integriert
 
-### 3.3 Research Templates (Tags)
-- [ ] 8 Knowledge-Tags via Settings UI anlegen
-- [ ] Knowledge-Tag Dropdown in Task-Creation Dialog
+### 3.3 Task Dialog Integration ✅
+- [x] Knowledge-Tag Dropdown in Task-Creation Dialog
+- [x] Create + Edit Mode Support
 
-### 3.4 Knowledge Navigation
-- [ ] Link zur Knowledge Page in Sidebar/Header
-- [ ] DevTools Verifizierung
+### 3.4 Knowledge Navigation ✅
+- [x] Link zur Knowledge Page im Hamburger-Menü
+- [x] DevTools Verifizierung
+
+### 3.5 Multi-Tag Support
+- [ ] DB: Junction-Tabelle `task_knowledge_tags`
+- [ ] Rust: `Vec<String>` statt `Option<String>`
+- [ ] TypeScript Types regenerieren
+- [ ] UI: Multi-Select mit Badges (shadcn Badge)
+- [ ] UI: Plus-Button zum Hinzufügen
 
 ### Commits
 ```
+7bba591e feat: ✨ add knowledge navigation and tag selector
 ef4b53cf chore: 🔧 consolidate dev documentation
 41eb9805 feat: ✨ add knowledge_tag_id to tasks
 18703a5a feat: ✨ add knowledge view with tag filtering

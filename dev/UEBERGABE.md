@@ -1,64 +1,53 @@
-# 🔄 Übergabe - Session 2026-01-05 (Consolidation + Knowledge Features)
+# 🔄 Übergabe - Session 2026-01-06 (Knowledge Navigation & Tag Selector)
 
 ## ✅ Was wurde gemacht
 
-### Phase 2: Konsolidierung - Abgeschlossen
+### Phase 3.4: Knowledge Navigation
+- Knowledge Link im Hamburger-Menü (nur sichtbar mit projectId)
+- `INTERNAL_NAV` um conditional Knowledge-Eintrag erweitert
+- BookOpen icon wird jetzt verwendet (war vorher nur importiert)
 
-**1. Dev-Ordner aufgeräumt**
-- 6 redundante Dateien gelöscht (~1500 Zeilen)
-- `README-WORKFLOW.md`, `questions.md`, `answers.md`
-- `research/mcp-extensions.md`, `research/mcp-template.md`, `research/context-engineering.md`
-
-### Phase 3: Knowledge Features - Abgeschlossen
-
-**2. Backend: knowledge_tag_id**
-- Migration: `20260105000000_add_task_knowledge_tag.sql`
-- Task, CreateTask, UpdateTask structs erweitert
-- Alle SQL Queries aktualisiert
-- TypeScript Types regeneriert
-
-**3. Frontend: Knowledge View**
-- `KnowledgePage.tsx` - Neue Seite mit Tag-Filter und Task-Liste
-- `useKnowledgeStore.ts` - Zustand Store für Filter-State
-- Route `/projects/:projectId/knowledge` registriert
-- `paths.knowledge()` und `paths.project()` Helper
-
-**4. knowledge_tag_id Integration**
-- TaskFormDialog, NoServerContent, ProjectTasks aktualisiert
-- Alle CreateTask/UpdateTask Aufrufe erweitert
+### Phase 3.3: Task Dialog Integration
+- Knowledge Tag Dropdown in `TaskFormDialog.tsx`
+- Funktioniert in Create + Edit Mode
+- Tags werden via `tagsApi.list()` geladen
+- Select mit "None" Option + alle verfügbaren Tags
 
 ### Commits
 ```
-ef4b53cf chore: 🔧 consolidate dev documentation
-41eb9805 feat: ✨ add knowledge_tag_id to tasks
-18703a5a feat: ✨ add knowledge view with tag filtering
+7bba591e feat: ✨ add knowledge navigation and tag selector
+47a5d0de checkpoint: before knowledge navigation & tag dropdown
 ```
 
 ---
 
 ## 🚀 Nächste Session
 
-### Noch offen (Phase 3 Vervollständigung)
-- [ ] 8 Knowledge-Tags via Settings UI anlegen
-- [ ] Knowledge-Tag Dropdown in Task-Creation Dialog
-- [ ] Navigation zur Knowledge Page (Sidebar/Header)
-- [ ] DevTools Verifizierung im Browser
+### Multi-Tag Support (Neues Feature)
+David wünscht sich, dass **mehrere Tags** pro Task zugeordnet werden können:
 
-### Phase 4: Remote & Mobile (Geplant)
+**Erforderliche Änderungen:**
+- [ ] DB: Junction-Tabelle `task_knowledge_tags` statt `knowledge_tag_id`
+- [ ] Rust: `Vec<String>` statt `Option<String>`
+- [ ] TypeScript Types neu generieren
+- [ ] UI: Multi-Select mit Badges (shadcn Badge component)
+- [ ] UI: Plus-Button zum Hinzufügen neuer Tags
+
+**Referenz:** https://ui.shadcn.com/docs/components/badge
+
+### Phase 4 (Optional)
 - [ ] Docker Compose Setup
 - [ ] Cloudflare Tunnel
 - [ ] PWA Manifest
 
 ---
 
-## 📂 Relevante Dateien
+## 📂 Geänderte Dateien
 
-| Datei | Beschreibung |
-|-------|--------------|
-| `crates/db/src/models/task.rs` | Task Model mit knowledge_tag_id |
-| `frontend/src/pages/KnowledgePage.tsx` | Knowledge View Seite |
-| `frontend/src/stores/useKnowledgeStore.ts` | Filter State |
-| `frontend/src/lib/paths.ts` | Route Helper |
+| Datei | Änderung |
+|-------|----------|
+| `frontend/src/components/layout/Navbar.tsx` | Knowledge MenuItem hinzugefügt |
+| `frontend/src/components/dialogs/tasks/TaskFormDialog.tsx` | Knowledge Tag Select |
 
 ---
 
@@ -66,9 +55,9 @@ ef4b53cf chore: 🔧 consolidate dev documentation
 
 ```bash
 git log -3 --oneline
-# 18703a5a feat: ✨ add knowledge view with tag filtering
-# 41eb9805 feat: ✨ add knowledge_tag_id to tasks
-# ef4b53cf chore: 🔧 consolidate dev documentation
+# 7bba591e feat: ✨ add knowledge navigation and tag selector
+# 47a5d0de checkpoint: before knowledge navigation & tag dropdown
+# 8b926065 docs: 📝 update UEBERGABE.md and PLAN.md for Phase 3
 ```
 
 ---
@@ -80,5 +69,6 @@ git log -3 --oneline
 | 3.0 Konsolidierung | ✅ |
 | 3.1 Backend (knowledge_tag_id) | ✅ |
 | 3.2 Frontend (Knowledge View) | ✅ |
-| 3.3 Tags anlegen | ⏳ (nächste Session) |
-| 3.4 Task Dialog Integration | ⏳ (nächste Session) |
+| 3.3 Task Dialog Integration | ✅ |
+| 3.4 Knowledge Navigation | ✅ |
+| 3.5 Multi-Tag Support | ⏳ (nächste Session) |
