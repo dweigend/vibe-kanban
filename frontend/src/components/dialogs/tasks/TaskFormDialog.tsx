@@ -49,7 +49,9 @@ import type {
   TaskStatus,
   ExecutorProfileId,
   ImageResponse,
+  Tag,
 } from 'shared/types';
+import { tagsApi } from '@/lib/api';
 
 interface Task {
   id: string;
@@ -59,6 +61,7 @@ interface Task {
   status: TaskStatus;
   created_at: string;
   updated_at: string;
+  knowledge_tag_id: string | null;
 }
 
 export type TaskFormDialogProps =
@@ -81,6 +84,7 @@ type TaskFormValues = {
   executorProfileId: ExecutorProfileId | null;
   repoBranches: RepoBranch[];
   autoStart: boolean;
+  knowledgeTagId: string | null;
 };
 
 const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
@@ -101,6 +105,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
   );
   const [showDiscardWarning, setShowDiscardWarning] = useState(false);
   const forceCreateOnlyRef = useRef(false);
+  const [tags, setTags] = useState<Tag[]>([]);
 
   const { data: taskImages } = useTaskImages(
     editMode ? props.task.id : undefined
@@ -136,6 +141,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
           executorProfileId: baseProfile,
           repoBranches: defaultRepoBranches,
           autoStart: false,
+          knowledgeTagId: props.task.knowledge_tag_id,
         };
 
       case 'duplicate':
@@ -146,6 +152,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
           executorProfileId: baseProfile,
           repoBranches: defaultRepoBranches,
           autoStart: true,
+          knowledgeTagId: null,
         };
 
       case 'subtask':
@@ -158,6 +165,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
           executorProfileId: baseProfile,
           repoBranches: defaultRepoBranches,
           autoStart: true,
+          knowledgeTagId: null,
         };
     }
   }, [mode, props, system.config?.executor_profile, defaultRepoBranches]);
@@ -174,7 +182,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
             status: value.status,
             parent_workspace_id: null,
             image_ids: images.length > 0 ? images.map((img) => img.id) : null,
-            knowledge_tag_id: null,
+            knowledge_tag_id: value.knowledgeTagId,
           },
         },
         { onSuccess: () => modal.remove() }
@@ -191,7 +199,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
           mode === 'subtask' ? props.parentTaskAttemptId : null,
         image_ids: imageIds,
         shared_task_id: null,
-        knowledge_tag_id: null,
+        knowledge_tag_id: value.knowledgeTagId,
       };
       const shouldAutoStart = value.autoStart && !forceCreateOnlyRef.current;
       if (shouldAutoStart) {
@@ -247,6 +255,12 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
     if (!taskImages) return;
     setImages(taskImages);
   }, [taskImages]);
+
+  // Load tags for Knowledge Tag selector
+  useEffect(() => {
+    if (!modal.visible) return;
+    tagsApi.list().then(setTags).catch(console.error);
+  }, [modal.visible]);
 
   const onDrop = useCallback(
     async (files: File[]) => {
@@ -460,6 +474,35 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
                 />
               )}
             </form.Field>
+            {/* Knowledge Tag selector */}
+            {tags.length > 0 && (
+              <form.Field name="knowledgeTagId">
+                {(field) => (
+                  <div className="space-y-2 pt-3">
+                    <Label htmlFor="knowledge-tag" className="text-sm font-medium">
+                      Knowledge Tag
+                    </Label>
+                    <Select
+                      value={field.state.value ?? '__none__'}
+                      onValueChange={(v) => field.handleChange(v === '__none__' ? null : v)}
+                      disabled={isSubmitting}
+                    >
+                      <SelectTrigger id="knowledge-tag">
+                        <SelectValue placeholder="Select a tag..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="__none__">None</SelectItem>
+                        {tags.map((tag) => (
+                          <SelectItem key={tag.id} value={tag.id}>
+                            {tag.tag_name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+              </form.Field>
+            )}
             {/* Edit mode status */}
             {editMode && (
               <form.Field name="status">

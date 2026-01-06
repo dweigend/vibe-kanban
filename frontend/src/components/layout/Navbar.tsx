@@ -37,7 +37,14 @@ import { OAuthDialog } from '@/components/dialogs/global/OAuthDialog';
 import { useUserSystem } from '@/components/ConfigProvider';
 import { oauthApi } from '@/lib/api';
 
-const INTERNAL_NAV = [{ label: 'Projects', icon: FolderOpen, to: '/projects' }];
+type NavItem =
+  | { label: string; icon: typeof FolderOpen; to: string; requiresProject?: false }
+  | { label: string; icon: typeof FolderOpen; getTo: (projectId: string) => string; requiresProject: true };
+
+const INTERNAL_NAV: NavItem[] = [
+  { label: 'Projects', icon: FolderOpen, to: '/projects' },
+  { label: 'Knowledge', icon: BookOpen, getTo: (pid) => `/projects/${pid}/knowledge`, requiresProject: true },
+];
 
 const EXTERNAL_LINKS = [
   {
@@ -233,15 +240,17 @@ export function Navbar() {
 
                 <DropdownMenuContent align="end">
                   {INTERNAL_NAV.map((item) => {
-                    const active = location.pathname.startsWith(item.to);
+                    if (item.requiresProject && !projectId) return null;
+                    const to = item.requiresProject ? item.getTo(projectId!) : item.to;
+                    const active = location.pathname.startsWith(to);
                     const Icon = item.icon;
                     return (
                       <DropdownMenuItem
-                        key={item.to}
+                        key={item.label}
                         asChild
                         className={active ? 'bg-accent' : ''}
                       >
-                        <Link to={item.to}>
+                        <Link to={to}>
                           <Icon className="mr-2 h-4 w-4" />
                           {item.label}
                         </Link>
