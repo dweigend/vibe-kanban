@@ -98,76 +98,184 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 4: Consolidation & Planning 📋
+## Phase 4: Consolidation & Planning 📋 ✅
 
-**Status:** Nächste Session
+**Status:** Abgeschlossen (2026-01-07)
 
-> **Ziel:** Strukturierte Planung vor weiterer Entwicklung
+### 4.1 Code-Analyse ✅
+- [x] Codebase-Review mit Fokus auf Issues
+- [x] Issue #9 Architektur analysiert
+- [x] Test-Coverage analysiert (~5-8%, nur Git Services)
 
-### 4.1 Code-Analyse
-- [ ] Codebase-Review mit Fokus auf Issues
-- [ ] Identifiziere Quick Wins vs. größere Refactorings
-- [ ] Dependencies und technische Schulden dokumentieren
+### 4.2 Issue-Triage ✅
+- [x] 14 GitHub Issues priorisiert
+- [x] Abhängigkeitsgraph erstellt (#9 ist Fundament)
+- [x] Quick Wins identifiziert (#11, #14)
 
-### 4.2 Issue-Triage
-- [ ] Alle 13 GitHub Issues priorisieren
-- [ ] Issues in sinnvolle Gruppen sortieren
-- [ ] Abhängigkeiten zwischen Issues identifizieren
-- [ ] Architektur-Issue #9 (Task Types) als Grundlage analysieren
+### 4.3 Test-Strategie ✅
+- [x] Bestehende Tests analysiert (104 Tests in Git Services)
+- [x] Test-Setup für API auf Phase 6 verschoben
 
-### 4.3 Test-Strategie
-- [ ] Bestehende Tests analysieren (`cargo test`)
-- [ ] Kritische Pfade für neue Tests identifizieren
-- [ ] Test-Plan für Phase 5 erstellen
-
-### 4.4 Roadmap-Update
-- [ ] PLAN.md mit konkreten Aufgaben aktualisieren
-- [ ] Phasen 5+ definieren basierend auf Issue-Analyse
-- [ ] Zeitliche Priorisierung (was bringt schnell Wert?)
+### 4.4 Roadmap-Update ✅
+- [x] Phasen 5-14 definiert (1 Phase = 1 Session)
+- [x] Review-Sessions eingeplant (Phase 6, 9, 13)
 
 ---
 
-## Phase 5+: Implementation (nach Planung)
+## Phase 5: Quick Wins ✅
 
-> Wird in Phase 4 detailliert geplant
+**Status:** Abgeschlossen (2026-01-07)
 
-### Mögliche Themen (noch nicht priorisiert)
-- Task-Type-System Architektur (#9)
-- UX-Verbesserungen (#1-#6)
-- Result Management/Export (#8)
-- Technical Debt (#10-#14)
-- Remote & Mobile (Phase 4 alt)
+- [x] #11 browserslist update
+- [x] #14 npm warnings (geschlossen - externes Environment-Problem)
+- [ ] API-Test → verschoben auf Phase 6
+
+---
+
+## Phase 6: 🔍 Review & Architektur-Design
+
+**Status:** Nächste Session
+
+**Fokus:** Task-Type System designen, NICHT implementieren
+
+- [ ] Architektur-Dokument erstellen (`dev/architecture/task-types.md`)
+- [ ] DB Schema Design finalisieren
+- [ ] Frontend Component-Struktur planen
+- [ ] Test-Setup für API planen
+- [ ] Plan.md für Phase 7-10 detaillieren
+
+---
+
+## Phase 7: Task Type Backend
+
+**Fokus:** Nur Backend, kein Frontend
+
+- [ ] DB Migration: `task_type TEXT NOT NULL DEFAULT 'code'`
+- [ ] Rust Enum: `TaskType { Research, Note, Code }`
+- [ ] API: CreateTask/UpdateTask erweitern
+- [ ] Migration: Bestehende Tasks → type='code'
+
+---
+
+## Phase 8: Task Type Frontend Basis
+
+**Fokus:** Nur UI-Grundlagen
+
+- [ ] TaskFormDialog: Type-Selector (Radio)
+- [ ] Type-Badge in Task-Listen
+- [ ] Types-API Hook
+
+---
+
+## Phase 9: 🔍 Review & Refactoring
+
+**Fokus:** Architektur prüfen, Code aufräumen
+
+- [ ] Code-Review Task-Type System
+- [ ] Refactoring falls nötig
+- [ ] Plan.md aktualisieren
+
+---
+
+## Phase 10: Research Type Features
+
+**Fokus:** Research-spezifische UI/UX
+
+- [ ] #5 Git UI → "Research Paths" Terminologie
+- [ ] Quellen-Ansicht UI
+- [ ] Export-Button (Markdown)
+
+---
+
+## Phase 11: Note Type Features
+
+**Fokus:** Note/Idea-spezifische UI/UX
+
+- [ ] Quick Capture UI
+- [ ] Simpler Editor (kein Git)
+- [ ] Tag-Integration
+
+---
+
+## Phase 12: Result Export (#8)
+
+**Fokus:** Vollständiges Export-System
+
+- [ ] Markdown Export mit Metadaten
+- [ ] Quellen-Zitation für Research
+- [ ] Testprotokoll-Templates für Notes
+
+---
+
+## Phase 13: 🔍 Review & UX Polish
+
+**Fokus:** Gesamtbild prüfen, UX verbessern
+
+- [ ] User-Testing
+- [ ] #1, #2, #3, #4, #6 UX Issues
+- [ ] Finale Architektur-Dokumentation
+
+---
+
+## Phase 14: Technical Debt
+
+**Fokus:** Aufräumen
+
+- [ ] #10 WebSocket ECONNRESET
+- [ ] #12 Rust warnings
+- [ ] #13 Worktree polling
 
 ---
 
 ## 📊 GitHub Issues (dweigend/vibe-kanban)
 
+### Architektur (Fundament)
+| # | Titel | Phase | Status |
+|---|-------|-------|--------|
+| [#9](https://github.com/dweigend/vibe-kanban/issues/9) | **Task Type System** | 6-8 | 🔴 Offen |
+
 ### UX/Feature Issues
-| # | Titel | Priorität |
-|---|-------|-----------|
-| [#1](https://github.com/dweigend/vibe-kanban/issues/1) | Task creation flow inconsistency | TBD |
-| [#2](https://github.com/dweigend/vibe-kanban/issues/2) | Programming-specific options in dropdown | TBD |
-| [#3](https://github.com/dweigend/vibe-kanban/issues/3) | Technical system messages visible | TBD |
-| [#4](https://github.com/dweigend/vibe-kanban/issues/4) | Executor names too technical | TBD |
-| [#5](https://github.com/dweigend/vibe-kanban/issues/5) | Git/Branch UI for Knowledge | TBD |
-| [#6](https://github.com/dweigend/vibe-kanban/issues/6) | Input area irrelevant options | TBD |
-| [#8](https://github.com/dweigend/vibe-kanban/issues/8) | No result management/export | TBD |
-| [#9](https://github.com/dweigend/vibe-kanban/issues/9) | **Task Type System Architecture** | 🔴 Hoch |
+| # | Titel | Phase | Status |
+|---|-------|-------|--------|
+| [#1](https://github.com/dweigend/vibe-kanban/issues/1) | Task creation flow | 13 | Offen |
+| [#2](https://github.com/dweigend/vibe-kanban/issues/2) | Programming dropdown | 13 | Offen |
+| [#3](https://github.com/dweigend/vibe-kanban/issues/3) | System messages | 13 | Offen |
+| [#4](https://github.com/dweigend/vibe-kanban/issues/4) | Executor names | 13 | Offen |
+| [#5](https://github.com/dweigend/vibe-kanban/issues/5) | Git/Branch UI | 10 | Offen |
+| [#6](https://github.com/dweigend/vibe-kanban/issues/6) | Input options | 13 | Offen |
+| [#8](https://github.com/dweigend/vibe-kanban/issues/8) | Result export | 12 | Offen |
 
 ### Technical Issues
-| # | Titel | Priorität |
-|---|-------|-----------|
-| [#10](https://github.com/dweigend/vibe-kanban/issues/10) | WebSocket ECONNRESET | TBD |
-| [#11](https://github.com/dweigend/vibe-kanban/issues/11) | Outdated browserslist | 🟢 Quick |
-| [#12](https://github.com/dweigend/vibe-kanban/issues/12) | Rust num-bigint-dig warning | TBD |
-| [#13](https://github.com/dweigend/vibe-kanban/issues/13) | Worktree polling performance | TBD |
-| [#14](https://github.com/dweigend/vibe-kanban/issues/14) | npm env config warnings | 🟢 Quick |
+| # | Titel | Phase | Status |
+|---|-------|-------|--------|
+| [#10](https://github.com/dweigend/vibe-kanban/issues/10) | WebSocket ECONNRESET | 14 | Offen |
+| [#11](https://github.com/dweigend/vibe-kanban/issues/11) | browserslist | 5 | ✅ Erledigt |
+| [#12](https://github.com/dweigend/vibe-kanban/issues/12) | Rust warnings | 14 | Offen |
+| [#13](https://github.com/dweigend/vibe-kanban/issues/13) | Worktree polling | 14 | Offen |
+| [#14](https://github.com/dweigend/vibe-kanban/issues/14) | npm warnings | 5 | ✅ Geschlossen |
+
+---
+
+## 📅 Session-Übersicht
+
+| Phase | Typ | Fokus |
+|-------|-----|-------|
+| 5 | Impl | Quick Wins ✅ |
+| 6 | 🔍 Review | Architektur-Design |
+| 7 | Impl | Backend Task-Types |
+| 8 | Impl | Frontend Basis |
+| 9 | 🔍 Review | Refactoring |
+| 10 | Impl | Research Features |
+| 11 | Impl | Note Features |
+| 12 | Impl | Export System |
+| 13 | 🔍 Review | UX Polish |
+| 14 | Impl | Tech Debt |
 
 ---
 
 ## 📝 Notes
 
+- **1 Phase = 1 Session** (kurz und fokussiert)
+- **Review-Sessions** (🔍) nach wichtigen Implementierungen
 - **KEINE eigene MCP Server Entwicklung** - Existierende nutzen!
 - KISS-Prinzip: Bestehendes nutzen, minimal erweitern
-- **Nächste Session = Planung, nicht Implementation**
-- Jede Phase = 1-2 Sessions
