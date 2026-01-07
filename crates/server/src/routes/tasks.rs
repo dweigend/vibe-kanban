@@ -16,7 +16,7 @@ use db::models::{
     image::TaskImage,
     project::{Project, ProjectError},
     repo::Repo,
-    task::{CreateTask, Task, TaskWithAttemptStatus, UpdateTask},
+    task::{CreateTask, Task, TaskKnowledgeTag, TaskWithAttemptStatus, UpdateTask},
     workspace::{CreateWorkspace, Workspace},
     workspace_repo::{CreateWorkspaceRepo, WorkspaceRepo},
 };
@@ -125,6 +125,10 @@ pub async fn create_task(
         TaskImage::associate_many_dedup(&deployment.db().pool, task.id, image_ids).await?;
     }
 
+    if let Some(tag_ids) = &payload.knowledge_tag_ids {
+        TaskKnowledgeTag::set_tags_for_task(&deployment.db().pool, task.id, tag_ids).await?;
+    }
+
     deployment
         .track_if_analytics_allowed(
             "task_created",
@@ -164,6 +168,10 @@ pub async fn create_task_and_start(
 
     if let Some(image_ids) = &payload.task.image_ids {
         TaskImage::associate_many_dedup(pool, task.id, image_ids).await?;
+    }
+
+    if let Some(tag_ids) = &payload.task.knowledge_tag_ids {
+        TaskKnowledgeTag::set_tags_for_task(pool, task.id, tag_ids).await?;
     }
 
     deployment
@@ -238,11 +246,17 @@ pub async fn create_task_and_start(
         .ok_or(ApiError::Database(SqlxError::RowNotFound))?;
 
     tracing::info!("Started attempt for task {}", task.id);
+    let knowledge_tag_ids = payload
+        .task
+        .knowledge_tag_ids
+        .clone()
+        .unwrap_or_default();
     Ok(ResponseJson(ApiResponse::success(TaskWithAttemptStatus {
         task,
         has_in_progress_attempt: is_attempt_running,
         last_attempt_failed: false,
         executor: payload.executor_profile_id.executor.to_string(),
+        knowledge_tag_ids,
     })))
 }
 
@@ -265,9 +279,6 @@ pub async fn update_task(
     let parent_workspace_id = payload
         .parent_workspace_id
         .or(existing_task.parent_workspace_id);
-    let knowledge_tag_id = payload
-        .knowledge_tag_id
-        .or(existing_task.knowledge_tag_id);
 
     let task = Task::update(
         &deployment.db().pool,
@@ -277,13 +288,16 @@ pub async fn update_task(
         description,
         status,
         parent_workspace_id,
-        knowledge_tag_id,
     )
     .await?;
 
     if let Some(image_ids) = &payload.image_ids {
         TaskImage::delete_by_task_id(&deployment.db().pool, task.id).await?;
         TaskImage::associate_many_dedup(&deployment.db().pool, task.id, image_ids).await?;
+    }
+
+    if let Some(tag_ids) = &payload.knowledge_tag_ids {
+        TaskKnowledgeTag::set_tags_for_task(&deployment.db().pool, task.id, tag_ids).await?;
     }
 
     // If task has been shared, broadcast update

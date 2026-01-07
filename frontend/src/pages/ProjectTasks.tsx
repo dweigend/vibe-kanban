@@ -763,7 +763,7 @@ export function ProjectTasks() {
           status: newStatus,
           parent_workspace_id: task.parent_workspace_id,
           image_ids: null,
-          knowledge_tag_id: task.knowledge_tag_id,
+          knowledge_tag_ids: task.knowledge_tag_ids,
         });
       } catch (err) {
         console.error('Failed to update task status:', err);

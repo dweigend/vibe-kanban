@@ -1,0 +1,26 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT tkt.task_id AS \"task_id!: Uuid\", tkt.tag_id AS \"tag_id!: Uuid\"\n               FROM task_knowledge_tags tkt\n               JOIN tasks t ON t.id = tkt.task_id\n               WHERE t.project_id = $1\n               ORDER BY tkt.created_at",
+  "describe": {
+    "columns": [
+      {
+        "name": "task_id!: Uuid",
+        "ordinal": 0,
+        "type_info": "Blob"
+      },
+      {
+        "name": "tag_id!: Uuid",
+        "ordinal": 1,
+        "type_info": "Blob"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "0b23bc04601b0dfcc37dd3f6b4b2e6cfff21510dd3ead70d6ade9196b7826598"
+}

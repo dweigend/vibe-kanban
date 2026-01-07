@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "DELETE FROM task_knowledge_tags WHERE task_id = $1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": []
+  },
+  "hash": "08ce5618586e6c6bfc09c86aeb27a9c76e2d7fb42e647f4ed9f84e0ce30772cb"
+}

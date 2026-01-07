@@ -1,0 +1,20 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT tag_id as \"tag_id!: Uuid\" FROM task_knowledge_tags WHERE task_id = $1 ORDER BY created_at",
+  "describe": {
+    "columns": [
+      {
+        "name": "tag_id!: Uuid",
+        "ordinal": 0,
+        "type_info": "Blob"
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "8a8008429b1f3fc8f91db18489ea63f3b519dec6f11abafd1ae9feeb8937d726"
+}

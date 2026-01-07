@@ -31,9 +31,16 @@ pub struct Task {
     pub status: TaskStatus,
     pub parent_workspace_id: Option<Uuid>, // Foreign key to parent Workspace
     pub shared_task_id: Option<Uuid>,
-    pub knowledge_tag_id: Option<Uuid>, // Foreign key to Tag for categorization
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
+}
+
+#[derive(Debug, Clone, FromRow, Serialize, Deserialize, TS)]
+pub struct TaskKnowledgeTag {
+    pub id: Uuid,
+    pub task_id: Uuid,
+    pub tag_id: Uuid,
+    pub created_at: DateTime<Utc>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
@@ -44,6 +51,7 @@ pub struct TaskWithAttemptStatus {
     pub has_in_progress_attempt: bool,
     pub last_attempt_failed: bool,
     pub executor: String,
+    pub knowledge_tag_ids: Vec<Uuid>,
 }
 
 impl std::ops::Deref for TaskWithAttemptStatus {
@@ -75,7 +83,7 @@ pub struct CreateTask {
     pub parent_workspace_id: Option<Uuid>,
     pub image_ids: Option<Vec<Uuid>>,
     pub shared_task_id: Option<Uuid>,
-    pub knowledge_tag_id: Option<Uuid>,
+    pub knowledge_tag_ids: Option<Vec<Uuid>>,
 }
 
 impl CreateTask {
@@ -92,7 +100,7 @@ impl CreateTask {
             parent_workspace_id: None,
             image_ids: None,
             shared_task_id: None,
-            knowledge_tag_id: None,
+            knowledge_tag_ids: None,
         }
     }
 
@@ -111,7 +119,7 @@ impl CreateTask {
             parent_workspace_id: None,
             image_ids: None,
             shared_task_id: Some(shared_task_id),
-            knowledge_tag_id: None,
+            knowledge_tag_ids: None,
         }
     }
 }
@@ -123,7 +131,7 @@ pub struct UpdateTask {
     pub status: Option<TaskStatus>,
     pub parent_workspace_id: Option<Uuid>,
     pub image_ids: Option<Vec<Uuid>>,
-    pub knowledge_tag_id: Option<Uuid>,
+    pub knowledge_tag_ids: Option<Vec<Uuid>>,
 }
 
 impl Task {
@@ -152,7 +160,6 @@ impl Task {
   t.status                        AS "status!: TaskStatus",
   t.parent_workspace_id           AS "parent_workspace_id: Uuid",
   t.shared_task_id                AS "shared_task_id: Uuid",
-  t.knowledge_tag_id              AS "knowledge_tag_id: Uuid",
   t.created_at                    AS "created_at!: DateTime<Utc>",
   t.updated_at                    AS "updated_at!: DateTime<Utc>",
 
@@ -195,24 +202,46 @@ ORDER BY t.created_at DESC"#,
         .fetch_all(pool)
         .await?;
 
+        // Load knowledge tags for all tasks in this project
+        let tag_records = sqlx::query!(
+            r#"SELECT tkt.task_id AS "task_id!: Uuid", tkt.tag_id AS "tag_id!: Uuid"
+               FROM task_knowledge_tags tkt
+               JOIN tasks t ON t.id = tkt.task_id
+               WHERE t.project_id = $1
+               ORDER BY tkt.created_at"#,
+            project_id
+        )
+        .fetch_all(pool)
+        .await?;
+
+        // Build a map of task_id -> tag_ids
+        let mut tag_map: std::collections::HashMap<Uuid, Vec<Uuid>> =
+            std::collections::HashMap::new();
+        for rec in tag_records {
+            tag_map.entry(rec.task_id).or_default().push(rec.tag_id);
+        }
+
         let tasks = records
             .into_iter()
-            .map(|rec| TaskWithAttemptStatus {
-                task: Task {
-                    id: rec.id,
-                    project_id: rec.project_id,
-                    title: rec.title,
-                    description: rec.description,
-                    status: rec.status,
-                    parent_workspace_id: rec.parent_workspace_id,
-                    shared_task_id: rec.shared_task_id,
-                    knowledge_tag_id: rec.knowledge_tag_id,
-                    created_at: rec.created_at,
-                    updated_at: rec.updated_at,
-                },
-                has_in_progress_attempt: rec.has_in_progress_attempt != 0,
-                last_attempt_failed: rec.last_attempt_failed != 0,
-                executor: rec.executor,
+            .map(|rec| {
+                let knowledge_tag_ids = tag_map.remove(&rec.id).unwrap_or_default();
+                TaskWithAttemptStatus {
+                    task: Task {
+                        id: rec.id,
+                        project_id: rec.project_id,
+                        title: rec.title,
+                        description: rec.description,
+                        status: rec.status,
+                        parent_workspace_id: rec.parent_workspace_id,
+                        shared_task_id: rec.shared_task_id,
+                        created_at: rec.created_at,
+                        updated_at: rec.updated_at,
+                    },
+                    has_in_progress_attempt: rec.has_in_progress_attempt != 0,
+                    last_attempt_failed: rec.last_attempt_failed != 0,
+                    executor: rec.executor,
+                    knowledge_tag_ids,
+                }
             })
             .collect();
 
@@ -222,7 +251,7 @@ ORDER BY t.created_at DESC"#,
     pub async fn find_by_id(pool: &SqlitePool, id: Uuid) -> Result<Option<Self>, sqlx::Error> {
         sqlx::query_as!(
             Task,
-            r#"SELECT id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", knowledge_tag_id as "knowledge_tag_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>"
+            r#"SELECT id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>"
                FROM tasks
                WHERE id = $1"#,
             id
@@ -234,7 +263,7 @@ ORDER BY t.created_at DESC"#,
     pub async fn find_by_rowid(pool: &SqlitePool, rowid: i64) -> Result<Option<Self>, sqlx::Error> {
         sqlx::query_as!(
             Task,
-            r#"SELECT id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", knowledge_tag_id as "knowledge_tag_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>"
+            r#"SELECT id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>"
                FROM tasks
                WHERE rowid = $1"#,
             rowid
@@ -252,7 +281,7 @@ ORDER BY t.created_at DESC"#,
     {
         sqlx::query_as!(
             Task,
-            r#"SELECT id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", knowledge_tag_id as "knowledge_tag_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>"
+            r#"SELECT id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>"
                FROM tasks
                WHERE shared_task_id = $1
                LIMIT 1"#,
@@ -265,7 +294,7 @@ ORDER BY t.created_at DESC"#,
     pub async fn find_all_shared(pool: &SqlitePool) -> Result<Vec<Self>, sqlx::Error> {
         sqlx::query_as!(
             Task,
-            r#"SELECT id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", knowledge_tag_id as "knowledge_tag_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>"
+            r#"SELECT id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>"
                FROM tasks
                WHERE shared_task_id IS NOT NULL"#
         )
@@ -281,17 +310,16 @@ ORDER BY t.created_at DESC"#,
         let status = data.status.clone().unwrap_or_default();
         sqlx::query_as!(
             Task,
-            r#"INSERT INTO tasks (id, project_id, title, description, status, parent_workspace_id, shared_task_id, knowledge_tag_id)
-               VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-               RETURNING id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", knowledge_tag_id as "knowledge_tag_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>""#,
+            r#"INSERT INTO tasks (id, project_id, title, description, status, parent_workspace_id, shared_task_id)
+               VALUES ($1, $2, $3, $4, $5, $6, $7)
+               RETURNING id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>""#,
             task_id,
             data.project_id,
             data.title,
             data.description,
             status,
             data.parent_workspace_id,
-            data.shared_task_id,
-            data.knowledge_tag_id
+            data.shared_task_id
         )
         .fetch_one(pool)
         .await
@@ -305,21 +333,19 @@ ORDER BY t.created_at DESC"#,
         description: Option<String>,
         status: TaskStatus,
         parent_workspace_id: Option<Uuid>,
-        knowledge_tag_id: Option<Uuid>,
     ) -> Result<Self, sqlx::Error> {
         sqlx::query_as!(
             Task,
             r#"UPDATE tasks
-               SET title = $3, description = $4, status = $5, parent_workspace_id = $6, knowledge_tag_id = $7
+               SET title = $3, description = $4, status = $5, parent_workspace_id = $6
                WHERE id = $1 AND project_id = $2
-               RETURNING id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", knowledge_tag_id as "knowledge_tag_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>""#,
+               RETURNING id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>""#,
             id,
             project_id,
             title,
             description,
             status,
-            parent_workspace_id,
-            knowledge_tag_id
+            parent_workspace_id
         )
         .fetch_one(pool)
         .await
@@ -456,7 +482,7 @@ ORDER BY t.created_at DESC"#,
         // Find only child tasks that have this workspace as their parent
         sqlx::query_as!(
             Task,
-            r#"SELECT id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", knowledge_tag_id as "knowledge_tag_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>"
+            r#"SELECT id as "id!: Uuid", project_id as "project_id!: Uuid", title, description, status as "status!: TaskStatus", parent_workspace_id as "parent_workspace_id: Uuid", shared_task_id as "shared_task_id: Uuid", created_at as "created_at!: DateTime<Utc>", updated_at as "updated_at!: DateTime<Utc>"
                FROM tasks
                WHERE parent_workspace_id = $1
                ORDER BY created_at DESC"#,
@@ -498,5 +524,57 @@ ORDER BY t.created_at DESC"#,
             current_workspace: workspace.clone(),
             children,
         })
+    }
+}
+
+impl TaskKnowledgeTag {
+    /// Associate multiple tags with a task, replacing existing associations
+    pub async fn set_tags_for_task(
+        pool: &SqlitePool,
+        task_id: Uuid,
+        tag_ids: &[Uuid],
+    ) -> Result<(), sqlx::Error> {
+        // Delete existing associations
+        sqlx::query!("DELETE FROM task_knowledge_tags WHERE task_id = $1", task_id)
+            .execute(pool)
+            .await?;
+
+        // Insert new associations
+        for tag_id in tag_ids {
+            let id = Uuid::new_v4();
+            sqlx::query!(
+                "INSERT INTO task_knowledge_tags (id, task_id, tag_id) VALUES ($1, $2, $3)",
+                id,
+                task_id,
+                tag_id
+            )
+            .execute(pool)
+            .await?;
+        }
+
+        Ok(())
+    }
+
+    /// Get all tag IDs associated with a task
+    pub async fn find_tag_ids_for_task(
+        pool: &SqlitePool,
+        task_id: Uuid,
+    ) -> Result<Vec<Uuid>, sqlx::Error> {
+        let records = sqlx::query!(
+            r#"SELECT tag_id as "tag_id!: Uuid" FROM task_knowledge_tags WHERE task_id = $1 ORDER BY created_at"#,
+            task_id
+        )
+        .fetch_all(pool)
+        .await?;
+
+        Ok(records.into_iter().map(|r| r.tag_id).collect())
+    }
+
+    /// Delete all associations for a task
+    pub async fn delete_by_task_id(pool: &SqlitePool, task_id: Uuid) -> Result<(), sqlx::Error> {
+        sqlx::query!("DELETE FROM task_knowledge_tags WHERE task_id = $1", task_id)
+            .execute(pool)
+            .await?;
+        Ok(())
     }
 }

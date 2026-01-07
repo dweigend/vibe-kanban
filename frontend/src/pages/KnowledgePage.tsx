@@ -42,8 +42,8 @@ export default function KnowledgePage() {
     if (!tasks) return [];
 
     return tasks.filter((task) => {
-      // Filter by knowledge tag
-      if (selectedTagId && task.knowledge_tag_id !== selectedTagId) {
+      // Filter by knowledge tag (OR logic - show if task has the selected tag)
+      if (selectedTagId && !task.knowledge_tag_ids?.includes(selectedTagId)) {
         return false;
       }
 
@@ -120,7 +120,7 @@ export default function KnowledgePage() {
             </div>
           ) : (
             tags.map((tag) => {
-              const count = tasks?.filter(t => t.knowledge_tag_id === tag.id).length ?? 0;
+              const count = tasks?.filter(t => t.knowledge_tag_ids?.includes(tag.id)).length ?? 0;
               return (
                 <Button
                   key={tag.id}
@@ -185,7 +185,7 @@ export default function KnowledgePage() {
               <TaskCard
                 key={task.id}
                 task={task}
-                tagName={getTagName(task.knowledge_tag_id)}
+                tags={tags}
                 onClick={() => navigate(paths.task(projectId, task.id))}
               />
             ))}
@@ -198,11 +198,13 @@ export default function KnowledgePage() {
 
 interface TaskCardProps {
   task: TaskWithAttemptStatus;
-  tagName: string;
+  tags: TagType[];
   onClick: () => void;
 }
 
-function TaskCard({ task, tagName, onClick }: TaskCardProps) {
+function TaskCard({ task, tags, onClick }: TaskCardProps) {
+  const taskTags = tags.filter(t => task.knowledge_tag_ids?.includes(t.id));
+
   return (
     <Card
       className={cn(
@@ -212,10 +214,14 @@ function TaskCard({ task, tagName, onClick }: TaskCardProps) {
       onClick={onClick}
     >
       <CardHeader className="pb-2">
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-2">
           <CardTitle className="text-base">{task.title}</CardTitle>
-          {task.knowledge_tag_id && (
-            <Badge variant="secondary">{tagName}</Badge>
+          {taskTags.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {taskTags.map(tag => (
+                <Badge key={tag.id} variant="secondary">{tag.tag_name}</Badge>
+              ))}
+            </div>
           )}
         </div>
       </CardHeader>

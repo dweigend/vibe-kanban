@@ -44,213 +44,124 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] **arxiv-mcp-server** gefunden
 - [x] Dokumentiert in `dev/research/existing-mcp-servers.md`
 
-### 1.3 GitHub Patterns
-- [x] GPT-Researcher Architektur analysiert
-- [x] mem0 Memory Layer evaluiert
-- [x] Chroma Vector DB API verstanden
-
 ### Key Insight: KISS++
 **Noch mehr existiert als gedacht!**
 - Tags für Kategorien → ✅ Vorhanden
 - Parent-Child Tasks → ✅ Vorhanden
 - MCP System → ✅ Vorhanden
 - ArXiv MCP Server → ✅ Existiert bereits!
-- OpenALEX MCP Server → ✅ Existiert bereits!
-- Memory MCP Server → ✅ Existiert bereits!
 
 ---
 
-## Phase 2: Foundation 🏗️
+## Phase 2: Foundation 🏗️ ✅
 
-**Status:** In Progress (2026-01-05)
+**Status:** Abgeschlossen (2026-01-05)
 
 ### 2.1 Local MCP Setup ✅
 - [x] `data/mcp/` Ordnerstruktur angelegt
 - [x] Scientific-Papers-MCP in default_mcp.json konfiguriert
 - [x] mcp-memory-service in default_mcp.json konfiguriert
-- [x] `.gitignore` für lokale MCP-Daten aktualisiert
 
-### 2.2 Tags für Kategorien
-- [ ] 8 Knowledge-Tags anlegen (nach Testing-Phase)
-
-### 2.3 Context-Engineering
-- [ ] Dev-Ordner konsolidieren (nach Testing-Phase)
-- [ ] CONTEXT.md erstellen
-
----
-
-## Phase 2.5: Testing & Feedback 🧪 ✅
-
-**Status:** Abgeschlossen (2026-01-05)
-
-### Ergebnisse
+### 2.5 Testing & Feedback ✅
 - [x] System getestet
 - [x] Feedback gesammelt in `dev/FEEDBACK.md`
 - [x] Interview für Task-Typen geführt
-- [x] Roadmap erstellt
 
-### Key Decisions
-- **Task-Typen = Templates** (MCP + Output Style + System Prompt)
-- **Agents:** Konfigurierbar in Settings
-- **Login:** Komplett entfernen (Single-User)
-- **Workflow:** Iterativ (mehrere Sessions)
-
----
-
-## Phase 2.6: UI Cleanup 🎨 ✅
-
-**Status:** Abgeschlossen (2026-01-05)
-
-### Erledigt
+### 2.6 UI Cleanup ✅
 - [x] Logo durch Text "Knowledge Orchestrator" ersetzen
 - [x] Discord-Badge + Links entfernen
-- [x] simple-icons Dependency entfernt
-- [x] UI-Kontraste verbessert (Diff-Viewer: 0.7 → 0.85)
+- [x] UI-Kontraste verbessert
 
-### Commit
-`67facef4` - style: 🎨 UI cleanup - rebrand & remove Discord
-
----
-
-## Phase 2.7: Settings UI Refactor 🎨 ✅
-
-**Status:** Abgeschlossen (2026-01-05)
-
-### Erledigt
-- [x] @radix-ui/react-accordion & react-separator installiert
-- [x] `accordion.tsx` und `separator.tsx` UI-Komponenten erstellt
+### 2.7 Settings UI Refactor ✅
 - [x] GeneralSettings modularisiert (745 → 130 Zeilen)
-- [x] 8 Sektionen mit Icons extrahiert:
-  - AppearanceSection (Palette)
-  - EditorSection (Code)
-  - GitSection (GitBranch)
-  - PullRequestsSection (GitPullRequest)
-  - NotificationsSection (Bell)
-  - PrivacySection (Shield)
-  - TaskTemplatesSection (Tags)
-  - SafetySection (AlertTriangle)
-- [x] `useSettingsForm.ts` Hook extrahiert
-- [x] Sticky Save Bar implementiert
-- [x] Chrome DevTools Verifizierung bestanden
-
-### Commit
-`6d70b1b9` - refactor: ♻️ modularize GeneralSettings into sections
-
-### Dateien (neu/geändert)
-```
-frontend/src/pages/settings/
-├── GeneralSettings.tsx          (refactored)
-├── useSettingsForm.ts           (neu)
-└── sections/
-    ├── AppearanceSection.tsx    (neu)
-    ├── EditorSection.tsx        (neu)
-    ├── GitSection.tsx           (neu)
-    ├── NotificationsSection.tsx (neu)
-    ├── PrivacySection.tsx       (neu)
-    ├── PullRequestsSection.tsx  (neu)
-    ├── SafetySection.tsx        (neu)
-    ├── SettingsSection.tsx      (neu)
-    ├── TaskTemplatesSection.tsx (neu)
-    └── index.ts                 (neu)
-frontend/src/components/ui/
-├── accordion.tsx                (neu)
-└── separator.tsx                (neu)
-```
+- [x] 8 Sektionen mit Icons extrahiert
 
 ---
 
-## Phase 3: Knowledge Features 🚀
+## Phase 3: Knowledge Features 🚀 ✅
 
-**Status:** In Progress (2026-01-06)
+**Status:** Abgeschlossen (2026-01-07)
 
-### 3.0 Konsolidierung ✅
-- [x] 6 redundante Dev-Dateien gelöscht
-- [x] Dev-Ordner aufgeräumt
+### 3.1-3.4 Knowledge Tags & Navigation ✅
+- [x] Backend: knowledge_tag_id → knowledge_tag_ids (Multi-Tag)
+- [x] Frontend: KnowledgePage mit Tag-Filter
+- [x] TaskFormDialog: Multi-Select + Inline Tag Creation
+- [x] Navigation: Knowledge Link im Hamburger-Menü
 
-### 3.1 Backend: knowledge_tag_id ✅
-- [x] Migration für knowledge_tag_id Feld
-- [x] Task, CreateTask, UpdateTask structs erweitert
-- [x] SQL Queries aktualisiert
-- [x] TypeScript Types regeneriert
+### 3.5 Multi-Tag Support ✅
+- [x] DB: Junction-Tabelle `task_knowledge_tags`
+- [x] UI: Multi-Select mit Badges
 
-### 3.2 Knowledge View (Frontend) ✅
-- [x] `useKnowledgeStore.ts` - Zustand Store für Filter-State
-- [x] `KnowledgePage.tsx` - Tag-Filter Sidebar + Task-Liste
-- [x] Route `/projects/:projectId/knowledge` registriert
-- [x] knowledge_tag_id in alle Task-Operationen integriert
-
-### 3.3 Task Dialog Integration ✅
-- [x] Knowledge-Tag Dropdown in Task-Creation Dialog
-- [x] Create + Edit Mode Support
-
-### 3.4 Knowledge Navigation ✅
-- [x] Link zur Knowledge Page im Hamburger-Menü
-- [x] DevTools Verifizierung
-
-### 3.5 Multi-Tag Support
-- [ ] DB: Junction-Tabelle `task_knowledge_tags`
-- [ ] Rust: `Vec<String>` statt `Option<String>`
-- [ ] TypeScript Types regenerieren
-- [ ] UI: Multi-Select mit Badges (shadcn Badge)
-- [ ] UI: Plus-Button zum Hinzufügen
-
-### Commits
-```
-7bba591e feat: ✨ add knowledge navigation and tag selector
-ef4b53cf chore: 🔧 consolidate dev documentation
-41eb9805 feat: ✨ add knowledge_tag_id to tasks
-18703a5a feat: ✨ add knowledge view with tag filtering
-```
+### 3.6 Issue-Dokumentation ✅
+- [x] 13 GitHub Issues erstellt für UX/Feature/Technical Debt
+- [x] Architektur-Issue für Task-Type-System (#9)
 
 ---
 
-## Phase 4: Remote & Mobile 📱
+## Phase 4: Consolidation & Planning 📋
 
-**Status:** Geplant
+**Status:** Nächste Session
 
-### 4.1 Remote Hosting
-- [ ] Docker Compose Setup (existiert bereits in `crates/remote/`)
-- [ ] Cloudflare Tunnel Konfiguration
-- [ ] Security Hardening
+> **Ziel:** Strukturierte Planung vor weiterer Entwicklung
 
-### 4.2 Mobile/PWA
-- [ ] PWA Manifest erstellen
-- [ ] Responsive UI anpassen
-- [ ] Offline-Funktionalität
+### 4.1 Code-Analyse
+- [ ] Codebase-Review mit Fokus auf Issues
+- [ ] Identifiziere Quick Wins vs. größere Refactorings
+- [ ] Dependencies und technische Schulden dokumentieren
 
----
+### 4.2 Issue-Triage
+- [ ] Alle 13 GitHub Issues priorisieren
+- [ ] Issues in sinnvolle Gruppen sortieren
+- [ ] Abhängigkeiten zwischen Issues identifizieren
+- [ ] Architektur-Issue #9 (Task Types) als Grundlage analysieren
 
-## 📊 Ressourcen-Übersicht
+### 4.3 Test-Strategie
+- [ ] Bestehende Tests analysieren (`cargo test`)
+- [ ] Kritische Pfade für neue Tests identifizieren
+- [ ] Test-Plan für Phase 5 erstellen
 
-### Existierende MCP Server (KEINE Entwicklung nötig!)
-
-| Server | Installation | Features |
-|--------|--------------|----------|
-| Scientific-Papers-MCP | `npx -y @futurelab-studio/latest-science-mcp@latest` | 6 Quellen, Full-Text |
-| arxiv-mcp-server | `uv tool install arxiv-mcp-server` | ArXiv Search/Download |
-| alex-mcp | `uvx --from git+...` | OpenALEX Author Disambiguation |
-| mcp-memory-service | `npx -y @doobidoo/mcp-memory-service` | Persistent Memory |
-
-### Existierende Vibe Kanban Features (NUTZEN!)
-
-| Feature | Wie nutzen |
-|---------|------------|
-| Tags | Kategorien für Knowledge Items |
-| Parent-Child Tasks | Research Hierarchien |
-| MCP Support | Alle 9 Agents können MCP nutzen |
-| Docker Setup | Remote Deployment ready |
+### 4.4 Roadmap-Update
+- [ ] PLAN.md mit konkreten Aufgaben aktualisieren
+- [ ] Phasen 5+ definieren basierend auf Issue-Analyse
+- [ ] Zeitliche Priorisierung (was bringt schnell Wert?)
 
 ---
 
-## 📂 Research Dokumentation
+## Phase 5+: Implementation (nach Planung)
 
-| Datei | Inhalt |
-|-------|--------|
-| `dev/research/system-analysis.md` | Task, Executor, Frontend Analyse |
-| `dev/research/integration-strategies.md` | KISS-Antworten auf Fragen |
-| `dev/research/existing-mcp-servers.md` | **NEU** - Existierende MCP Server |
-| `dev/research/testing-deployment.md` | **NEU** - CI/CD Pipeline |
-| `dev/research/mcp-extensions.md` | MCP Konzepte (historisch) |
+> Wird in Phase 4 detailliert geplant
+
+### Mögliche Themen (noch nicht priorisiert)
+- Task-Type-System Architektur (#9)
+- UX-Verbesserungen (#1-#6)
+- Result Management/Export (#8)
+- Technical Debt (#10-#14)
+- Remote & Mobile (Phase 4 alt)
+
+---
+
+## 📊 GitHub Issues (dweigend/vibe-kanban)
+
+### UX/Feature Issues
+| # | Titel | Priorität |
+|---|-------|-----------|
+| [#1](https://github.com/dweigend/vibe-kanban/issues/1) | Task creation flow inconsistency | TBD |
+| [#2](https://github.com/dweigend/vibe-kanban/issues/2) | Programming-specific options in dropdown | TBD |
+| [#3](https://github.com/dweigend/vibe-kanban/issues/3) | Technical system messages visible | TBD |
+| [#4](https://github.com/dweigend/vibe-kanban/issues/4) | Executor names too technical | TBD |
+| [#5](https://github.com/dweigend/vibe-kanban/issues/5) | Git/Branch UI for Knowledge | TBD |
+| [#6](https://github.com/dweigend/vibe-kanban/issues/6) | Input area irrelevant options | TBD |
+| [#8](https://github.com/dweigend/vibe-kanban/issues/8) | No result management/export | TBD |
+| [#9](https://github.com/dweigend/vibe-kanban/issues/9) | **Task Type System Architecture** | 🔴 Hoch |
+
+### Technical Issues
+| # | Titel | Priorität |
+|---|-------|-----------|
+| [#10](https://github.com/dweigend/vibe-kanban/issues/10) | WebSocket ECONNRESET | TBD |
+| [#11](https://github.com/dweigend/vibe-kanban/issues/11) | Outdated browserslist | 🟢 Quick |
+| [#12](https://github.com/dweigend/vibe-kanban/issues/12) | Rust num-bigint-dig warning | TBD |
+| [#13](https://github.com/dweigend/vibe-kanban/issues/13) | Worktree polling performance | TBD |
+| [#14](https://github.com/dweigend/vibe-kanban/issues/14) | npm env config warnings | 🟢 Quick |
 
 ---
 
@@ -258,5 +169,5 @@ ef4b53cf chore: 🔧 consolidate dev documentation
 
 - **KEINE eigene MCP Server Entwicklung** - Existierende nutzen!
 - KISS-Prinzip: Bestehendes nutzen, minimal erweitern
-- Context-Engineering für effiziente AI-Nutzung
+- **Nächste Session = Planung, nicht Implementation**
 - Jede Phase = 1-2 Sessions

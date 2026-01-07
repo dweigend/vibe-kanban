@@ -4,7 +4,7 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { defineModal } from '@/lib/modals';
 import { useDropzone } from 'react-dropzone';
 import { useForm, useStore } from '@tanstack/react-form';
-import { Image as ImageIcon } from 'lucide-react';
+import { Image as ImageIcon, Plus, Check, X, Tag as TagIcon } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -24,6 +24,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
+import { Badge } from '@/components/ui/badge';
 import WYSIWYGEditor from '@/components/ui/wysiwyg';
 import type { LocalImageMetadata } from '@/components/ui/wysiwyg/context/task-attempt-context';
 import BranchSelector from '@/components/tasks/BranchSelector';
@@ -61,7 +70,6 @@ interface Task {
   status: TaskStatus;
   created_at: string;
   updated_at: string;
-  knowledge_tag_id: string | null;
 }
 
 export type TaskFormDialogProps =
@@ -84,7 +92,7 @@ type TaskFormValues = {
   executorProfileId: ExecutorProfileId | null;
   repoBranches: RepoBranch[];
   autoStart: boolean;
-  knowledgeTagId: string | null;
+  knowledgeTagIds: string[];
 };
 
 const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
@@ -106,6 +114,8 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
   const [showDiscardWarning, setShowDiscardWarning] = useState(false);
   const forceCreateOnlyRef = useRef(false);
   const [tags, setTags] = useState<Tag[]>([]);
+  const [isCreatingTag, setIsCreatingTag] = useState(false);
+  const [newTagName, setNewTagName] = useState('');
 
   const { data: taskImages } = useTaskImages(
     editMode ? props.task.id : undefined
@@ -141,7 +151,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
           executorProfileId: baseProfile,
           repoBranches: defaultRepoBranches,
           autoStart: false,
-          knowledgeTagId: props.task.knowledge_tag_id,
+          knowledgeTagIds: [],
         };
 
       case 'duplicate':
@@ -152,7 +162,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
           executorProfileId: baseProfile,
           repoBranches: defaultRepoBranches,
           autoStart: true,
-          knowledgeTagId: null,
+          knowledgeTagIds: [],
         };
 
       case 'subtask':
@@ -165,7 +175,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
           executorProfileId: baseProfile,
           repoBranches: defaultRepoBranches,
           autoStart: true,
-          knowledgeTagId: null,
+          knowledgeTagIds: [],
         };
     }
   }, [mode, props, system.config?.executor_profile, defaultRepoBranches]);
@@ -182,7 +192,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
             status: value.status,
             parent_workspace_id: null,
             image_ids: images.length > 0 ? images.map((img) => img.id) : null,
-            knowledge_tag_id: value.knowledgeTagId,
+            knowledge_tag_ids: value.knowledgeTagIds.length > 0 ? value.knowledgeTagIds : null,
           },
         },
         { onSuccess: () => modal.remove() }
@@ -199,7 +209,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
           mode === 'subtask' ? props.parentTaskAttemptId : null,
         image_ids: imageIds,
         shared_task_id: null,
-        knowledge_tag_id: value.knowledgeTagId,
+        knowledge_tag_ids: value.knowledgeTagIds.length > 0 ? value.knowledgeTagIds : null,
       };
       const shouldAutoStart = value.autoStart && !forceCreateOnlyRef.current;
       if (shouldAutoStart) {
@@ -474,35 +484,113 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
                 />
               )}
             </form.Field>
-            {/* Knowledge Tag selector */}
-            {tags.length > 0 && (
-              <form.Field name="knowledgeTagId">
-                {(field) => (
+            {/* Knowledge Tags Multi-Select */}
+            <form.Field name="knowledgeTagIds">
+              {(field) => {
+                const selectedTagIds = field.state.value;
+                const getTagName = (id: string) => tags.find(t => t.id === id)?.tag_name ?? id;
+
+                const handleCreateTag = async () => {
+                  if (!newTagName.trim()) return;
+                  try {
+                    const newTag = await tagsApi.create({
+                      tag_name: newTagName.trim().replace(/\s+/g, '-'),
+                      content: newTagName.trim(),
+                    });
+                    setTags([...tags, newTag]);
+                    field.handleChange([...selectedTagIds, newTag.id]);
+                    setNewTagName('');
+                    setIsCreatingTag(false);
+                  } catch (e) {
+                    console.error('Failed to create tag:', e);
+                  }
+                };
+
+                return (
                   <div className="space-y-2 pt-3">
-                    <Label htmlFor="knowledge-tag" className="text-sm font-medium">
-                      Knowledge Tag
-                    </Label>
-                    <Select
-                      value={field.state.value ?? '__none__'}
-                      onValueChange={(v) => field.handleChange(v === '__none__' ? null : v)}
-                      disabled={isSubmitting}
-                    >
-                      <SelectTrigger id="knowledge-tag">
-                        <SelectValue placeholder="Select a tag..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="__none__">None</SelectItem>
-                        {tags.map((tag) => (
-                          <SelectItem key={tag.id} value={tag.id}>
-                            {tag.tag_name}
-                          </SelectItem>
+                    <Label className="text-sm font-medium">Knowledge Tags</Label>
+
+                    {/* Selected tags as badges */}
+                    {selectedTagIds.length > 0 && (
+                      <div className="flex flex-wrap gap-2">
+                        {selectedTagIds.map((tagId) => (
+                          <Badge key={tagId} variant="secondary" className="gap-1 pr-1">
+                            {getTagName(tagId)}
+                            <button
+                              type="button"
+                              onClick={() => field.handleChange(selectedTagIds.filter(id => id !== tagId))}
+                              className="ml-1 hover:text-destructive"
+                              disabled={isSubmitting}
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </Badge>
                         ))}
-                      </SelectContent>
-                    </Select>
+                      </div>
+                    )}
+
+                    {/* Dropdown to add tags */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm" disabled={isSubmitting}>
+                          <TagIcon className="mr-2 h-4 w-4" />
+                          {selectedTagIds.length > 0 ? 'Manage Tags' : 'Add Tags'}
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="w-56">
+                        {tags.map((tag) => {
+                          const isSelected = selectedTagIds.includes(tag.id);
+                          return (
+                            <DropdownMenuCheckboxItem
+                              key={tag.id}
+                              checked={isSelected}
+                              onCheckedChange={(checked) => {
+                                const newTags = checked
+                                  ? [...selectedTagIds, tag.id]
+                                  : selectedTagIds.filter(id => id !== tag.id);
+                                field.handleChange(newTags);
+                              }}
+                            >
+                              {tag.tag_name}
+                            </DropdownMenuCheckboxItem>
+                          );
+                        })}
+                        {tags.length > 0 && <DropdownMenuSeparator />}
+                        {/* Inline Tag Creation */}
+                        {isCreatingTag ? (
+                          <div className="p-2 flex gap-2">
+                            <Input
+                              value={newTagName}
+                              onChange={(e) => setNewTagName(e.target.value)}
+                              placeholder="Tag name"
+                              className="h-8"
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  e.preventDefault();
+                                  handleCreateTag();
+                                }
+                                if (e.key === 'Escape') {
+                                  setIsCreatingTag(false);
+                                  setNewTagName('');
+                                }
+                              }}
+                              autoFocus
+                            />
+                            <Button size="sm" className="h-8 px-2" onClick={handleCreateTag}>
+                              <Check className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ) : (
+                          <DropdownMenuItem onClick={() => setIsCreatingTag(true)}>
+                            <Plus className="mr-2 h-4 w-4" /> New Tag
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
-                )}
-              </form.Field>
-            )}
+                );
+              }}
+            </form.Field>
             {/* Edit mode status */}
             {editMode && (
               <form.Field name="status">
