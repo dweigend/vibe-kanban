@@ -38,7 +38,6 @@ import { EditorState } from 'lexical';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Check, Clipboard, Pencil, Trash2 } from 'lucide-react';
-import { writeClipboardViaBridge } from '@/vscode/bridge';
 
 /** Markdown string representing the editor content */
 export type SerializedEditorState = string;
@@ -92,11 +91,11 @@ function WYSIWYGEditor({
   const handleCopy = useCallback(async () => {
     if (!value) return;
     try {
-      await writeClipboardViaBridge(value);
+      await navigator.clipboard.writeText(value);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 400);
     } catch {
-      // noop – bridge handles fallback
+      // clipboard API failed - silently ignore
     }
   }, [value]);
 

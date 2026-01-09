@@ -1,9 +1,5 @@
-// VS Code webview integration - install keyboard/clipboard bridge
-import '@/vscode/bridge';
-
 import { useParams } from 'react-router-dom';
 import { AppWithStyleOverride } from '@/utils/StyleOverride';
-import { WebviewContextMenu } from '@/vscode/ContextMenu';
 import TaskAttemptPanel from '@/components/panels/TaskAttemptPanel';
 import { useTaskAttemptWithSession } from '@/hooks/useTaskAttempt';
 import { useProjectTasks } from '@/hooks/useProjectTasks';
@@ -29,8 +25,6 @@ export function FullAttemptLogsPage() {
   return (
     <AppWithStyleOverride>
       <div className="h-screen flex flex-col bg-muted">
-        <WebviewContextMenu />
-
         <main className="flex-1 min-h-0">
           {attempt ? (
             <ClickedElementsProvider attempt={attempt}>
