@@ -415,7 +415,7 @@ export default function StyleGuidePage() {
                   variant="outline"
                   className="text-blue-500 border-blue-500"
                 >
-                  #RESEARCH
+                  mcp:search
                 </Badge>
               </CardContent>
             </Card>
@@ -440,7 +440,7 @@ export default function StyleGuidePage() {
                   variant="outline"
                   className="text-orange-500 border-orange-500"
                 >
-                  #DEV-OPS
+                  mcp:code
                 </Badge>
               </CardContent>
             </Card>
@@ -465,7 +465,7 @@ export default function StyleGuidePage() {
                   variant="outline"
                   className="text-yellow-500 border-yellow-500"
                 >
-                  #NOTES
+                  mcp:knowledge
                 </Badge>
               </CardContent>
             </Card>
