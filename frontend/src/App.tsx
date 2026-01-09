@@ -23,6 +23,7 @@ import {
 import { UserSystemProvider, useUserSystem } from '@/components/ConfigProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { SearchProvider } from '@/contexts/SearchContext';
+import { SidebarProvider } from '@/contexts/SidebarContext';
 
 import { HotkeysProvider } from 'react-hotkeys-hook';
 
@@ -120,8 +121,9 @@ function AppContent() {
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider initialTheme={config?.theme || ThemeMode.SYSTEM}>
-        <SearchProvider>
-          <div className="h-screen flex flex-col bg-background">
+        <SidebarProvider>
+          <SearchProvider>
+            <div className="h-screen flex flex-col bg-background">
             <SentryRoutes>
               {/* VS Code full-page logs route (outside NormalLayout for minimal UI) */}
               <Route
@@ -167,8 +169,9 @@ function AppContent() {
                 />
               </Route>
             </SentryRoutes>
-          </div>
-        </SearchProvider>
+            </div>
+          </SearchProvider>
+        </SidebarProvider>
       </ThemeProvider>
     </I18nextProvider>
   );

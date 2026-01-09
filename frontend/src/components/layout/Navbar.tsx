@@ -17,7 +17,10 @@ import {
   Plus,
   LogOut,
   LogIn,
+  PanelRight,
+  PanelRightClose,
 } from 'lucide-react';
+import { useSidebar } from '@/contexts/SidebarContext';
 import { SearchBar } from '@/components/SearchBar';
 import { useSearch } from '@/contexts/SearchContext';
 import { openTaskForm } from '@/lib/openTaskForm';
@@ -91,6 +94,7 @@ export function Navbar() {
   const { query, setQuery, active, clear, registerInputRef } = useSearch();
   const handleOpenInEditor = useOpenProjectInEditor(project || null);
   const { loginStatus, reloadSystem } = useUserSystem();
+  const { collapsed, toggle } = useSidebar();
 
   const { data: repos } = useProjectRepos(projectId);
   const isSingleRepoProject = repos?.length === 1;
@@ -223,6 +227,20 @@ export function Navbar() {
             ) : null}
 
             <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9"
+                onClick={toggle}
+                aria-label={collapsed ? 'Show sidebar' : 'Hide sidebar'}
+              >
+                {collapsed ? (
+                  <PanelRight className="h-4 w-4" />
+                ) : (
+                  <PanelRightClose className="h-4 w-4" />
+                )}
+              </Button>
+
               <Button
                 variant="ghost"
                 size="icon"
