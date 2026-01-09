@@ -175,8 +175,10 @@ export const useJsonPatchWsStream = <T extends object>(
         ws.onerror = null;
         ws.onclose = null;
 
-        // Close regardless of state
-        ws.close();
+        // Only close if not still connecting (prevents "WebSocket closed before connection" error)
+        if (ws.readyState !== WebSocket.CONNECTING) {
+          ws.close();
+        }
         wsRef.current = null;
       }
       if (retryTimerRef.current) {
