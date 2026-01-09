@@ -132,23 +132,79 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 6: 🔍 Review & Architektur-Design
+## Phase 6: 🎨 Design System Refactoring
 
+**Status:** In Arbeit
+
+**Ziel:** Einheitliche Sidebar, "Brutalist" Style, bessere Nutzbarkeit
+
+### 6A: Design System Dokumentation ✅
+**Status:** Abgeschlossen (2026-01-09)
+
+- [x] Mockups importiert (11 Dateien in `dev/ux/mockups/`)
+- [x] Design System Specs extrahiert
+- [x] Frontend-Analyse durchgeführt (shadcn/ui + Tailwind)
+- [x] `dev/ux/STYLE-GUIDE.md` erstellt
+
+### 6B: Stylesheet-Testseite 📋
 **Status:** Nächste Session
 
-**Fokus:** Task-Type System designen, NICHT implementieren
+- [ ] Route `/styleguide` einrichten
+- [ ] Alle UI-Elemente sammeln (Buttons, Inputs, Cards, etc.)
+- [ ] Live-Preview für Design-Iterationen
+- [ ] Side-by-side Vergleich: Aktuell vs. Mockup
 
-- [ ] Architektur-Dokument erstellen (`dev/architecture/task-types.md`)
-- [ ] DB Schema Design finalisieren
-- [ ] Frontend Component-Struktur planen
-- [ ] Test-Setup für API planen
-- [ ] Plan.md für Phase 7-10 detaillieren
+### 6C: shadcn/ui Analyse & Mapping 📋
+**Status:** Geplant
+
+- [ ] shadcn/ui Dokumentation durchgehen
+- [ ] Bestehende Komponenten katalogisieren
+- [ ] Mapping: Brutalist → shadcn/ui erstellen
+- [ ] Custom Variants definieren
+
+### 6D: Bestehendes System analysieren 📋
+**Status:** Geplant
+
+- [ ] Aktuelles CSS/Tailwind Config dokumentieren
+- [ ] Navbar-Komponente analysieren
+- [ ] Layout-Struktur verstehen
+- [ ] Abhängigkeiten identifizieren
+
+### 6E: Refactoring-Strategie 📋
+**Status:** Geplant
+
+- [ ] Migration-Plan erstellen
+- [ ] Breaking Changes identifizieren
+- [ ] Phasen-weise Umsetzung planen
+- [ ] Task-Type System Integration einplanen
 
 ---
 
-## Phase 7: Task Type Backend
+## Phase 7: UI Implementation - Basis
 
-**Fokus:** Nur Backend, kein Frontend
+**Fokus:** CSS Variables & Typography
+
+- [ ] Color Tokens in Tailwind Config aktualisieren
+- [ ] Typography anpassen (Inter + JetBrains Mono)
+- [ ] Border-Radius auf 2px setzen
+- [ ] Basis-Komponenten stylen
+
+---
+
+## Phase 8: Sidebar & Layout
+
+**Fokus:** Navigation refactoren
+
+- [ ] Navbar → Sidebar Komponente
+- [ ] Layout-Grid implementieren
+- [ ] Responsive Verhalten
+- [ ] Sidebar-Modes (Dashboard, Settings, etc.)
+
+---
+
+## Phase 9: Task Type Backend
+
+**Fokus:** Nur Backend
 
 - [ ] DB Migration: `task_type TEXT NOT NULL DEFAULT 'code'`
 - [ ] Rust Enum: `TaskType { Research, Note, Code }`
@@ -157,63 +213,46 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 8: Task Type Frontend Basis
+## Phase 10: Task Type Frontend
 
-**Fokus:** Nur UI-Grundlagen
+**Fokus:** UI für Task-Types
 
 - [ ] TaskFormDialog: Type-Selector (Radio)
-- [ ] Type-Badge in Task-Listen
+- [ ] Type-Badge in Task-Listen (Brutalist Style)
+- [ ] Task Cards mit Type-spezifischen Borders
 - [ ] Types-API Hook
 
 ---
 
-## Phase 9: 🔍 Review & Refactoring
+## Phase 11: 🔍 Review & Polish
 
-**Fokus:** Architektur prüfen, Code aufräumen
+**Fokus:** Integration prüfen
 
-- [ ] Code-Review Task-Type System
+- [ ] Code-Review Design System
+- [ ] UX-Testing mit neuem Style
+- [ ] Performance prüfen
 - [ ] Refactoring falls nötig
-- [ ] Plan.md aktualisieren
 
 ---
 
-## Phase 10: Research Type Features
+## Phase 12: Feature Pages
 
-**Fokus:** Research-spezifische UI/UX
+**Fokus:** Verbleibende Sidebar-Modi
 
-- [ ] #5 Git UI → "Research Paths" Terminologie
-- [ ] Quellen-Ansicht UI
-- [ ] Export-Button (Markdown)
-
----
-
-## Phase 11: Note Type Features
-
-**Fokus:** Note/Idea-spezifische UI/UX
-
-- [ ] Quick Capture UI
-- [ ] Simpler Editor (kein Git)
-- [ ] Tag-Integration
+- [ ] MCP Servers Page
+- [ ] Knowledge/Logs Page
+- [ ] Settings Page (neues Layout)
+- [ ] Projects Overview
 
 ---
 
-## Phase 12: Result Export (#8)
+## Phase 13: Export & Polish
 
-**Fokus:** Vollständiges Export-System
+**Fokus:** Export-System + UX Issues
 
-- [ ] Markdown Export mit Metadaten
-- [ ] Quellen-Zitation für Research
-- [ ] Testprotokoll-Templates für Notes
-
----
-
-## Phase 13: 🔍 Review & UX Polish
-
-**Fokus:** Gesamtbild prüfen, UX verbessern
-
-- [ ] User-Testing
+- [ ] #8 Markdown Export
 - [ ] #1, #2, #3, #4, #6 UX Issues
-- [ ] Finale Architektur-Dokumentation
+- [ ] Finale Dokumentation
 
 ---
 
@@ -258,18 +297,22 @@ Ein modulares Wissensmanagement-Tool für:
 
 ## 📅 Session-Übersicht
 
-| Phase | Typ | Fokus |
-|-------|-----|-------|
-| 5 | Impl | Quick Wins ✅ |
-| 6 | 🔍 Review | Architektur-Design |
-| 7 | Impl | Backend Task-Types |
-| 8 | Impl | Frontend Basis |
-| 9 | 🔍 Review | Refactoring |
-| 10 | Impl | Research Features |
-| 11 | Impl | Note Features |
-| 12 | Impl | Export System |
-| 13 | 🔍 Review | UX Polish |
-| 14 | Impl | Tech Debt |
+| Phase | Typ | Fokus | Status |
+|-------|-----|-------|--------|
+| 5 | Impl | Quick Wins | ✅ |
+| 6A | 📋 Doc | Design System Dokumentation | ✅ |
+| 6B | Impl | Stylesheet-Testseite | ⏭️ Nächste |
+| 6C | 📋 Doc | shadcn/ui Analyse | Geplant |
+| 6D | 📋 Doc | System-Analyse | Geplant |
+| 6E | 📋 Doc | Refactoring-Strategie | Geplant |
+| 7 | Impl | UI Basis (Colors, Typography) | Geplant |
+| 8 | Impl | Sidebar & Layout | Geplant |
+| 9 | Impl | Task Type Backend | Geplant |
+| 10 | Impl | Task Type Frontend | Geplant |
+| 11 | 🔍 Review | Integration & Polish | Geplant |
+| 12 | Impl | Feature Pages | Geplant |
+| 13 | Impl | Export & UX Issues | Geplant |
+| 14 | Impl | Tech Debt | Geplant |
 
 ---
 

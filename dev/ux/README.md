@@ -82,29 +82,78 @@ dev/ux/
 
 ---
 
-## 🖼️ Mockups (To Do)
+## 🖼️ Mockups
 
-### Benötigte Mockups für Phase 6
+### Dashboard Style Varianten
+
+Verschiedene Design-Richtungen für das Haupt-Dashboard mit integrierter Sidebar.
+
+| # | Datei | Beschreibung | Farbschema |
+|---|-------|--------------|------------|
+| 1 | [`dashboard-style-01-orange.png`](mockups/dashboard-style-01-orange.png) | Kanban + Project Overview, Active Agents, System Log | 🟠 Orange |
+| 2 | [`dashboard-style-02-cyan.png`](mockups/dashboard-style-02-cyan.png) | Terminal/Hacker-Style mit Active_Nodes | 🔵 Cyan |
+| 3 | [`dashboard-style-03-green.png`](mockups/dashboard-style-03-green.png) | Matrix-Style mit TODO_LIST, PROJECT_INFO | 🟢 Grün |
+| 4 | [`dashboard-style-04-magenta.png`](mockups/dashboard-style-04-magenta.png) | Clean Modern mit Icons | 🟣 Magenta |
+
+### Feature Pages
+
+Sidebar-Mockups für verschiedene Funktionsbereiche.
+
+| # | Datei | Beschreibung |
+|---|-------|--------------|
+| 1 | [`task-creation.png`](mockups/task-creation.png) | Task Creation mit Classification (Research/Coding/Note), Thinking Budget Slider, Active MCPs |
+| 2 | [`mcp-servers.png`](mockups/mcp-servers.png) | MCP Server Management (Python, Web Search, Filesystem, PostgreSQL) |
+| 3 | [`projects-sidebar.png`](mockups/projects-sidebar.png) | Projekt-Übersicht mit Activity-Graph |
+| 4 | [`knowledge-logs.png`](mockups/knowledge-logs.png) | Knowledge/Results Log (Ingest, Success, Error) |
+| 5 | [`settings.png`](mockups/settings.png) | Application Settings (Appearance, Editor, Git, Notifications) |
+
+### Geplante Mockups (To Do)
 
 | # | Name | Beschreibung | Status |
 |---|------|--------------|--------|
-| M1 | Task Creation mit Type | Radio-Buttons für Type-Auswahl | ⏳ Offen |
-| M2 | Type-Badges | Badge-Design für Research/Note/Code | ⏳ Offen |
-| M3 | Research Result View | Quellen-Ansicht, Export-Button | ⏳ Offen |
-| M4 | Note Editor | Simpler Markdown-Editor | ⏳ Offen |
-| M5 | Knowledge Page Filter | Type + Tag Filter kombiniert | ⏳ Offen |
+| M1 | Type-Badges Detail | Badge-Design für Research/Note/Code | ⏳ Offen |
+| M2 | Research Result View | Quellen-Ansicht, Export-Button | ⏳ Offen |
+| M3 | Note Editor | Simpler Markdown-Editor | ⏳ Offen |
+| M4 | Knowledge Page Filter | Type + Tag Filter kombiniert | ⏳ Offen |
 
 ---
 
 ## 🎨 Design-System
 
-### Farben (Vorschlag für Type-Badges)
+### Design System Referenzen
 
-| Type | Farbe | Hex | Icon |
-|------|-------|-----|------|
-| Research | Blau | `#3B82F6` | 🔬 |
-| Note | Grün | `#10B981` | 📝 |
-| Code | Orange | `#F59E0B` | 💻 |
+| # | Datei | Beschreibung |
+|---|-------|--------------|
+| 1 | [`design-system-brutalist.png`](mockups/design-system-brutalist.png) | Brutalist System: Layout Grid, Buttons, Input States, Card Anatomy, Color Logic, Frame Styles |
+| 2 | [`design-system-stylesheet.png`](mockups/design-system-stylesheet.png) | Style Sheet: Typography, Input Components, Interactive Elements, Color Palette, Sliders |
+
+### Color Palette (aus Stylesheet)
+
+| Farbe | Hex | Verwendung |
+|-------|-----|------------|
+| BG | `#09090b` | Hintergrund |
+| Surface | `#18181b` | Cards, Container |
+| Border | `#3f3f46` | Rahmen |
+| Primary | `#a78bfa` | Primäre Aktionen (Lila) |
+| Research | `#3b82f6` | Research Tasks (Blau) |
+| Coding | `#f97316` | Dev Tasks (Orange) |
+| Notes | `#eab308` | Note Tasks (Gelb) |
+
+### Typography
+
+| Style | Font | Größe | Verwendung |
+|-------|------|-------|------------|
+| Headline | Inter Bold | 32px | Hauptüberschriften |
+| Subheadline | Inter Semibold | 18px | Unterüberschriften |
+| Code | JetBrains Mono | 14px | Code, Terminal |
+| Body | Inter Regular | 12px | Fließtext |
+
+### Layout Grid
+
+- **Spalten:** 12
+- **Margin:** 24px fluid
+- **Gutter:** 16px fixed
+- **Border:** 1px solid Zinc-700
 
 ### Bestehende Status-Farben
 
