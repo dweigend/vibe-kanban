@@ -146,13 +146,13 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] Frontend-Analyse durchgeführt (shadcn/ui + Tailwind)
 - [x] `dev/ux/STYLE-GUIDE.md` erstellt
 
-### 6B: Stylesheet-Testseite 📋
-**Status:** Nächste Session
+### 6B: Stylesheet-Testseite ✅
+**Status:** Abgeschlossen (2026-01-09)
 
-- [ ] Route `/styleguide` einrichten
-- [ ] Alle UI-Elemente sammeln (Buttons, Inputs, Cards, etc.)
-- [ ] Live-Preview für Design-Iterationen
-- [ ] Side-by-side Vergleich: Aktuell vs. Mockup
+- [x] Route `/styleguide` einrichten
+- [x] Alle UI-Elemente sammeln (Buttons, Inputs, Cards, etc.)
+- [x] Live-Preview für Design-Iterationen
+- [x] Screenshot: `dev/ux/screenshots/styleguide-page.png`
 
 ### 6C: shadcn/ui Analyse & Mapping 📋
 **Status:** Geplant
@@ -301,8 +301,8 @@ Ein modulares Wissensmanagement-Tool für:
 |-------|-----|-------|--------|
 | 5 | Impl | Quick Wins | ✅ |
 | 6A | 📋 Doc | Design System Dokumentation | ✅ |
-| 6B | Impl | Stylesheet-Testseite | ⏭️ Nächste |
-| 6C | 📋 Doc | shadcn/ui Analyse | Geplant |
+| 6B | Impl | Stylesheet-Testseite | ✅ |
+| 6C | 📋 Doc | shadcn/ui Analyse | ⏭️ Nächste |
 | 6D | 📋 Doc | System-Analyse | Geplant |
 | 6E | 📋 Doc | Refactoring-Strategie | Geplant |
 | 7 | Impl | UI Basis (Colors, Typography) | Geplant |

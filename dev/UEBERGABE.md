@@ -1,24 +1,25 @@
-# 🔄 Übergabe - Session 2026-01-09 (Phase 6A)
+# 🔄 Übergabe - Session 2026-01-09 (Phase 6B)
 
 ## ✅ Was wurde gemacht
 
-### Phase 6A: Design System Dokumentation ✅
+### Phase 6B: Stylesheet-Testseite ✅
 
-**Mockups importiert (11 Dateien):**
-- 4x Dashboard Style Varianten (Orange, Cyan, Green, Magenta)
-- 5x Feature Pages (Task Creation, MCP Servers, Projects, Knowledge, Settings)
-- 2x Design System Specs (Brutalist, Stylesheet)
+**Neue Route erstellt:**
+- `/styleguide` - Dedizierte Seite für UI-Komponenten-Showcase
+- Nur via URL erreichbar (kein Navbar-Link)
 
-**Dokumentation erstellt:**
-- `dev/ux/STYLE-GUIDE.md` - Komplette Brutalist Design System Spezifikation
-- `dev/ux/README.md` - Aktualisiert mit Mockup-Übersicht
-- `dev/PLAN.md` - Roadmap mit Phase 6A-6E + Phase 7-14 neu strukturiert
+**StyleGuidePage.tsx Features:**
+1. **Typography** - h1-h3, body, code mit Font-Specs
+2. **Color Palette** - 11 Farben (Base + Accent) mit Hex-Werten
+3. **Buttons** - 7 Variants + 4 Sizes + States (disabled)
+4. **Input Components** - Input, Textarea, Select, Checkbox, Switch
+5. **Card Anatomy** - 3 Cards mit Type-Borders (Research/Dev/Notes)
+6. **Tags & Badges** - Type Tags + Status Tags + Default Variants
+7. **Mockup Reference** - Platzhalter für Mockup-Bilder
+8. **Dark/Light Toggle** - Theme-Switch in Header
 
-**Frontend-Analyse durchgeführt:**
-- Stack: shadcn/ui + Radix UI + Tailwind CSS 3.4
-- Theme: HSL-Variablen, Dark/Light Mode (class-based)
-- Components: 16 Base-Components vorhanden
-- Layout: Navbar-basiert (wird zu Sidebar refactored)
+**Screenshot:**
+- `dev/ux/screenshots/styleguide-page.png`
 
 ---
 
@@ -26,39 +27,38 @@
 
 | Datei | Aktion |
 |-------|--------|
-| `dev/ux/mockups/*.png` | 11 neue Mockups |
-| `dev/ux/STYLE-GUIDE.md` | NEU - Brutalist Design System |
-| `dev/ux/README.md` | Aktualisiert |
-| `dev/PLAN.md` | Phase 6A-6E + 7-14 neu strukturiert |
+| `frontend/src/pages/StyleGuidePage.tsx` | NEU - Styleguide Seite |
+| `frontend/src/App.tsx` | Route `/styleguide` hinzugefügt |
+| `dev/ux/screenshots/styleguide-page.png` | NEU - Screenshot |
 | `dev/UEBERGABE.md` | Diese Datei |
 
 ---
 
-## 🚀 Nächste Session: Phase 6B - Stylesheet-Testseite
+## 🚀 Nächste Session: Phase 6C - shadcn/ui Analyse & Mapping
 
 ### Ziel
-Eine dedizierte Route `/styleguide` erstellen, auf der alle UI-Komponenten gesammelt werden.
+shadcn/ui Dokumentation durchgehen und Mapping zu Brutalist Design System erstellen.
 
 ### Aufgaben
 
-1. **Route einrichten**
-   - `/styleguide` Route in App.tsx
-   - `StyleguidePage.tsx` erstellen
+1. **shadcn/ui Dokumentation**
+   - Offizielle Docs durchgehen
+   - Verfügbare Komponenten katalogisieren
+   - Theming-Möglichkeiten verstehen
 
-2. **Komponenten sammeln**
-   - Buttons (Primary, Secondary, Ghost, Destructive)
-   - Inputs (Default, Focus, Error, Disabled)
-   - Cards (Task Card mit Type-Borders)
-   - Badges/Tags (Research, Coding, Notes, Status)
-   - Typography (h1-h3, body, code, label)
+2. **Bestehende Komponenten katalogisieren**
+   - 26 UI-Komponenten in `frontend/src/components/ui/`
+   - Variants und Props dokumentieren
 
-3. **Side-by-side Vergleich**
-   - Aktueller Style vs. Mockup-Referenz
-   - Screenshots der Mockups einbinden
+3. **Mapping erstellen**
+   - Brutalist → shadcn/ui Component Mapping
+   - Welche Custom Variants nötig sind
+   - CSS Variables anpassen
 
-4. **Interaktive Preview**
-   - State-Toggles (Hover, Focus, Active)
-   - Dark/Light Mode Switch
+4. **Custom Variants definieren**
+   - Button: `primary` (violet, filled)
+   - Badge: Type-spezifische Farben
+   - Card: Type-Borders (left border color)
 
 ---
 
@@ -68,31 +68,10 @@ Eine dedizierte Route `/styleguide` erstellen, auf der alle UI-Komponenten gesam
 |-------|--------|--------------|
 | 0-5 | ✅ | Setup, Research, Foundation, Knowledge, Quick Wins |
 | 6A | ✅ | Design System Dokumentation |
-| 6B | ⏭️ | **Nächste:** Stylesheet-Testseite |
-| 6C-6E | 📋 | Geplant |
+| 6B | ✅ | **Diese Session:** Stylesheet-Testseite |
+| 6C | ⏭️ | **Nächste:** shadcn/ui Analyse & Mapping |
+| 6D-6E | 📋 | Geplant |
 | 7-14 | 📋 | Geplant |
-
----
-
-## 🎨 Design System Highlights
-
-### Brutalist Principles
-- High Contrast (Dark BG `#09090b`)
-- Angular Geometry (2px border-radius max)
-- Data-Dense Layout
-- Terminal/IDE Ästhetik
-
-### Color Palette
-| Token | Hex | Verwendung |
-|-------|-----|------------|
-| `primary` | `#a78bfa` | Aktionen, Links |
-| `research` | `#3b82f6` | Research Tasks |
-| `coding` | `#f97316` | Dev Tasks |
-| `notes` | `#eab308` | Notes |
-
-### Typography
-- Sans: Inter (Headlines, Body)
-- Mono: JetBrains Mono (Code, Terminal)
 
 ---
 
@@ -100,18 +79,32 @@ Eine dedizierte Route `/styleguide` erstellen, auf der alle UI-Komponenten gesam
 
 | Datei | Beschreibung |
 |-------|--------------|
-| `dev/ux/STYLE-GUIDE.md` | Komplette Design-Spezifikation |
+| `frontend/src/pages/StyleGuidePage.tsx` | UI-Komponenten Showcase |
+| `dev/ux/STYLE-GUIDE.md` | Brutalist Design System Spezifikation |
 | `dev/ux/mockups/` | 11 Referenz-Mockups |
-| `dev/PLAN.md` | Aktuelle Roadmap |
-| `frontend/src/styles/index.css` | CSS Variables |
+| `frontend/src/components/ui/` | 26 shadcn/ui Komponenten |
 | `frontend/tailwind.config.js` | Tailwind Config |
-| `frontend/src/components/ui/` | shadcn/ui Components |
 
 ---
 
 ## 💡 Hinweise für nächste Session
 
 1. **Start mit `/start`** - lädt Workflow, Übergabe, Plan
-2. **Fokus: Testseite** - Live-Preview für Design-Iterationen
-3. **Referenz:** Mockups in `dev/ux/mockups/` nutzen
-4. **Style Guide:** `dev/ux/STYLE-GUIDE.md` als Spezifikation
+2. **Fokus: Analyse** - shadcn/ui vs. Brutalist Mapping
+3. **Styleguide nutzen:** http://localhost:3000/styleguide
+4. **Referenz:** Mockups in `dev/ux/mockups/`
+
+---
+
+## 🎨 Styleguide-Seite
+
+**URL:** http://localhost:3000/styleguide
+
+**Sektionen:**
+1. Typography (Inter + JetBrains Mono)
+2. Color Palette (11 Farben)
+3. Buttons (7 Variants)
+4. Input Components (5 Types)
+5. Card Anatomy (3 Task-Types)
+6. Tags & Badges (Type + Status)
+7. Mockup Reference
