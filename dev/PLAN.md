@@ -154,13 +154,16 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] Live-Preview für Design-Iterationen
 - [x] Screenshot: `dev/ux/screenshots/styleguide-page.png`
 
-### 6C: shadcn/ui Analyse & Mapping 📋
-**Status:** Geplant
+### 6C: shadcn/ui Analyse & Mapping ✅
+**Status:** Abgeschlossen (2026-01-09)
 
-- [ ] shadcn/ui Dokumentation durchgehen
-- [ ] Bestehende Komponenten katalogisieren
-- [ ] Mapping: Brutalist → shadcn/ui erstellen
-- [ ] Custom Variants definieren
+- [x] shadcn/ui Dokumentation durchgehen
+- [x] Bestehende Komponenten katalogisieren (27 Komponenten)
+- [x] Mapping: Brutalist → shadcn/ui erstellen
+- [x] Custom Variants definieren (Button, Badge, Card)
+- [x] Zusätzliche Komponenten aus Mockups dokumentiert
+- [x] `dev/ux/SHADCN-THEMING.md` erstellt
+- [x] `dev/ux/COMPONENT-MAPPING.md` erstellt
 
 ### 6D: Bestehendes System analysieren 📋
 **Status:** Geplant
@@ -302,8 +305,8 @@ Ein modulares Wissensmanagement-Tool für:
 | 5 | Impl | Quick Wins | ✅ |
 | 6A | 📋 Doc | Design System Dokumentation | ✅ |
 | 6B | Impl | Stylesheet-Testseite | ✅ |
-| 6C | 📋 Doc | shadcn/ui Analyse | ⏭️ Nächste |
-| 6D | 📋 Doc | System-Analyse | Geplant |
+| 6C | 📋 Doc | shadcn/ui Analyse | ✅ |
+| 6D | 📋 Doc | System-Analyse | ⏭️ Nächste |
 | 6E | 📋 Doc | Refactoring-Strategie | Geplant |
 | 7 | Impl | UI Basis (Colors, Typography) | Geplant |
 | 8 | Impl | Sidebar & Layout | Geplant |

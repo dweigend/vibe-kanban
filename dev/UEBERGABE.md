@@ -1,25 +1,26 @@
-# 🔄 Übergabe - Session 2026-01-09 (Phase 6B)
+# 🔄 Übergabe - Session 2026-01-09 (Phase 6C)
 
 ## ✅ Was wurde gemacht
 
-### Phase 6B: Stylesheet-Testseite ✅
+### Phase 6C: shadcn/ui Analyse & Mapping ✅
 
-**Neue Route erstellt:**
-- `/styleguide` - Dedizierte Seite für UI-Komponenten-Showcase
-- Nur via URL erreichbar (kein Navbar-Link)
+**Dokumentation erstellt:**
 
-**StyleGuidePage.tsx Features:**
-1. **Typography** - h1-h3, body, code mit Font-Specs
-2. **Color Palette** - 11 Farben (Base + Accent) mit Hex-Werten
-3. **Buttons** - 7 Variants + 4 Sizes + States (disabled)
-4. **Input Components** - Input, Textarea, Select, Checkbox, Switch
-5. **Card Anatomy** - 3 Cards mit Type-Borders (Research/Dev/Notes)
-6. **Tags & Badges** - Type Tags + Status Tags + Default Variants
-7. **Mockup Reference** - Platzhalter für Mockup-Bilder
-8. **Dark/Light Toggle** - Theme-Switch in Header
+1. **`dev/ux/SHADCN-THEMING.md`** - shadcn/ui Theming Guide
+   - CVA Pattern erklärt (class-variance-authority)
+   - cn() Utility dokumentiert (clsx + tailwind-merge)
+   - CSS Variables System
+   - Anleitung für Custom Variants
+   - Dark Mode Implementation
 
-**Screenshot:**
-- `dev/ux/screenshots/styleguide-page.png`
+2. **`dev/ux/COMPONENT-MAPPING.md`** - Brutalist Mapping
+   - 27 UI-Komponenten katalogisiert
+   - Button: neuer `primary` variant (violet filled)
+   - Badge: neue Type-variants (research, coding, notes, idle)
+   - Card: Type-border Pattern dokumentiert
+   - 6 zusätzliche Komponenten aus Mockups definiert
+   - CSS Variables für Phase 7 vorbereitet
+   - Migration Order festgelegt
 
 ---
 
@@ -27,38 +28,37 @@
 
 | Datei | Aktion |
 |-------|--------|
-| `frontend/src/pages/StyleGuidePage.tsx` | NEU - Styleguide Seite |
-| `frontend/src/App.tsx` | Route `/styleguide` hinzugefügt |
-| `dev/ux/screenshots/styleguide-page.png` | NEU - Screenshot |
+| `dev/ux/SHADCN-THEMING.md` | NEU - shadcn/ui Guide |
+| `dev/ux/COMPONENT-MAPPING.md` | NEU - Brutalist Mapping |
+| `dev/PLAN.md` | UPDATE - Phase 6C ✅ |
 | `dev/UEBERGABE.md` | Diese Datei |
 
 ---
 
-## 🚀 Nächste Session: Phase 6C - shadcn/ui Analyse & Mapping
+## 🚀 Nächste Session: Phase 6D - Bestehendes System analysieren
 
 ### Ziel
-shadcn/ui Dokumentation durchgehen und Mapping zu Brutalist Design System erstellen.
+Aktuelles CSS/Tailwind Config dokumentieren, Navbar-Komponente analysieren.
 
 ### Aufgaben
 
-1. **shadcn/ui Dokumentation**
-   - Offizielle Docs durchgehen
-   - Verfügbare Komponenten katalogisieren
-   - Theming-Möglichkeiten verstehen
+1. **Aktuelles CSS/Tailwind Config dokumentieren**
+   - 3-Ebenen Variable System verstehen
+   - VSCode-Fallback System dokumentieren
+   - Syntax Highlighting Colors
 
-2. **Bestehende Komponenten katalogisieren**
-   - 26 UI-Komponenten in `frontend/src/components/ui/`
-   - Variants und Props dokumentieren
+2. **Navbar-Komponente analysieren**
+   - Aktuelle Struktur verstehen
+   - Verwendete Hooks/State
+   - Responsive Behavior
 
-3. **Mapping erstellen**
-   - Brutalist → shadcn/ui Component Mapping
-   - Welche Custom Variants nötig sind
-   - CSS Variables anpassen
+3. **Layout-Struktur verstehen**
+   - Wie ist das Grid aufgebaut?
+   - Welche Container-Klassen werden verwendet?
 
-4. **Custom Variants definieren**
-   - Button: `primary` (violet, filled)
-   - Badge: Type-spezifische Farben
-   - Card: Type-Borders (left border color)
+4. **Abhängigkeiten identifizieren**
+   - Welche Komponenten hängen von Navbar ab?
+   - Breaking Changes bei Sidebar-Refactoring?
 
 ---
 
@@ -68,9 +68,10 @@ shadcn/ui Dokumentation durchgehen und Mapping zu Brutalist Design System erstel
 |-------|--------|--------------|
 | 0-5 | ✅ | Setup, Research, Foundation, Knowledge, Quick Wins |
 | 6A | ✅ | Design System Dokumentation |
-| 6B | ✅ | **Diese Session:** Stylesheet-Testseite |
-| 6C | ⏭️ | **Nächste:** shadcn/ui Analyse & Mapping |
-| 6D-6E | 📋 | Geplant |
+| 6B | ✅ | Stylesheet-Testseite |
+| 6C | ✅ | **Diese Session:** shadcn/ui Analyse & Mapping |
+| 6D | ⏭️ | **Nächste:** System-Analyse |
+| 6E | 📋 | Geplant: Refactoring-Strategie |
 | 7-14 | 📋 | Geplant |
 
 ---
@@ -79,32 +80,58 @@ shadcn/ui Dokumentation durchgehen und Mapping zu Brutalist Design System erstel
 
 | Datei | Beschreibung |
 |-------|--------------|
-| `frontend/src/pages/StyleGuidePage.tsx` | UI-Komponenten Showcase |
+| `dev/ux/SHADCN-THEMING.md` | shadcn/ui Theming Guide |
+| `dev/ux/COMPONENT-MAPPING.md` | Brutalist → shadcn/ui Mapping |
 | `dev/ux/STYLE-GUIDE.md` | Brutalist Design System Spezifikation |
 | `dev/ux/mockups/` | 11 Referenz-Mockups |
-| `frontend/src/components/ui/` | 26 shadcn/ui Komponenten |
+| `frontend/src/components/ui/` | 27 shadcn/ui Komponenten |
+| `frontend/src/styles/index.css` | CSS Variables (3-Ebenen System) |
 | `frontend/tailwind.config.js` | Tailwind Config |
 
 ---
 
-## 💡 Hinweise für nächste Session
+## 💡 Key Insights aus Phase 6C
 
-1. **Start mit `/start`** - lädt Workflow, Übergabe, Plan
-2. **Fokus: Analyse** - shadcn/ui vs. Brutalist Mapping
-3. **Styleguide nutzen:** http://localhost:3000/styleguide
-4. **Referenz:** Mockups in `dev/ux/mockups/`
+### Component Changes für Phase 7
+
+| Komponente | Änderung |
+|------------|----------|
+| Button | Add `primary` variant |
+| Badge | Add `research`, `coding`, `notes`, `idle` variants |
+| Card | Type-border via className (kein CVA) |
+| ToggleGroup | Für Classification Selector |
+
+### CSS Variables für Phase 7
+
+```css
+/* Neue Variables */
+--research: 217 91% 60%;  /* #3b82f6 */
+--coding: 25 95% 53%;     /* #f97316 */
+--notes: 45 93% 47%;      /* #eab308 */
+
+/* Updates */
+--primary: 263 70% 76%;   /* #a78bfa */
+--radius: 2px;            /* War: 0.5rem */
+
+/* Fonts */
+--font-sans: 'Inter', system-ui, sans-serif;
+--font-mono: 'JetBrains Mono', monospace;
+```
+
+### 4 Komponenten brauchen Änderungen
+
+1. `button.tsx` - Add primary variant
+2. `badge.tsx` - Add type/status variants
+3. `toggle-group.tsx` - Styling für Classification
+4. Card usage - Type-borders via className
 
 ---
 
-## 🎨 Styleguide-Seite
+## 🎯 Hinweise für nächste Session
 
-**URL:** http://localhost:3000/styleguide
-
-**Sektionen:**
-1. Typography (Inter + JetBrains Mono)
-2. Color Palette (11 Farben)
-3. Buttons (7 Variants)
-4. Input Components (5 Types)
-5. Card Anatomy (3 Task-Types)
-6. Tags & Badges (Type + Status)
-7. Mockup Reference
+1. **Start mit `/start`** - lädt Workflow, Übergabe, Plan
+2. **Fokus: Analyse** - Bestehendes System verstehen
+3. **Styleguide nutzen:** http://localhost:3000/styleguide
+4. **Referenz-Docs:**
+   - `dev/ux/SHADCN-THEMING.md`
+   - `dev/ux/COMPONENT-MAPPING.md`
