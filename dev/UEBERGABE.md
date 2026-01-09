@@ -1,26 +1,40 @@
-# 🔄 Übergabe - Session 2026-01-09 (Phase 6C)
+# 🔄 Übergabe - Session 2026-01-09 (Phase 6D)
 
 ## ✅ Was wurde gemacht
 
-### Phase 6C: shadcn/ui Analyse & Mapping ✅
+### Phase 6D: Bestehendes System analysieren ✅
+
+**Analyse durchgeführt:**
+
+1. **CSS/Tailwind Architektur analysiert**
+   - 3-Tier CSS Variable System dokumentiert
+   - VSCode-Fallback System als Ballast identifiziert
+   - Font (Chivo Mono) und Border-Radius (0.5rem) dokumentiert
+
+2. **Navbar-Komponente analysiert**
+   - Standalone-Komponente (keine Props)
+   - Höhe: h-12 (48px)
+   - Verwendet ProjectContext, SearchContext, useUserSystem
+   - Responsive: SearchBar hidden auf mobile
+
+3. **Layout-Struktur verstanden**
+   - Flex-basiert (kein CSS Grid auf Page-Level)
+   - react-resizable-panels nur in TasksLayout
+   - XL-Breakpoint (1280px) für Mobile-Detection
+   - Settings hat eigene Sidebar (links)
+
+4. **IST vs. SOLL Vergleich erstellt**
+   - Navbar → Sidebar rechts
+   - Settings Route → In Sidebar integrieren
+   - Styleguide als Ground Truth referenziert
+
+5. **Architektur-Entscheidungen dokumentiert**
+   - VSCode-Integration entfernen ✅
+   - Sidebar collapsible ✅
+   - Settings in Sidebar integrieren ✅
 
 **Dokumentation erstellt:**
-
-1. **`dev/ux/SHADCN-THEMING.md`** - shadcn/ui Theming Guide
-   - CVA Pattern erklärt (class-variance-authority)
-   - cn() Utility dokumentiert (clsx + tailwind-merge)
-   - CSS Variables System
-   - Anleitung für Custom Variants
-   - Dark Mode Implementation
-
-2. **`dev/ux/COMPONENT-MAPPING.md`** - Brutalist Mapping
-   - 27 UI-Komponenten katalogisiert
-   - Button: neuer `primary` variant (violet filled)
-   - Badge: neue Type-variants (research, coding, notes, idle)
-   - Card: Type-border Pattern dokumentiert
-   - 6 zusätzliche Komponenten aus Mockups definiert
-   - CSS Variables für Phase 7 vorbereitet
-   - Migration Order festgelegt
+- `dev/ux/SYSTEM-ANALYSIS.md` - Vollständige IST/SOLL Analyse
 
 ---
 
@@ -28,37 +42,35 @@
 
 | Datei | Aktion |
 |-------|--------|
-| `dev/ux/SHADCN-THEMING.md` | NEU - shadcn/ui Guide |
-| `dev/ux/COMPONENT-MAPPING.md` | NEU - Brutalist Mapping |
-| `dev/PLAN.md` | UPDATE - Phase 6C ✅ |
+| `dev/ux/SYSTEM-ANALYSIS.md` | NEU - IST/SOLL Analyse |
+| `dev/PLAN.md` | UPDATE - Phase 6D ✅ |
 | `dev/UEBERGABE.md` | Diese Datei |
 
 ---
 
-## 🚀 Nächste Session: Phase 6D - Bestehendes System analysieren
+## 🚀 Nächste Session: Phase 6E - Refactoring-Strategie
 
 ### Ziel
-Aktuelles CSS/Tailwind Config dokumentieren, Navbar-Komponente analysieren.
+Konkrete Migration-Schritte definieren für Phase 7-9.
 
 ### Aufgaben
 
-1. **Aktuelles CSS/Tailwind Config dokumentieren**
-   - 3-Ebenen Variable System verstehen
-   - VSCode-Fallback System dokumentieren
-   - Syntax Highlighting Colors
+1. **Migration-Plan erstellen**
+   - Reihenfolge der Änderungen
+   - Abhängigkeiten zwischen Schritten
 
-2. **Navbar-Komponente analysieren**
-   - Aktuelle Struktur verstehen
-   - Verwendete Hooks/State
-   - Responsive Behavior
+2. **VSCode-Entfernung planen**
+   - Welche Dateien zuerst?
+   - CSS Refactoring Schritte
 
-3. **Layout-Struktur verstehen**
-   - Wie ist das Grid aufgebaut?
-   - Welche Container-Klassen werden verwendet?
+3. **Sidebar-Implementation planen**
+   - Komponenten-Struktur
+   - State Management
+   - Route-Änderungen
 
-4. **Abhängigkeiten identifizieren**
-   - Welche Komponenten hängen von Navbar ab?
-   - Breaking Changes bei Sidebar-Refactoring?
+4. **Risiken und Rollback**
+   - Breaking Changes identifizieren
+   - Rollback-Plan falls nötig
 
 ---
 
@@ -69,9 +81,9 @@ Aktuelles CSS/Tailwind Config dokumentieren, Navbar-Komponente analysieren.
 | 0-5 | ✅ | Setup, Research, Foundation, Knowledge, Quick Wins |
 | 6A | ✅ | Design System Dokumentation |
 | 6B | ✅ | Stylesheet-Testseite |
-| 6C | ✅ | **Diese Session:** shadcn/ui Analyse & Mapping |
-| 6D | ⏭️ | **Nächste:** System-Analyse |
-| 6E | 📋 | Geplant: Refactoring-Strategie |
+| 6C | ✅ | shadcn/ui Analyse & Mapping |
+| 6D | ✅ | **Diese Session:** System-Analyse |
+| 6E | ⏭️ | **Nächste:** Refactoring-Strategie |
 | 7-14 | 📋 | Geplant |
 
 ---
@@ -80,58 +92,58 @@ Aktuelles CSS/Tailwind Config dokumentieren, Navbar-Komponente analysieren.
 
 | Datei | Beschreibung |
 |-------|--------------|
+| `dev/ux/SYSTEM-ANALYSIS.md` | IST vs. SOLL, Historischer Ballast |
+| `dev/ux/STYLE-GUIDE.md` | Brutalist Design System Spezifikation |
 | `dev/ux/SHADCN-THEMING.md` | shadcn/ui Theming Guide |
 | `dev/ux/COMPONENT-MAPPING.md` | Brutalist → shadcn/ui Mapping |
-| `dev/ux/STYLE-GUIDE.md` | Brutalist Design System Spezifikation |
 | `dev/ux/mockups/` | 11 Referenz-Mockups |
-| `frontend/src/components/ui/` | 27 shadcn/ui Komponenten |
-| `frontend/src/styles/index.css` | CSS Variables (3-Ebenen System) |
-| `frontend/tailwind.config.js` | Tailwind Config |
+| `frontend/src/pages/StyleGuidePage.tsx` | Ground Truth für Einzelelemente |
 
 ---
 
-## 💡 Key Insights aus Phase 6C
+## 💡 Key Insights aus Phase 6D
 
-### Component Changes für Phase 7
+### Historischer Ballast (zu entfernen)
 
-| Komponente | Änderung |
-|------------|----------|
-| Button | Add `primary` variant |
-| Badge | Add `research`, `coding`, `notes`, `idle` variants |
-| Card | Type-border via className (kein CVA) |
-| ToggleGroup | Für Classification Selector |
+| Was | Warum | Wie |
+|-----|-------|-----|
+| VSCode-Fallback CSS | Nicht mehr gebraucht | 3-Tier → 2-Tier |
+| `/vscode/` Ordner | Kein VSCode-Embedding | Löschen |
+| Chivo Mono Font | Brutalist nutzt Inter | Font wechseln |
+| Border-Radius 0.5rem | Brutalist nutzt 2px | CSS Variable ändern |
 
-### CSS Variables für Phase 7
+### Architektur-Entscheidungen
 
-```css
-/* Neue Variables */
---research: 217 91% 60%;  /* #3b82f6 */
---coding: 25 95% 53%;     /* #f97316 */
---notes: 45 93% 47%;      /* #eab308 */
+| Entscheidung | Implikation |
+|--------------|-------------|
+| Sidebar collapsible | State + Toggle + LocalStorage |
+| Settings in Sidebar | Route entfernen, Accordion-Pattern |
+| VSCode entfernen | ~100 Zeilen weniger CSS |
 
-/* Updates */
---primary: 263 70% 76%;   /* #a78bfa */
---radius: 2px;            /* War: 0.5rem */
+### Vereinfachungs-Strategie
 
-/* Fonts */
---font-sans: 'Inter', system-ui, sans-serif;
---font-mono: 'JetBrains Mono', monospace;
-```
+**Phase 7 (Quick Wins):**
+1. `--radius: 2px`
+2. Inter + JetBrains Mono
+3. Task-Type Colors
 
-### 4 Komponenten brauchen Änderungen
+**Phase 8 (Medium):**
+4. VSCode-System entfernen
+5. Navbar vereinfachen
+6. Sidebar-Komponente erstellen
 
-1. `button.tsx` - Add primary variant
-2. `badge.tsx` - Add type/status variants
-3. `toggle-group.tsx` - Styling für Classification
-4. Card usage - Type-borders via className
+**Phase 9+ (Breaking):**
+7. Settings in Sidebar
+8. TasksLayout refactoren
 
 ---
 
 ## 🎯 Hinweise für nächste Session
 
 1. **Start mit `/start`** - lädt Workflow, Übergabe, Plan
-2. **Fokus: Analyse** - Bestehendes System verstehen
+2. **Fokus: Planung** - Konkrete Migration-Schritte
 3. **Styleguide nutzen:** http://localhost:3000/styleguide
 4. **Referenz-Docs:**
-   - `dev/ux/SHADCN-THEMING.md`
-   - `dev/ux/COMPONENT-MAPPING.md`
+   - `dev/ux/SYSTEM-ANALYSIS.md` (NEU)
+   - `dev/ux/STYLE-GUIDE.md`
+   - `dev/ux/mockups/`

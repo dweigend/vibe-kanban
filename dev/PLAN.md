@@ -165,13 +165,22 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] `dev/ux/SHADCN-THEMING.md` erstellt
 - [x] `dev/ux/COMPONENT-MAPPING.md` erstellt
 
-### 6D: Bestehendes System analysieren 📋
-**Status:** Geplant
+### 6D: Bestehendes System analysieren ✅
+**Status:** Abgeschlossen (2026-01-09)
 
-- [ ] Aktuelles CSS/Tailwind Config dokumentieren
-- [ ] Navbar-Komponente analysieren
-- [ ] Layout-Struktur verstehen
-- [ ] Abhängigkeiten identifizieren
+- [x] Aktuelles CSS/Tailwind Config dokumentieren
+- [x] Navbar-Komponente analysieren
+- [x] Layout-Struktur verstehen
+- [x] Abhängigkeiten identifizieren
+- [x] IST vs. SOLL Vergleich erstellt
+- [x] Historischer Ballast identifiziert (VSCode-System)
+- [x] Architektur-Entscheidungen dokumentiert
+- [x] `dev/ux/SYSTEM-ANALYSIS.md` erstellt
+
+**Key Decisions:**
+- VSCode-Integration entfernen (nicht gebraucht)
+- Sidebar collapsible (ja)
+- Settings in Sidebar integrieren (keine separate Route)
 
 ### 6E: Refactoring-Strategie 📋
 **Status:** Geplant
@@ -306,8 +315,8 @@ Ein modulares Wissensmanagement-Tool für:
 | 6A | 📋 Doc | Design System Dokumentation | ✅ |
 | 6B | Impl | Stylesheet-Testseite | ✅ |
 | 6C | 📋 Doc | shadcn/ui Analyse | ✅ |
-| 6D | 📋 Doc | System-Analyse | ⏭️ Nächste |
-| 6E | 📋 Doc | Refactoring-Strategie | Geplant |
+| 6D | 📋 Doc | System-Analyse | ✅ |
+| 6E | 📋 Doc | Refactoring-Strategie | ⏭️ Nächste |
 | 7 | Impl | UI Basis (Colors, Typography) | Geplant |
 | 8 | Impl | Sidebar & Layout | Geplant |
 | 9 | Impl | Task Type Backend | Geplant |
