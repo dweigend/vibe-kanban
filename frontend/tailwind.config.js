@@ -99,6 +99,18 @@ module.exports = {
           DEFAULT: 'hsl(var(--neutral))',
           foreground: 'hsl(var(--neutral-foreground))',
         },
+        research: {
+          DEFAULT: 'hsl(var(--research))',
+          foreground: 'hsl(var(--research-foreground, 0 0% 100%))',
+        },
+        coding: {
+          DEFAULT: 'hsl(var(--coding))',
+          foreground: 'hsl(var(--coding-foreground, 0 0% 100%))',
+        },
+        notes: {
+          DEFAULT: 'hsl(var(--notes))',
+          foreground: 'hsl(var(--notes-foreground, 0 0% 0%))',
+        },
         status: {
           init: 'hsl(var(--status-init))',
           'init-foreground': 'hsl(var(--status-init-foreground))',
@@ -124,7 +136,8 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        'chivo-mono': ['Chivo Mono', 'Noto Emoji', 'monospace'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       keyframes: {
         'accordion-down': {
