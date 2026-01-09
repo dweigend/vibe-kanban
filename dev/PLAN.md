@@ -192,14 +192,16 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 7: UI Implementation - Basis
+## Phase 7: UI Implementation - Basis ✅
+
+**Status:** Abgeschlossen (2026-01-09)
 
 **Fokus:** CSS Variables & Typography
 
-- [ ] Color Tokens in Tailwind Config aktualisieren
-- [ ] Typography anpassen (Inter + JetBrains Mono)
-- [ ] Border-Radius auf 2px setzen
-- [ ] Basis-Komponenten stylen
+- [x] Border-Radius auf 2px setzen
+- [x] Typography anpassen (Inter + JetBrains Mono)
+- [x] Task-Type Colors hinzufügen (research, coding, notes)
+- [x] Screenshot: `dev/ux/screenshots/phase7-styleguide.png`
 
 ---
 
@@ -317,7 +319,7 @@ Ein modulares Wissensmanagement-Tool für:
 | 6C | 📋 Doc | shadcn/ui Analyse | ✅ |
 | 6D | 📋 Doc | System-Analyse | ✅ |
 | 6E | 📋 Doc | Refactoring-Strategie | ✅ |
-| 7 | Impl | UI Basis (Colors, Typography) | Geplant |
+| 7 | Impl | UI Basis (Colors, Typography) | ✅ |
 | 8 | Impl | Sidebar & Layout | Geplant |
 | 9 | Impl | Task Type Backend | Geplant |
 | 10 | Impl | Task Type Frontend | Geplant |
