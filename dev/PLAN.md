@@ -182,13 +182,13 @@ Ein modulares Wissensmanagement-Tool für:
 - Sidebar collapsible (ja)
 - Settings in Sidebar integrieren (keine separate Route)
 
-### 6E: Refactoring-Strategie 📋
-**Status:** Geplant
+### 6E: Refactoring-Strategie ✅
+**Status:** Abgeschlossen (2026-01-09)
 
-- [ ] Migration-Plan erstellen
-- [ ] Breaking Changes identifizieren
-- [ ] Phasen-weise Umsetzung planen
-- [ ] Task-Type System Integration einplanen
+- [x] Migration-Plan erstellt (`dev/ux/MIGRATION-PLAN.md`)
+- [x] Breaking Changes identifiziert
+- [x] Phasen-weise Umsetzung geplant (Phase 7-9)
+- [x] Rollback-Strategie dokumentiert
 
 ---
 
@@ -316,7 +316,7 @@ Ein modulares Wissensmanagement-Tool für:
 | 6B | Impl | Stylesheet-Testseite | ✅ |
 | 6C | 📋 Doc | shadcn/ui Analyse | ✅ |
 | 6D | 📋 Doc | System-Analyse | ✅ |
-| 6E | 📋 Doc | Refactoring-Strategie | ⏭️ Nächste |
+| 6E | 📋 Doc | Refactoring-Strategie | ✅ |
 | 7 | Impl | UI Basis (Colors, Typography) | Geplant |
 | 8 | Impl | Sidebar & Layout | Geplant |
 | 9 | Impl | Task Type Backend | Geplant |

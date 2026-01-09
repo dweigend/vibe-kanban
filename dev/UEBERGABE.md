@@ -1,149 +1,105 @@
-# 🔄 Übergabe - Session 2026-01-09 (Phase 6D)
+# Übergabe - Session 2026-01-09 (Phase 6E)
 
-## ✅ Was wurde gemacht
+## Was wurde gemacht
 
-### Phase 6D: Bestehendes System analysieren ✅
+### Phase 6E: Refactoring-Strategie
 
-**Analyse durchgeführt:**
+**Migrations-Plan erstellt:** `dev/ux/MIGRATION-PLAN.md`
 
-1. **CSS/Tailwind Architektur analysiert**
-   - 3-Tier CSS Variable System dokumentiert
-   - VSCode-Fallback System als Ballast identifiziert
-   - Font (Chivo Mono) und Border-Radius (0.5rem) dokumentiert
+1. **Phase 7 geplant (CSS Basis)**
+   - Border-Radius: `0.5rem` → `2px`
+   - Font-Family: Chivo Mono → Inter + JetBrains Mono
+   - Task-Type Colors hinzufügen
 
-2. **Navbar-Komponente analysiert**
-   - Standalone-Komponente (keine Props)
-   - Höhe: h-12 (48px)
-   - Verwendet ProjectContext, SearchContext, useUserSystem
-   - Responsive: SearchBar hidden auf mobile
+2. **Phase 8 geplant (Layout)**
+   - VSCode-System entfernen (~45 Zeilen CSS)
+   - Sidebar-Komponente erstellen
+   - NormalLayout anpassen
 
-3. **Layout-Struktur verstanden**
-   - Flex-basiert (kein CSS Grid auf Page-Level)
-   - react-resizable-panels nur in TasksLayout
-   - XL-Breakpoint (1280px) für Mobile-Detection
-   - Settings hat eigene Sidebar (links)
+3. **Phase 9 geplant (Breaking)**
+   - SidebarContext erstellen
+   - Settings in Sidebar integrieren
+   - Settings-Route entfernen
 
-4. **IST vs. SOLL Vergleich erstellt**
-   - Navbar → Sidebar rechts
-   - Settings Route → In Sidebar integrieren
-   - Styleguide als Ground Truth referenziert
+4. **Breaking Changes dokumentiert**
+   - Font-Änderung (visuell, alle Texte)
+   - Radius-Änderung (visuell, alle Komponenten)
+   - Settings-Route entfällt
 
-5. **Architektur-Entscheidungen dokumentiert**
-   - VSCode-Integration entfernen ✅
-   - Sidebar collapsible ✅
-   - Settings in Sidebar integrieren ✅
-
-**Dokumentation erstellt:**
-- `dev/ux/SYSTEM-ANALYSIS.md` - Vollständige IST/SOLL Analyse
+5. **Rollback-Strategie dokumentiert**
+   - Git Checkpoints vor jeder Phase
+   - CSS-Änderungen isoliert revertierbar
 
 ---
 
-## 📂 Geänderte/Neue Dateien
+## Geänderte/Neue Dateien
 
 | Datei | Aktion |
 |-------|--------|
-| `dev/ux/SYSTEM-ANALYSIS.md` | NEU - IST/SOLL Analyse |
-| `dev/PLAN.md` | UPDATE - Phase 6D ✅ |
+| `dev/ux/MIGRATION-PLAN.md` | NEU - Vollständiger Migrations-Plan |
+| `dev/PLAN.md` | UPDATE - Phase 6E ✅ |
 | `dev/UEBERGABE.md` | Diese Datei |
 
 ---
 
-## 🚀 Nächste Session: Phase 6E - Refactoring-Strategie
+## Nächste Session: Phase 7 - CSS Basis
 
 ### Ziel
-Konkrete Migration-Schritte definieren für Phase 7-9.
+Quick Wins implementieren: Border-Radius, Fonts, Task-Type Colors.
 
-### Aufgaben
+### Aufgaben (aus MIGRATION-PLAN.md)
 
-1. **Migration-Plan erstellen**
-   - Reihenfolge der Änderungen
-   - Abhängigkeiten zwischen Schritten
+1. **Checkpoint erstellen**
 
-2. **VSCode-Entfernung planen**
-   - Welche Dateien zuerst?
-   - CSS Refactoring Schritte
+2. **Border-Radius ändern**
+   - `frontend/src/styles/index.css:27`
+   - `--_radius: 0.5rem` → `--_radius: 2px`
 
-3. **Sidebar-Implementation planen**
-   - Komponenten-Struktur
-   - State Management
-   - Route-Änderungen
+3. **Font-Family wechseln**
+   - Google Fonts Import ändern
+   - Tailwind Config: `fontFamily`
+   - Body-Klasse: `font-chivo-mono` → `font-sans`
 
-4. **Risiken und Rollback**
-   - Breaking Changes identifizieren
-   - Rollback-Plan falls nötig
+4. **Task-Type Colors hinzufügen**
+   - CSS Variables: `--_research`, `--_coding`, `--_notes`
+   - Tailwind Config: colors erweitern
+
+5. **Verify**
+   - `pnpm run check && pnpm run lint`
+   - DevTools Screenshot
+
+6. **Commit**
+   - `style: 🎨 update design tokens to brutalist style`
 
 ---
 
-## 📊 Phase-Status
+## Phase-Status
 
 | Phase | Status | Beschreibung |
 |-------|--------|--------------|
 | 0-5 | ✅ | Setup, Research, Foundation, Knowledge, Quick Wins |
-| 6A | ✅ | Design System Dokumentation |
-| 6B | ✅ | Stylesheet-Testseite |
-| 6C | ✅ | shadcn/ui Analyse & Mapping |
-| 6D | ✅ | **Diese Session:** System-Analyse |
-| 6E | ⏭️ | **Nächste:** Refactoring-Strategie |
-| 7-14 | 📋 | Geplant |
+| 6A-6E | ✅ | Design System Dokumentation komplett |
+| 7 | ⏭️ | **Nächste:** CSS Basis |
+| 8-14 | 📋 | Geplant |
 
 ---
 
-## 🔗 Wichtige Dateien
+## Wichtige Dateien
 
 | Datei | Beschreibung |
 |-------|--------------|
-| `dev/ux/SYSTEM-ANALYSIS.md` | IST vs. SOLL, Historischer Ballast |
-| `dev/ux/STYLE-GUIDE.md` | Brutalist Design System Spezifikation |
-| `dev/ux/SHADCN-THEMING.md` | shadcn/ui Theming Guide |
-| `dev/ux/COMPONENT-MAPPING.md` | Brutalist → shadcn/ui Mapping |
-| `dev/ux/mockups/` | 11 Referenz-Mockups |
-| `frontend/src/pages/StyleGuidePage.tsx` | Ground Truth für Einzelelemente |
+| `dev/ux/MIGRATION-PLAN.md` | **NEU** - Schritt-für-Schritt Anleitung |
+| `dev/ux/STYLE-GUIDE.md` | Brutalist Design Spezifikation |
+| `dev/ux/SYSTEM-ANALYSIS.md` | IST vs. SOLL Analyse |
+| `frontend/src/styles/index.css` | CSS Variables (Phase 7 Target) |
+| `frontend/tailwind.config.js` | Tailwind Config (Phase 7 Target) |
 
 ---
 
-## 💡 Key Insights aus Phase 6D
-
-### Historischer Ballast (zu entfernen)
-
-| Was | Warum | Wie |
-|-----|-------|-----|
-| VSCode-Fallback CSS | Nicht mehr gebraucht | 3-Tier → 2-Tier |
-| `/vscode/` Ordner | Kein VSCode-Embedding | Löschen |
-| Chivo Mono Font | Brutalist nutzt Inter | Font wechseln |
-| Border-Radius 0.5rem | Brutalist nutzt 2px | CSS Variable ändern |
-
-### Architektur-Entscheidungen
-
-| Entscheidung | Implikation |
-|--------------|-------------|
-| Sidebar collapsible | State + Toggle + LocalStorage |
-| Settings in Sidebar | Route entfernen, Accordion-Pattern |
-| VSCode entfernen | ~100 Zeilen weniger CSS |
-
-### Vereinfachungs-Strategie
-
-**Phase 7 (Quick Wins):**
-1. `--radius: 2px`
-2. Inter + JetBrains Mono
-3. Task-Type Colors
-
-**Phase 8 (Medium):**
-4. VSCode-System entfernen
-5. Navbar vereinfachen
-6. Sidebar-Komponente erstellen
-
-**Phase 9+ (Breaking):**
-7. Settings in Sidebar
-8. TasksLayout refactoren
-
----
-
-## 🎯 Hinweise für nächste Session
+## Hinweise für nächste Session
 
 1. **Start mit `/start`** - lädt Workflow, Übergabe, Plan
-2. **Fokus: Planung** - Konkrete Migration-Schritte
-3. **Styleguide nutzen:** http://localhost:3000/styleguide
-4. **Referenz-Docs:**
-   - `dev/ux/SYSTEM-ANALYSIS.md` (NEU)
-   - `dev/ux/STYLE-GUIDE.md`
-   - `dev/ux/mockups/`
+2. **Fokus: Implementation** - Erste Code-Änderungen am Design System
+3. **MIGRATION-PLAN.md folgen** - Checklisten nutzen
+4. **DevTools nutzen** - Visuelles Ergebnis prüfen
+5. **Styleguide:** http://localhost:3000/styleguide
