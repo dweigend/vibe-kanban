@@ -1,63 +1,97 @@
-# Übergabe - Session 2026-01-09 (Phase 7)
+# Übergabe - Session 2026-01-09 (Phase 8A + 8B begonnen)
 
 ## Was wurde gemacht
 
-### Phase 7: CSS Basis (Quick Wins) ✅
+### Phase 8A: VSCode Cleanup ✅
 
-**Design Tokens für "Brutalist Style" aktualisiert:**
+- VSCode-System komplett entfernt (bridge.ts, ContextMenu.tsx)
+- CSS: VSCode-Fallbacks entfernt (~40 Zeilen gespart)
+- Font: JetBrains Mono als Hauptfont (Brutalist Style)
 
-1. **Border-Radius**
-   - `--_radius: 0.5rem` → `--_radius: 2px`
-   - Alle Komponenten haben jetzt scharfe Ecken
+### Phase 8B: Sidebar Integration (begonnen)
 
-2. **Font-Family**
-   - Google Fonts: Chivo Mono → Inter + JetBrains Mono
-   - Tailwind Config: `font-sans` (Inter), `font-mono` (JetBrains)
-   - Body-Klasse: `font-chivo-mono` → `font-sans`
+- `SidebarContext.tsx` erstellt (localStorage Persistenz)
+- Sidebar-Toggle in Navbar verschoben
+- Sidebar vereinfacht (nutzt Context statt lokalem State)
 
-3. **Task-Type Colors hinzugefügt**
-   - CSS Variables: `--_research`, `--_coding`, `--_notes`
-   - Tailwind: `bg-research`, `bg-coding`, `bg-notes` etc.
+**ABER:** Header-Struktur noch nicht fertig!
 
 ---
 
-## Geänderte/Neue Dateien
+## PROBLEM: Doppelte Menü-Struktur
+
+**Aktuell (falsch):**
+```
+[Sidebar-Toggle] [Settings] [Hamburger-Menü ≡]
+                              └─ Projects, Docs, Support, Sign in
+```
+
+**Soll (laut Mockups):**
+```
+[>|] [📁] [🤖] [⊞] | [+] [⚙️] [🟧]
+```
+
+Alle Icons direkt sichtbar, KEIN Dropdown/Hamburger-Menü!
+
+---
+
+## Nächste Session: Phase 8B abschließen
+
+### Aufgabe 1: Hamburger-Menü auflösen
+
+**Datei:** `frontend/src/components/layout/Navbar.tsx`
+
+Alle Items aus dem DropdownMenu als direkte Icon-Buttons:
+
+| Icon | Funktion | Route/Action |
+|------|----------|--------------|
+| `>|` (PanelRight) | Sidebar Toggle | `useSidebar().toggle()` |
+| 📁 (FolderOpen) | Projects | `/projects` |
+| 🤖 (Bot) | MCP Servers | `/settings/mcp` |
+| ⊞ (LayoutGrid) | View Toggle | (optional) |
+| `+` (Plus) | New Task | `openTaskForm()` |
+| ⚙️ (Settings) | Settings | `/settings` |
+| 🟧 (Square) | Accent Color | Theme Picker (optional) |
+
+**Änderungen:**
+1. DropdownMenu komplett entfernen
+2. Alle Icons nebeneinander als `<Button variant="ghost" size="icon">`
+3. Divider (`|`) zwischen Gruppen
+
+### Aufgabe 2: Knowledge-Link hinzufügen
+
+Im Mockup gibt es auch einen Knowledge-Bereich. Prüfen ob das als Icon in den Header soll oder in der Sidebar bleibt.
+
+### Aufgabe 3: Sidebar-Content (optional)
+
+Falls Zeit: Sidebar-Content aus Mockups implementieren:
+- Search Bar (oben)
+- PROJECT OVERVIEW
+- ACTIVE AGENTS
+- SYSTEM LOG
+
+---
+
+## Mockup-Referenz
+
+**Wichtigste Datei:** `dev/ux/mockups/dashboard-style-01-orange.png`
+
+Header-Struktur:
+```
+[Logo] | [Projekt // View] | [Icons...] | [+] [⚙️] [Accent]
+```
+
+---
+
+## Geänderte Dateien dieser Session
 
 | Datei | Aktion |
 |-------|--------|
-| `frontend/src/styles/index.css` | UPDATE - Radius, Fonts, Task-Type Colors |
-| `frontend/tailwind.config.js` | UPDATE - fontFamily, colors |
-| `dev/ux/screenshots/phase7-styleguide.png` | NEU - Screenshot nach Änderungen |
-
----
-
-## Nächste Session: Phase 8 - Layout & VSCode Cleanup
-
-### Ziel
-VSCode-System entfernen und Sidebar-Komponente erstellen.
-
-### Aufgaben (aus MIGRATION-PLAN.md)
-
-1. **Checkpoint erstellen**
-
-2. **VSCode-System entfernen**
-   - CSS: VSCode-Fallbacks entfernen (Zeilen 106-194)
-   - `frontend/src/vscode/` löschen
-
-3. **Sidebar-Komponente erstellen**
-   - `frontend/src/components/layout/Sidebar.tsx`
-   - Collapsible mit localStorage State
-
-4. **NormalLayout anpassen**
-   - Sidebar einbinden
-   - Flex-Layout für Main + Sidebar
-
-5. **Verify**
-   - `pnpm run check && pnpm run lint`
-   - DevTools Screenshot
-
-6. **Commit**
-   - `refactor: ♻️ remove VSCode system and add sidebar`
+| `frontend/src/styles/index.css` | UPDATE - VSCode entfernt, font-mono |
+| `frontend/src/contexts/SidebarContext.tsx` | CREATE - Sidebar State |
+| `frontend/src/components/layout/Navbar.tsx` | UPDATE - Toggle-Button |
+| `frontend/src/components/layout/Sidebar.tsx` | UPDATE - Vereinfacht |
+| `frontend/src/App.tsx` | UPDATE - SidebarProvider |
 
 ---
 
@@ -65,27 +99,30 @@ VSCode-System entfernen und Sidebar-Komponente erstellen.
 
 | Phase | Status | Beschreibung |
 |-------|--------|--------------|
-| 0-6 | ✅ | Setup bis Design System Dokumentation |
-| 7 | ✅ | CSS Basis - Quick Wins |
-| 8 | ⏭️ | **Nächste:** Layout & VSCode Cleanup |
-| 9-14 | 📋 | Geplant |
+| 8A | ✅ | VSCode Cleanup |
+| 8B | 🔄 | **In Arbeit:** Header-Integration |
+| 8C | 📋 | Geplant: Settings in Sidebar |
+| 9+ | 📋 | Task Type Backend |
 
 ---
 
-## Wichtige Dateien
+## Wichtige Hinweise
 
-| Datei | Beschreibung |
-|-------|--------------|
-| `dev/ux/MIGRATION-PLAN.md` | Schritt-für-Schritt Anleitung für Phase 8 |
-| `frontend/src/styles/index.css` | CSS mit neuen Design Tokens |
-| `frontend/tailwind.config.js` | Tailwind mit neuen Fonts + Colors |
-| `dev/ux/screenshots/phase7-styleguide.png` | Visueller Nachweis der Änderungen |
+1. **Mockups sind die Wahrheit** - Bei Unsicherheit immer `dev/ux/mockups/` prüfen
+2. **Kein Hamburger-Menü** - Alle Icons direkt sichtbar
+3. **Brutalist Style** - JetBrains Mono, 2px Radius, scharfe Ecken
+4. **SidebarContext existiert** - Hook: `useSidebar()` für collapsed/toggle
 
 ---
 
-## Hinweise für nächste Session
+## Schnellstart nächste Session
 
-1. **Start mit `/start`** - lädt Workflow, Übergabe, Plan
-2. **Fokus: VSCode Cleanup** - Phase 8 ist etwas aufwändiger
-3. **MIGRATION-PLAN.md folgen** - Checklisten nutzen
-4. **Vorsicht:** VSCode-Ordner löschen erst nach Prüfung auf Referenzen
+```bash
+# 1. Status prüfen
+git status
+
+# 2. Navbar.tsx öffnen - Hamburger-Menü entfernen
+# 3. Icons direkt nebeneinander platzieren
+# 4. Testen mit DevTools
+# 5. Committen
+```

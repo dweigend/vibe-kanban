@@ -207,12 +207,24 @@ Ein modulares Wissensmanagement-Tool für:
 
 ## Phase 8: Sidebar & Layout
 
-**Fokus:** Navigation refactoren
+**Status:** In Arbeit
 
-- [ ] Navbar → Sidebar Komponente
-- [ ] Layout-Grid implementieren
-- [ ] Responsive Verhalten
-- [ ] Sidebar-Modes (Dashboard, Settings, etc.)
+### 8A: VSCode Cleanup ✅
+- [x] VSCode-System entfernt (bridge.ts, ContextMenu.tsx)
+- [x] CSS: VSCode-Fallbacks entfernt
+- [x] Font: JetBrains Mono als Hauptfont
+
+### 8B: Header Integration 🔄
+- [x] SidebarContext erstellt
+- [x] Sidebar-Toggle in Navbar
+- [ ] **Hamburger-Menü auflösen** (alle Icons direkt sichtbar)
+- [ ] Header-Icons: Projects, MCP, Grid, +, Settings, Accent
+
+### 8C: Sidebar Content 📋
+- [ ] Search Bar
+- [ ] Project Overview
+- [ ] Active Agents
+- [ ] System Log
 
 ---
 
