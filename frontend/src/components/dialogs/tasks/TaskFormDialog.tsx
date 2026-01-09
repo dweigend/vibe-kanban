@@ -4,7 +4,13 @@ import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { defineModal } from '@/lib/modals';
 import { useDropzone } from 'react-dropzone';
 import { useForm, useStore } from '@tanstack/react-form';
-import { Image as ImageIcon, Plus, Check, X, Tag as TagIcon } from 'lucide-react';
+import {
+  Image as ImageIcon,
+  Plus,
+  Check,
+  X,
+  Tag as TagIcon,
+} from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -192,7 +198,8 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
             status: value.status,
             parent_workspace_id: null,
             image_ids: images.length > 0 ? images.map((img) => img.id) : null,
-            knowledge_tag_ids: value.knowledgeTagIds.length > 0 ? value.knowledgeTagIds : null,
+            knowledge_tag_ids:
+              value.knowledgeTagIds.length > 0 ? value.knowledgeTagIds : null,
           },
         },
         { onSuccess: () => modal.remove() }
@@ -209,7 +216,8 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
           mode === 'subtask' ? props.parentTaskAttemptId : null,
         image_ids: imageIds,
         shared_task_id: null,
-        knowledge_tag_ids: value.knowledgeTagIds.length > 0 ? value.knowledgeTagIds : null,
+        knowledge_tag_ids:
+          value.knowledgeTagIds.length > 0 ? value.knowledgeTagIds : null,
       };
       const shouldAutoStart = value.autoStart && !forceCreateOnlyRef.current;
       if (shouldAutoStart) {
@@ -488,7 +496,8 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
             <form.Field name="knowledgeTagIds">
               {(field) => {
                 const selectedTagIds = field.state.value;
-                const getTagName = (id: string) => tags.find(t => t.id === id)?.tag_name ?? id;
+                const getTagName = (id: string) =>
+                  tags.find((t) => t.id === id)?.tag_name ?? id;
 
                 const handleCreateTag = async () => {
                   if (!newTagName.trim()) return;
@@ -508,17 +517,27 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
 
                 return (
                   <div className="space-y-2 pt-3">
-                    <Label className="text-sm font-medium">Knowledge Tags</Label>
+                    <Label className="text-sm font-medium">
+                      Knowledge Tags
+                    </Label>
 
                     {/* Selected tags as badges */}
                     {selectedTagIds.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {selectedTagIds.map((tagId) => (
-                          <Badge key={tagId} variant="secondary" className="gap-1 pr-1">
+                          <Badge
+                            key={tagId}
+                            variant="secondary"
+                            className="gap-1 pr-1"
+                          >
                             {getTagName(tagId)}
                             <button
                               type="button"
-                              onClick={() => field.handleChange(selectedTagIds.filter(id => id !== tagId))}
+                              onClick={() =>
+                                field.handleChange(
+                                  selectedTagIds.filter((id) => id !== tagId)
+                                )
+                              }
                               className="ml-1 hover:text-destructive"
                               disabled={isSubmitting}
                             >
@@ -532,9 +551,15 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
                     {/* Dropdown to add tags */}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm" disabled={isSubmitting}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          disabled={isSubmitting}
+                        >
                           <TagIcon className="mr-2 h-4 w-4" />
-                          {selectedTagIds.length > 0 ? 'Manage Tags' : 'Add Tags'}
+                          {selectedTagIds.length > 0
+                            ? 'Manage Tags'
+                            : 'Add Tags'}
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="start" className="w-56">
@@ -547,7 +572,9 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
                               onCheckedChange={(checked) => {
                                 const newTags = checked
                                   ? [...selectedTagIds, tag.id]
-                                  : selectedTagIds.filter(id => id !== tag.id);
+                                  : selectedTagIds.filter(
+                                      (id) => id !== tag.id
+                                    );
                                 field.handleChange(newTags);
                               }}
                             >
@@ -576,12 +603,18 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
                               }}
                               autoFocus
                             />
-                            <Button size="sm" className="h-8 px-2" onClick={handleCreateTag}>
+                            <Button
+                              size="sm"
+                              className="h-8 px-2"
+                              onClick={handleCreateTag}
+                            >
                               <Check className="h-4 w-4" />
                             </Button>
                           </div>
                         ) : (
-                          <DropdownMenuItem onClick={() => setIsCreatingTag(true)}>
+                          <DropdownMenuItem
+                            onClick={() => setIsCreatingTag(true)}
+                          >
                             <Plus className="mr-2 h-4 w-4" /> New Tag
                           </DropdownMenuItem>
                         )}

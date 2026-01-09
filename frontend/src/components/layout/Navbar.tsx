@@ -38,12 +38,27 @@ import { useUserSystem } from '@/components/ConfigProvider';
 import { oauthApi } from '@/lib/api';
 
 type NavItem =
-  | { label: string; icon: typeof FolderOpen; to: string; requiresProject?: false }
-  | { label: string; icon: typeof FolderOpen; getTo: (projectId: string) => string; requiresProject: true };
+  | {
+      label: string;
+      icon: typeof FolderOpen;
+      to: string;
+      requiresProject?: false;
+    }
+  | {
+      label: string;
+      icon: typeof FolderOpen;
+      getTo: (projectId: string) => string;
+      requiresProject: true;
+    };
 
 const INTERNAL_NAV: NavItem[] = [
   { label: 'Projects', icon: FolderOpen, to: '/projects' },
-  { label: 'Knowledge', icon: BookOpen, getTo: (pid) => `/projects/${pid}/knowledge`, requiresProject: true },
+  {
+    label: 'Knowledge',
+    icon: BookOpen,
+    getTo: (pid) => `/projects/${pid}/knowledge`,
+    requiresProject: true,
+  },
 ];
 
 const EXTERNAL_LINKS = [
@@ -241,7 +256,9 @@ export function Navbar() {
                 <DropdownMenuContent align="end">
                   {INTERNAL_NAV.map((item) => {
                     if (item.requiresProject && !projectId) return null;
-                    const to = item.requiresProject ? item.getTo(projectId!) : item.to;
+                    const to = item.requiresProject
+                      ? item.getTo(projectId!)
+                      : item.to;
                     const active = location.pathname.startsWith(to);
                     const Icon = item.icon;
                     return (

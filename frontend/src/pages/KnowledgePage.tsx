@@ -19,7 +19,8 @@ export default function KnowledgePage() {
   const [tags, setTags] = useState<TagType[]>([]);
   const [tagsLoading, setTagsLoading] = useState(true);
 
-  const { selectedTagId, searchQuery, setSelectedTagId, setSearchQuery } = useKnowledgeStore();
+  const { selectedTagId, searchQuery, setSelectedTagId, setSearchQuery } =
+    useKnowledgeStore();
   const { tasks, isLoading: tasksLoading } = useProjectTasks(projectId ?? '');
 
   // Load tags on mount
@@ -51,7 +52,8 @@ export default function KnowledgePage() {
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         const matchesTitle = task.title.toLowerCase().includes(query);
-        const matchesDescription = task.description?.toLowerCase().includes(query) ?? false;
+        const matchesDescription =
+          task.description?.toLowerCase().includes(query) ?? false;
         if (!matchesTitle && !matchesDescription) {
           return false;
         }
@@ -64,7 +66,7 @@ export default function KnowledgePage() {
   // Get tag name by ID
   const getTagName = (tagId: string | null): string => {
     if (!tagId) return 'No Tag';
-    const tag = tags.find(t => t.id === tagId);
+    const tag = tags.find((t) => t.id === tagId);
     return tag?.tag_name ?? 'Unknown';
   };
 
@@ -120,7 +122,9 @@ export default function KnowledgePage() {
             </div>
           ) : (
             tags.map((tag) => {
-              const count = tasks?.filter(t => t.knowledge_tag_ids?.includes(tag.id)).length ?? 0;
+              const count =
+                tasks?.filter((t) => t.knowledge_tag_ids?.includes(tag.id))
+                  .length ?? 0;
               return (
                 <Button
                   key={tag.id}
@@ -159,7 +163,8 @@ export default function KnowledgePage() {
             {selectedTagId ? getTagName(selectedTagId) : 'All Knowledge Items'}
           </h1>
           <p className="text-muted-foreground">
-            {filteredTasks.length} {filteredTasks.length === 1 ? 'item' : 'items'}
+            {filteredTasks.length}{' '}
+            {filteredTasks.length === 1 ? 'item' : 'items'}
             {searchQuery && ` matching "${searchQuery}"`}
           </p>
         </div>
@@ -203,7 +208,7 @@ interface TaskCardProps {
 }
 
 function TaskCard({ task, tags, onClick }: TaskCardProps) {
-  const taskTags = tags.filter(t => task.knowledge_tag_ids?.includes(t.id));
+  const taskTags = tags.filter((t) => task.knowledge_tag_ids?.includes(t.id));
 
   return (
     <Card
@@ -218,8 +223,10 @@ function TaskCard({ task, tags, onClick }: TaskCardProps) {
           <CardTitle className="text-base">{task.title}</CardTitle>
           {taskTags.length > 0 && (
             <div className="flex flex-wrap gap-1">
-              {taskTags.map(tag => (
-                <Badge key={tag.id} variant="secondary">{tag.tag_name}</Badge>
+              {taskTags.map((tag) => (
+                <Badge key={tag.id} variant="secondary">
+                  {tag.tag_name}
+                </Badge>
               ))}
             </div>
           )}
