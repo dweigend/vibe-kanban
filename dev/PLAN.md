@@ -214,11 +214,13 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] CSS: VSCode-Fallbacks entfernt
 - [x] Font: JetBrains Mono als Hauptfont
 
-### 8B: Header Integration 🔄
+### 8B: Header Integration ✅
 - [x] SidebarContext erstellt
 - [x] Sidebar-Toggle in Navbar
-- [ ] **Hamburger-Menü auflösen** (alle Icons direkt sichtbar)
-- [ ] Header-Icons: Projects, MCP, Grid, +, Settings, Accent
+- [x] **Hamburger-Menü aufgelöst** (alle Icons direkt sichtbar)
+- [x] Header-Icons: Sidebar, Projects, Knowledge, MCP, Grid, +, Settings, Accent
+- [x] OAuth/Login entfernt (Single User System)
+- [x] NavIconButton Komponente mit Tooltips
 
 ### 8C: Sidebar Content 📋
 - [ ] Search Bar
