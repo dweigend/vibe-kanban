@@ -2,23 +2,15 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
   FolderOpen,
   Settings,
   BookOpen,
-  MessageCircleQuestion,
-  Menu,
   Plus,
-  LogOut,
-  LogIn,
   PanelRight,
   PanelRightClose,
+  Bot,
+  LayoutGrid,
+  Square,
 } from 'lucide-react';
 import { useSidebar } from '@/contexts/SidebarContext';
 import { SearchBar } from '@/components/SearchBar';
@@ -36,46 +28,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { OAuthDialog } from '@/components/dialogs/global/OAuthDialog';
 import { useUserSystem } from '@/components/ConfigProvider';
-import { oauthApi } from '@/lib/api';
-
-type NavItem =
-  | {
-      label: string;
-      icon: typeof FolderOpen;
-      to: string;
-      requiresProject?: false;
-    }
-  | {
-      label: string;
-      icon: typeof FolderOpen;
-      getTo: (projectId: string) => string;
-      requiresProject: true;
-    };
-
-const INTERNAL_NAV: NavItem[] = [
-  { label: 'Projects', icon: FolderOpen, to: '/projects' },
-  {
-    label: 'Knowledge',
-    icon: BookOpen,
-    getTo: (pid) => `/projects/${pid}/knowledge`,
-    requiresProject: true,
-  },
-];
-
-const EXTERNAL_LINKS = [
-  {
-    label: 'Docs',
-    icon: BookOpen,
-    href: 'https://vibekanban.com/docs',
-  },
-  {
-    label: 'Support',
-    icon: MessageCircleQuestion,
-    href: 'https://github.com/BloopAI/vibe-kanban/issues',
-  },
-];
 
 function NavDivider() {
   return (
@@ -87,13 +40,87 @@ function NavDivider() {
   );
 }
 
+interface NavIconButtonProps {
+  icon: typeof FolderOpen;
+  label: string;
+  to?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  active?: boolean;
+}
+
+function NavIconButton({
+  icon: Icon,
+  label,
+  to,
+  onClick,
+  disabled,
+  active,
+}: NavIconButtonProps) {
+  const button = (
+    <Button
+      variant="ghost"
+      size="icon"
+      className={`h-9 w-9 ${active ? 'bg-accent' : ''} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={label}
+    >
+      <Icon className="h-4 w-4" />
+    </Button>
+  );
+
+  if (disabled) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>{button}</TooltipTrigger>
+          <TooltipContent side="bottom">{label} (coming soon)</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
+  if (to) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`h-9 w-9 ${active ? 'bg-accent' : ''}`}
+              asChild
+              aria-label={label}
+            >
+              <Link to={to}>
+                <Icon className="h-4 w-4" />
+              </Link>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">{label}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>{button}</TooltipTrigger>
+        <TooltipContent side="bottom">{label}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
 export function Navbar() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, project } = useProject();
   const { query, setQuery, active, clear, registerInputRef } = useSearch();
   const handleOpenInEditor = useOpenProjectInEditor(project || null);
-  const { loginStatus, reloadSystem } = useUserSystem();
+  const { loginStatus } = useUserSystem();
   const { collapsed, toggle } = useSidebar();
 
   const { data: repos } = useProjectRepos(projectId);
@@ -106,6 +133,7 @@ export function Navbar() {
     [registerInputRef]
   );
   const { t } = useTranslation(['tasks', 'common']);
+
   // Navbar is global, but the share tasks toggle only makes sense on the tasks route
   const isTasksRoute = /^\/projects\/[^/]+\/tasks/.test(location.pathname);
   const showSharedTasks = searchParams.get('shared') !== 'off';
@@ -135,23 +163,15 @@ export function Navbar() {
     handleOpenInEditor();
   };
 
-  const handleOpenOAuth = async () => {
-    const profile = await OAuthDialog.show();
-    if (profile) {
-      await reloadSystem();
-    }
-  };
-
-  const handleOAuthLogout = async () => {
-    try {
-      await oauthApi.logout();
-      await reloadSystem();
-    } catch (err) {
-      console.error('Error logging out:', err);
-    }
-  };
-
   const isOAuthLoggedIn = loginStatus?.status === 'loggedin';
+
+  // Check active routes for highlighting
+  const isProjectsActive = location.pathname === '/projects';
+  const isMcpActive = location.pathname.startsWith('/settings/mcp');
+  const isKnowledgeActive =
+    Boolean(projectId) && location.pathname.includes('/knowledge');
+  const isSettingsActive =
+    location.pathname.startsWith('/settings') && !isMcpActive;
 
   return (
     <div className="border-b bg-background">
@@ -203,129 +223,83 @@ export function Navbar() {
               </>
             ) : null}
 
-            {projectId ? (
-              <>
-                <div className="flex items-center gap-1">
-                  {isSingleRepoProject && (
-                    <OpenInIdeButton
-                      onClick={handleOpenInIDE}
-                      className="h-9 w-9"
-                    />
-                  )}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-9 w-9"
-                    onClick={handleCreateTask}
-                    aria-label="Create new task"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </div>
-                <NavDivider />
-              </>
-            ) : null}
-
+            {/* Navigation Group */}
             <div className="flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9"
+              <NavIconButton
+                icon={collapsed ? PanelRight : PanelRightClose}
+                label={collapsed ? 'Show sidebar' : 'Hide sidebar'}
                 onClick={toggle}
-                aria-label={collapsed ? 'Show sidebar' : 'Hide sidebar'}
-              >
-                {collapsed ? (
-                  <PanelRight className="h-4 w-4" />
-                ) : (
-                  <PanelRightClose className="h-4 w-4" />
-                )}
-              </Button>
+              />
+              <NavIconButton
+                icon={FolderOpen}
+                label="Projects"
+                to="/projects"
+                active={isProjectsActive}
+              />
+              {projectId && (
+                <NavIconButton
+                  icon={BookOpen}
+                  label="Knowledge"
+                  to={`/projects/${projectId}/knowledge`}
+                  active={isKnowledgeActive}
+                />
+              )}
+              <NavIconButton
+                icon={Bot}
+                label="MCP Servers"
+                to="/settings/mcp"
+                active={isMcpActive}
+              />
+              <NavIconButton
+                icon={LayoutGrid}
+                label="View Toggle"
+                disabled
+              />
+            </div>
 
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9"
-                asChild
-                aria-label="Settings"
-              >
-                <Link
-                  to={
-                    projectId
-                      ? `/settings/projects?projectId=${projectId}`
-                      : '/settings'
-                  }
-                >
-                  <Settings className="h-4 w-4" />
-                </Link>
-              </Button>
+            <NavDivider />
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-9 w-9"
-                    aria-label="Main navigation"
-                  >
-                    <Menu className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent align="end">
-                  {INTERNAL_NAV.map((item) => {
-                    if (item.requiresProject && !projectId) return null;
-                    const to = item.requiresProject
-                      ? item.getTo(projectId!)
-                      : item.to;
-                    const active = location.pathname.startsWith(to);
-                    const Icon = item.icon;
-                    return (
-                      <DropdownMenuItem
-                        key={item.label}
-                        asChild
-                        className={active ? 'bg-accent' : ''}
+            {/* Action Group */}
+            <div className="flex items-center gap-1">
+              {isSingleRepoProject && (
+                <OpenInIdeButton
+                  onClick={handleOpenInIDE}
+                  className="h-9 w-9"
+                />
+              )}
+              {projectId && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-9 w-9"
+                        onClick={handleCreateTask}
+                        aria-label="Create new task"
                       >
-                        <Link to={to}>
-                          <Icon className="mr-2 h-4 w-4" />
-                          {item.label}
-                        </Link>
-                      </DropdownMenuItem>
-                    );
-                  })}
-
-                  <DropdownMenuSeparator />
-
-                  {EXTERNAL_LINKS.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <DropdownMenuItem key={item.href} asChild>
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Icon className="mr-2 h-4 w-4" />
-                          {item.label}
-                        </a>
-                      </DropdownMenuItem>
-                    );
-                  })}
-
-                  <DropdownMenuSeparator />
-
-                  {isOAuthLoggedIn ? (
-                    <DropdownMenuItem onSelect={handleOAuthLogout}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      {t('common:signOut')}
-                    </DropdownMenuItem>
-                  ) : (
-                    <DropdownMenuItem onSelect={handleOpenOAuth}>
-                      <LogIn className="mr-2 h-4 w-4" />
-                      Sign in
-                    </DropdownMenuItem>
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">New Task</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+              <NavIconButton
+                icon={Settings}
+                label="Settings"
+                to={
+                  projectId
+                    ? `/settings/projects?projectId=${projectId}`
+                    : '/settings'
+                }
+                active={isSettingsActive}
+              />
+              <NavIconButton
+                icon={Square}
+                label="Accent Color"
+                disabled
+              />
             </div>
           </div>
         </div>
