@@ -207,7 +207,7 @@ Ein modulares Wissensmanagement-Tool für:
 
 ## Phase 8: Sidebar & Layout
 
-**Status:** In Arbeit (8A-C ✅, 8D 📋)
+**Status:** In Arbeit (8A-D ✅, 8E 📋)
 
 ### 8A: VSCode Cleanup ✅
 - [x] VSCode-System entfernt (bridge.ts, ContextMenu.tsx)
@@ -228,47 +228,29 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] Active Agents
 - [x] System Log
 
-### 8D: Sidebar-Konsolidierung 📋
+### 8D: Sidebar-Konsolidierung ✅
+- [x] SearchBar konsolidieren (Header → Sidebar)
+- [x] Sidebar resizable machen (react-resizable-panels)
+- [x] SidebarContext erweitern (width state)
+- [x] NormalLayout → PanelGroup migrieren
+- [x] Sidebar Toggle funktional (collapse/expand)
 
-**Problem:** Doppelstruktur im UI
-- 2x Suchleiste (Header + Sidebar)
-- 2x Panel-System (TasksLayout + neue Sidebar)
-- Task-Content in der Mitte statt in Sidebar
-- Sidebar nicht resizable
+### 8E: Task-Details in Sidebar 📋
 
-**Session-Start: Systematische Analyse**
-
-1. **Explore-Subagents** (3x parallel):
-   - Layout-Struktur (NormalLayout, TasksLayout, Sidebar)
-   - Search-System (SearchBar, SearchContext)
-   - Panel-System (react-resizable-panels)
-
-2. **Chrome DevTools MCP**:
-   - `take_snapshot()` → DOM-Struktur
-   - `take_screenshot()` → Visuelle Probleme
-   - `list_console_messages()` → Errors/Warnings
-
-3. **Plan-Subagent** für Refactoring-Strategie
-
-4. **Review-Subagent** nach Implementation
-
-**Implementation Steps:**
-- [ ] SearchBar konsolidieren (Header → Sidebar)
-- [ ] Sidebar resizable machen (280-600px)
+**Nächste Session:**
 - [ ] Task-Liste in Sidebar
 - [ ] Task-Details in Sidebar
 - [ ] TasksLayout vereinfachen (nur Kanban)
-- [ ] Sidebar-Modi (dashboard, tasks, task-detail, settings)
+- [ ] Sidebar-Modi (dashboard, tasks, task-detail)
 
 **Dateien:**
 | Datei | Aktion |
 |-------|--------|
-| `Navbar.tsx` | SearchBar entfernen |
-| `Sidebar.tsx` | Resizable machen |
-| `SidebarContext.tsx` | Mode + Width State |
+| `SidebarContext.tsx` | Mode State hinzufügen |
+| `SidebarContent.tsx` | Mode-basiertes Rendering |
+| `SidebarTaskList.tsx` | CREATE |
+| `SidebarTaskDetail.tsx` | CREATE |
 | `TasksLayout.tsx` | Vereinfachen |
-| `TaskList.tsx` | CREATE |
-| `TaskDetail.tsx` | CREATE |
 
 ---
 
@@ -376,8 +358,8 @@ Ein modulares Wissensmanagement-Tool für:
 | 6D | 📋 Doc | System-Analyse | ✅ |
 | 6E | 📋 Doc | Refactoring-Strategie | ✅ |
 | 7 | Impl | UI Basis (Colors, Typography) | ✅ |
-| 8A-C | Impl | Sidebar & Layout | ✅ |
-| 8D | Impl | Sidebar-Konsolidierung | 📋 Nächste |
+| 8A-D | Impl | Sidebar & Layout | ✅ |
+| 8E | Impl | Task-Details in Sidebar | 📋 Nächste |
 | 9 | Impl | Task Type Backend | Geplant |
 | 10 | Impl | Task Type Frontend | Geplant |
 | 11 | 🔍 Review | Integration & Polish | Geplant |

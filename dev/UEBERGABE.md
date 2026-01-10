@@ -1,70 +1,63 @@
-# Übergabe - Session 2026-01-10 (Phase 8D geplant)
+# Übergabe - Session 2026-01-10 (Phase 8D abgeschlossen)
 
 ## Was wurde gemacht
 
-### Phase 8C: Sidebar Content ✅
-- SidebarSearchBar, ProjectOverview, ActiveAgents, SystemLog implementiert
-- Alles mit Mock-Daten (Static First Approach)
+### Phase 8D: Sidebar-Konsolidierung ✅
 
-### Phase 8D: Planung ✅
-- Problem identifiziert: **Doppelstruktur** im UI
-- Konsolidierungsplan erstellt
+**Probleme gelöst:**
+- ~~2x Suchleiste~~ → SearchBar jetzt nur in Sidebar
+- ~~Kein Resize~~ → Sidebar resizable mit react-resizable-panels
+- ~~Sidebar Toggle kaputt~~ → Collapse/Expand funktioniert
+
+**Implementiert:**
+1. SidebarContext erweitert (width state + localStorage)
+2. NormalLayout → PanelGroup migriert
+3. Sidebar vereinfacht (Panel steuert Größe)
+4. SidebarSearchBar funktional gemacht (SearchContext)
+5. SearchBar aus Navbar entfernt
+
+**Geänderte Dateien:**
+- `frontend/src/contexts/SidebarContext.tsx`
+- `frontend/src/components/layout/NormalLayout.tsx`
+- `frontend/src/components/layout/Sidebar.tsx`
+- `frontend/src/components/sidebar/SidebarSearchBar.tsx`
+- `frontend/src/components/layout/Navbar.tsx`
 
 ---
 
-## Identifizierte Probleme (Screenshot-Analyse)
+## Aktuelle Architektur
 
-| Problem | Beschreibung |
-|---------|--------------|
-| 🔴 2x Suchleiste | Header (funktional) + Sidebar (Mock) |
-| 🔴 2x Panel-System | TasksLayout + neue Sidebar |
-| 🔴 Task-Content falsch | In der Mitte statt in Sidebar |
-| 🔴 Kein Resize | Sidebar ist 320px fixed |
+```
+NormalLayout
+├── Navbar (OHNE SearchBar)
+├── PanelGroup (horizontal)
+│   ├── Panel: "main" (min 65%)
+│   │   └── Kanban Board
+│   ├── PanelResizeHandle
+│   └── Panel: "sidebar" (0-35%, collapsible)
+│       └── Sidebar
+│           ├── SearchBar (funktional)
+│           ├── Project Overview
+│           ├── Active Agents
+│           └── System Log
+```
 
 ---
 
-## Nächste Session: Phase 8D - Sidebar-Konsolidierung
+## Nächste Session: Phase 8E oder Phase 9
 
-### Session-Start: Systematische Analyse
+### Option A: Phase 8E - Task-Details in Sidebar
+- Task-Liste in Sidebar
+- Task-Details in Sidebar
+- Sidebar-Modi (dashboard, tasks, task-detail)
+- TasksLayout vereinfachen
 
-**1. Explore-Subagents parallel starten:**
-```
-Task(subagent_type="Explore") x3:
-- Agent 1: Layout-Struktur
-- Agent 2: Search-System
-- Agent 3: Panel-System (react-resizable-panels)
-```
+### Option B: Phase 9 - Task Type Backend
+- DB Migration: `task_type TEXT NOT NULL DEFAULT 'code'`
+- Rust Enum: `TaskType { Research, Note, Code }`
+- API erweitern
 
-**2. Chrome DevTools MCP nutzen:**
-```
-mcp__chrome-devtools__take_snapshot()
-mcp__chrome-devtools__take_screenshot()
-mcp__chrome-devtools__list_console_messages()
-```
-
-**3. Plan-Subagent für Strategie**
-
-**4. Review-Subagent nach Implementation**
-
-### Implementation Steps
-
-1. SearchBar konsolidieren (Header → Sidebar)
-2. Sidebar resizable machen (280-600px)
-3. Task-Liste in Sidebar integrieren
-4. Task-Details in Sidebar integrieren
-5. TasksLayout vereinfachen (nur Kanban)
-6. Sidebar-Modi implementieren (dashboard, tasks, task-detail, settings)
-
-### Dateien
-
-| Datei | Aktion |
-|-------|--------|
-| `Navbar.tsx` | UPDATE - SearchBar entfernen |
-| `Sidebar.tsx` | UPDATE - Resizable |
-| `SidebarContext.tsx` | UPDATE - Mode + Width |
-| `TasksLayout.tsx` | UPDATE - Vereinfachen |
-| `TaskList.tsx` | CREATE |
-| `TaskDetail.tsx` | CREATE |
+**Empfehlung:** Phase 8E zuerst, um die Sidebar-Konsolidierung abzuschließen.
 
 ---
 
@@ -75,7 +68,8 @@ mcp__chrome-devtools__list_console_messages()
 | 8A | ✅ | VSCode Cleanup |
 | 8B | ✅ | Header-Integration |
 | 8C | ✅ | Sidebar Content (Mock) |
-| 8D | 📋 | **Nächste:** Sidebar-Konsolidierung |
+| 8D | ✅ | **Sidebar-Konsolidierung** |
+| 8E | 📋 | Task-Details in Sidebar |
 | 9 | 📋 | Task Type Backend |
 
 ---
@@ -86,33 +80,20 @@ mcp__chrome-devtools__list_console_messages()
 # 1. Dev-Server starten
 pnpm run dev
 
-# 2. Plan lesen
-cat ~/.claude/plans/replicated-sniffing-pony.md
+# 2. Browser öffnen
+# http://localhost:3007
 
-# 3. Systematische Analyse mit Subagents starten
-# → Siehe Plan für Details
+# 3. Testen
+# - Sidebar resize (drag handle)
+# - Sidebar toggle (erstes Icon in Navbar)
+# - SearchBar in Sidebar
 ```
 
 ---
 
-## Technische Notizen
+## Out of Scope (verschoben)
 
-### Ziel-Architektur
-```
-NormalLayout
-├── Navbar (OHNE SearchBar)
-├── Main Content
-│   └── Kanban Board (volle Breite)
-└── Sidebar (resizable)
-    ├── Search
-    ├── Task-Liste / Task-Details
-    ├── Project Overview
-    ├── Active Agents
-    └── System Log
-```
-
-### Out of Scope für Phase 8D
 - Settings in Sidebar (Phase 12)
 - Projekte in Sidebar (Phase 12)
 - Live-Daten für Agents/Logs
-- Ticket-Eingabe in Sidebar
+- Cmd+K Keyboard-Shortcut testen
