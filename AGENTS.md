@@ -78,6 +78,12 @@ Never edit `shared/types.ts` directly — edit `crates/server/src/bin/generate_t
 - React: Proper hooks, avoid unnecessary re-renders
 - Zustand for state management
 
+## Git Repository
+
+- **ALWAYS use `origin`** (`dweigend/vibe-kanban`) for all Git operations
+- Never use `upstream` (BloopAI/vibe-kanban) unless explicitly requested
+- Issues, PRs, and pushes go to `origin`
+
 ## Commit Format
 
 ```
