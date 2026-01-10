@@ -244,27 +244,23 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] SidebarContent Integration
 - [x] 8 Unit Tests passing
 
-### 8F: Sidebar-First Architecture 📋
+### 8F: Sidebar-First Architecture ✅
 > **Ziel:** Navbar = einziges Menü, Sidebar = Content-Container, Hauptfenster = NUR Kanban
 
-**Bereits implementiert:**
-- [x] SidebarSettings.tsx (General Settings in Sidebar)
-- [x] Navbar Settings → onClick statt Route
+**Abgeschlossen (2026-01-10):**
+- [x] SidebarModeToggle.tsx ENTFERNT
+- [x] OrganizationSettings.tsx ENTFERNT (Single User)
+- [x] SidebarContext erweitert (+projects, +mcp, +agents, +project-settings, +knowledge)
+- [x] SidebarProjects.tsx CREATED
+- [x] SidebarMcp.tsx CREATED
+- [x] SidebarAgents.tsx CREATED
+- [x] SidebarProjectSettings.tsx CREATED
+- [x] SidebarKnowledge.tsx CREATED
+- [x] SidebarContent.tsx Router erweitert (9 Modes)
+- [x] Navbar.tsx - ALLE Icons → onClick setMode()
+- [x] App.tsx - Default → Kanban (ProjectTasks)
 
-**Nächste Session - 11 Steps:**
-1. [ ] SidebarModeToggle.tsx ENTFERNEN
-2. [ ] OrganizationSettings ENTFERNEN (Single User)
-3. [ ] SidebarContext erweitern (+projects, +mcp, +agents, +project-settings)
-4. [ ] SidebarProjects.tsx CREATE
-5. [ ] SidebarMcp.tsx CREATE
-6. [ ] SidebarAgents.tsx CREATE
-7. [ ] SidebarProjectSettings.tsx CREATE
-8. [ ] SidebarContent.tsx Router erweitern
-9. [ ] Navbar.tsx - ALLE Icons → onClick setMode()
-10. [ ] App.tsx - Default → Kanban, alte Routes entfernen
-11. [ ] Cleanup: Projects.tsx, SettingsLayout.tsx entfernen
-
-**Detaillierter Plan:** `dev/PLAN-PHASE-8F.md`
+**Commit:** `27f43248`
 
 ---
 
@@ -375,8 +371,8 @@ Ein modulares Wissensmanagement-Tool für:
 | 7 | Impl | UI Basis (Colors, Typography) | ✅ |
 | 8A-D | Impl | Sidebar & Layout | ✅ |
 | 8E | Impl | Task-Details in Sidebar | ✅ |
-| 8F | Impl | Sidebar-Konsolidierung VOLLSTÄNDIG | 📋 Nächste |
-| 9 | Impl | Task Type Backend | Geplant |
+| 8F | Impl | Sidebar-First Architecture | ✅ |
+| 9 | Impl | Task Type Backend | 📋 Nächste |
 | 10 | Impl | Task Type Frontend | Geplant |
 | 11 | 🔍 Review | Integration & Polish | Geplant |
 | 12 | Impl | Feature Pages | Geplant |

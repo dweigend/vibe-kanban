@@ -1,102 +1,118 @@
-# Übergabe - Session 2026-01-10 (Phase 8F Planung)
+# 🔄 ÜBERGABE - Phase 8F Complete
 
-## Was wurde gemacht
+## ✅ Abgeschlossen (Session 2026-01-10)
 
-### Phase 8E: Task-Details in Sidebar ✅ (vorherige Session)
-- Vitest Testing Setup
-- SidebarContext erweitert (mode, selectedTaskId)
-- SidebarModeToggle, SidebarTaskList, SidebarTaskDetail
-- 8 Unit Tests passing
-
-### Diese Session: Phase 8F Planung + Teilimplementierung
+### Phase 8F: Sidebar-First Architecture
+**Hauptfenster = NUR Kanban-Board. Navbar = einziges Menü. Sidebar = Content-Container.**
 
 **Implementiert:**
-1. `SidebarSettings.tsx` - General Settings in Sidebar
-2. Settings-Route vereinfacht (nur noch Project, MCP, Agents)
-3. Navbar Settings → onClick statt Route
+- ❌ `SidebarModeToggle.tsx` entfernt (Navbar ist jetzt das einzige Menü)
+- ❌ `OrganizationSettings.tsx` entfernt (unused)
+- ✅ 5 neue SidebarModes: `projects`, `project-settings`, `mcp`, `agents`, `knowledge`
+- ✅ Neue Komponenten:
+  - `SidebarProjects.tsx` - Projekt-Liste mit Quick-Create
+  - `SidebarProjectSettings.tsx` - Project Settings Übersicht
+  - `SidebarMcp.tsx` - MCP Server Liste
+  - `SidebarAgents.tsx` - Agent Profiles mit Active-Badge
+  - `SidebarKnowledge.tsx` - Knowledge Tags mit Suche
+- ✅ Navbar: Alle Icons → onClick `setMode()` statt Routes
+- ✅ App.tsx: Alle Routes → Kanban-Board (ProjectTasks)
 
-**Geplant (für nächste Session):**
-- Komplette **Sidebar-First Architecture**
-- Siehe `dev/PLAN-PHASE-8F.md`
+**Commit:** `27f43248` - feat: ✨ implement Phase 8F Sidebar-First Architecture
 
 ---
 
-## Architektur-Entscheidung: Sidebar-First
+## 🎯 Nächste Schritte (Phase 9)
 
-**KISS-Prinzip:** Ein Menü, keine Doppelstrukturen.
+### Option A: Dashboard-Mode erweitern
+- `SidebarDashboard.tsx` verbessern (aktuelle Widgets)
+- Quick-Stats: Tasks pro Status, aktive Agents
+- Recent Activity Feed
 
+### Option B: Knowledge-Integration
+- Knowledge-Tags in Task-Cards anzeigen
+- Quick-Tag-Filter in Sidebar
+- Knowledge-Search im Kanban-Board
+
+### Option C: Performance & Polish
+- Sidebar Animation (smooth transitions)
+- Keyboard Shortcuts für Sidebar-Modi
+- Mobile Responsive Sidebar
+
+---
+
+## 📁 Wichtige Dateien
+
+**Geändert:**
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│ Navbar = EINZIGES MENÜ                                          │
-├─────────────────────────────────┬───────────────────────────────┤
-│  HAUPTFENSTER                   │ Sidebar = Content-Container   │
-│  → NUR Kanban-Board             │ → KEINE Tabs                  │
-│  → Keine anderen Seiten         │ → Content via Navbar-Klick    │
-└─────────────────────────────────┴───────────────────────────────┘
+frontend/src/contexts/SidebarContext.tsx     # 9 SidebarModes
+frontend/src/components/sidebar/SidebarContent.tsx  # Router für alle Modes
+frontend/src/components/layout/Navbar.tsx    # Alle Icons → onClick
+frontend/src/App.tsx                         # Vereinfachte Routes
 ```
 
-**Navbar Icon-Mapping:**
-| Icon | Sidebar Content |
-|------|-----------------|
-| Projects (Folder) | Projekt-Liste |
-| Project Config | Repos, Scripts |
-| MCP (Robot) | MCP Server Config |
-| Agents (Cpu) | Agent-Profile |
-| Settings (Gear) | General Settings |
+**Neu:**
+```
+frontend/src/components/sidebar/SidebarProjects.tsx
+frontend/src/components/sidebar/SidebarProjectSettings.tsx
+frontend/src/components/sidebar/SidebarMcp.tsx
+frontend/src/components/sidebar/SidebarAgents.tsx
+frontend/src/components/sidebar/SidebarKnowledge.tsx
+```
 
-**Aufräumen:**
-- OrganizationSettings → ENTFERNEN (Single User)
-- SidebarModeToggle → ENTFERNEN (Navbar = einzige Nav)
-- Alle `/settings/*` Routes → Redirect
-
----
-
-## Nächste Session: Implementierung
-
-**Detaillierter Plan:** `dev/PLAN-PHASE-8F.md`
-
-### 11 Steps in 6 Phasen:
-
-1. **Aufräumen:** SidebarModeToggle + OrganizationSettings entfernen
-2. **Modes:** SidebarContext erweitern (projects, mcp, agents, project-settings)
-3. **Komponenten:** SidebarProjects, SidebarMcp, SidebarAgents, SidebarProjectSettings
-4. **Navbar:** Alle Icons → onClick setMode()
-5. **Routes:** Default → Kanban, alte Routes entfernen
-6. **Cleanup:** Projects.tsx, SettingsLayout.tsx entfernen
+**Entfernt:**
+```
+frontend/src/components/sidebar/SidebarModeToggle.tsx
+frontend/src/pages/settings/OrganizationSettings.tsx
+```
 
 ---
 
-## Schnellstart nächste Session
+## 🔧 Development
 
 ```bash
-# 1. Context lesen
-cat dev/UEBERGABE.md
-cat dev/PLAN-PHASE-8F.md
-
-# 2. Dev-Server
+# Start
 pnpm run dev
 
-# 3. Implementierung starten
-# → Siehe PLAN-PHASE-8F.md für Steps
+# TypeScript Check
+pnpm run check
+
+# Frontend: http://localhost:3007
 ```
 
 ---
 
-## Aktueller Code-Stand
+## ⚠️ Bekannte Issues
 
-**Geänderte Dateien (diese Session):**
-- `frontend/src/contexts/SidebarContext.tsx` - Mode 'settings' hinzugefügt
-- `frontend/src/components/sidebar/SidebarSettings.tsx` - NEU
-- `frontend/src/components/sidebar/SidebarContent.tsx` - Settings-Rendering
-- `frontend/src/components/sidebar/SidebarModeToggle.tsx` - Settings-Tab (wird entfernt!)
-- `frontend/src/components/layout/Navbar.tsx` - Settings onClick
-- `frontend/src/App.tsx` - GeneralSettings Route entfernt
-- `frontend/src/pages/settings/SettingsLayout.tsx` - General entfernt
+1. **i18n Missing Key:** `settings.general.title` wird nicht übersetzt
+2. **API 400 Errors:** Treten auf wenn kein Projekt ausgewählt ist (bekanntes Verhalten)
 
 ---
 
-## Bekannte Issues
+## 🏗️ Architektur nach Phase 8F
 
-- Console Warning: "uncontrolled input to controlled" in SidebarSearchBar
-- Backend 400 Errors wenn Backend nicht läuft
-- SidebarModeToggle noch vorhanden (wird in nächster Session entfernt)
+```
+┌─────────────────────────────────────────────────────────┐
+│                       NAVBAR                            │
+│  [≡] [📁] [⚙️] [🤖] [🧠] [◻] │ [⚙] [◻]                │
+│   ↓    ↓    ↓    ↓    ↓       │   ↓                    │
+│  toggle projects p-set mcp agents  settings             │
+└─────────────────────────────────────────────────────────┘
+┌───────────────────────────────┬─────────────────────────┐
+│                               │                         │
+│                               │     SIDEBAR             │
+│       KANBAN BOARD            │   (Content-Container)   │
+│     (Hauptfenster)            │                         │
+│                               │   Mode-abhängig:        │
+│    ProjectTasks               │   - Dashboard           │
+│    (immer sichtbar)           │   - Tasks               │
+│                               │   - Task-Detail         │
+│                               │   - Settings            │
+│                               │   - Projects            │
+│                               │   - Project-Settings    │
+│                               │   - MCP                 │
+│                               │   - Agents              │
+│                               │   - Knowledge           │
+│                               │                         │
+└───────────────────────────────┴─────────────────────────┘
+```
