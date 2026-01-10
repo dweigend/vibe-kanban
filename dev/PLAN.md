@@ -207,7 +207,7 @@ Ein modulares Wissensmanagement-Tool für:
 
 ## Phase 8: Sidebar & Layout
 
-**Status:** In Arbeit (8A-D ✅, 8E 📋)
+**Status:** In Arbeit (8A-E ✅, 8F 📋)
 
 ### 8A: VSCode Cleanup ✅
 - [x] VSCode-System entfernt (bridge.ts, ContextMenu.tsx)
@@ -235,22 +235,25 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] NormalLayout → PanelGroup migrieren
 - [x] Sidebar Toggle funktional (collapse/expand)
 
-### 8E: Task-Details in Sidebar 📋
+### 8E: Task-Details in Sidebar ✅
+- [x] Vitest Testing Setup
+- [x] SidebarContext erweitert (mode, selectedTaskId)
+- [x] SidebarModeToggle (Dashboard/Tasks)
+- [x] SidebarTaskList (Status-Filter, Task-Liste)
+- [x] SidebarTaskDetail (Back, Status, Attempts)
+- [x] SidebarContent Integration
+- [x] 8 Unit Tests passing
 
-**Nächste Session:**
-- [ ] Task-Liste in Sidebar
-- [ ] Task-Details in Sidebar
-- [ ] TasksLayout vereinfachen (nur Kanban)
-- [ ] Sidebar-Modi (dashboard, tasks, task-detail)
+### 8F: Sidebar-Konsolidierung VOLLSTÄNDIG 📋
+- [ ] SidebarMode erweitern (+task-create, +settings)
+- [ ] SidebarSettings.tsx (Settings in Sidebar)
+- [ ] SidebarTaskCreate.tsx (Task-Erstellung in Sidebar)
+- [ ] TasksLayout vereinfachen (nur Kanban im Hauptfenster)
+- [ ] Settings-Route `/settings/*` entfernen
+- [ ] Default-Route ändern (Kanban statt Projects)
+- [ ] Navbar Settings-Dropdown
 
-**Dateien:**
-| Datei | Aktion |
-|-------|--------|
-| `SidebarContext.tsx` | Mode State hinzufügen |
-| `SidebarContent.tsx` | Mode-basiertes Rendering |
-| `SidebarTaskList.tsx` | CREATE |
-| `SidebarTaskDetail.tsx` | CREATE |
-| `TasksLayout.tsx` | Vereinfachen |
+**Detaillierter Plan:** `~/.claude/plans/replicated-hopping-whale.md`
 
 ---
 
@@ -359,7 +362,8 @@ Ein modulares Wissensmanagement-Tool für:
 | 6E | 📋 Doc | Refactoring-Strategie | ✅ |
 | 7 | Impl | UI Basis (Colors, Typography) | ✅ |
 | 8A-D | Impl | Sidebar & Layout | ✅ |
-| 8E | Impl | Task-Details in Sidebar | 📋 Nächste |
+| 8E | Impl | Task-Details in Sidebar | ✅ |
+| 8F | Impl | Sidebar-Konsolidierung VOLLSTÄNDIG | 📋 Nächste |
 | 9 | Impl | Task Type Backend | Geplant |
 | 10 | Impl | Task Type Frontend | Geplant |
 | 11 | 🔍 Review | Integration & Polish | Geplant |
