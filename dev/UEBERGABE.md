@@ -1,43 +1,30 @@
-# 🔄 ÜBERGABE - Phase 8F Complete
+# 🔄 ÜBERGABE - Sidebar-First Task Integration Complete
 
 ## ✅ Abgeschlossen (Session 2026-01-10)
 
-### Phase 8F: Sidebar-First Architecture
-**Hauptfenster = NUR Kanban-Board. Navbar = einziges Menü. Sidebar = Content-Container.**
+### Pre-Phase 9: Sidebar-First Task Integration
+**Ziel:** Task-Erstellung und Task-Details vollständig in Sidebar integrieren
+
+**Problem (von David identifiziert):**
+1. Task-Erstellung passierte über Popup (TaskFormDialog) statt Sidebar
+2. Task-Details waren nicht vollständig in Sidebar integriert
 
 **Implementiert:**
-- ❌ `SidebarModeToggle.tsx` entfernt (Navbar ist jetzt das einzige Menü)
-- ❌ `OrganizationSettings.tsx` entfernt (unused)
-- ✅ 5 neue SidebarModes: `projects`, `project-settings`, `mcp`, `agents`, `knowledge`
-- ✅ Neue Komponenten:
-  - `SidebarProjects.tsx` - Projekt-Liste mit Quick-Create
-  - `SidebarProjectSettings.tsx` - Project Settings Übersicht
-  - `SidebarMcp.tsx` - MCP Server Liste
-  - `SidebarAgents.tsx` - Agent Profiles mit Active-Badge
-  - `SidebarKnowledge.tsx` - Knowledge Tags mit Suche
-- ✅ Navbar: Alle Icons → onClick `setMode()` statt Routes
-- ✅ App.tsx: Alle Routes → Kanban-Board (ProjectTasks)
+- ✅ `SidebarContext.tsx` erweitert: +`task-create`, +`task-edit` Modes
+- ✅ `SidebarTaskCreate.tsx` NEU erstellt:
+  - TanStack Form Integration
+  - Titel, Description (WYSIWYG), Knowledge Tags
+  - Executor Profile Selector, Branch Selector
+  - AutoStart Toggle
+  - "Create & Start" Button
+- ✅ `SidebarTaskDetail.tsx` erweitert:
+  - Edit-Button (✏️) → öffnet task-edit Mode
+  - Start Attempt Button mit Profile/Branch Selection
+  - Knowledge Tags Anzeige
+- ✅ `Navbar.tsx` - Plus-Button → öffnet Sidebar mit task-create
+- ✅ `ProjectTasks.tsx` - 'c' Keyboard Shortcut → öffnet Sidebar
 
-**Commit:** `27f43248` - feat: ✨ implement Phase 8F Sidebar-First Architecture
-
----
-
-## 🎯 Nächste Schritte (Phase 9)
-
-### Option A: Dashboard-Mode erweitern
-- `SidebarDashboard.tsx` verbessern (aktuelle Widgets)
-- Quick-Stats: Tasks pro Status, aktive Agents
-- Recent Activity Feed
-
-### Option B: Knowledge-Integration
-- Knowledge-Tags in Task-Cards anzeigen
-- Quick-Tag-Filter in Sidebar
-- Knowledge-Search im Kanban-Board
-
-### Option C: Performance & Polish
-- Sidebar Animation (smooth transitions)
-- Keyboard Shortcuts für Sidebar-Modi
-- Mobile Responsive Sidebar
+**Commit:** `98cd458d` - feat: ✨ implement Sidebar-First task creation and details
 
 ---
 
@@ -45,26 +32,40 @@
 
 **Geändert:**
 ```
-frontend/src/contexts/SidebarContext.tsx     # 9 SidebarModes
-frontend/src/components/sidebar/SidebarContent.tsx  # Router für alle Modes
-frontend/src/components/layout/Navbar.tsx    # Alle Icons → onClick
-frontend/src/App.tsx                         # Vereinfachte Routes
+frontend/src/contexts/SidebarContext.tsx     # +task-create, +task-edit Modes
+frontend/src/components/sidebar/SidebarContent.tsx  # Router für neue Modes
+frontend/src/components/sidebar/SidebarTaskDetail.tsx  # +Edit, +Start, +Tags
+frontend/src/components/layout/Navbar.tsx    # Plus → Sidebar statt Popup
+frontend/src/pages/ProjectTasks.tsx          # 'c' Key → Sidebar
 ```
 
 **Neu:**
 ```
-frontend/src/components/sidebar/SidebarProjects.tsx
-frontend/src/components/sidebar/SidebarProjectSettings.tsx
-frontend/src/components/sidebar/SidebarMcp.tsx
-frontend/src/components/sidebar/SidebarAgents.tsx
-frontend/src/components/sidebar/SidebarKnowledge.tsx
+frontend/src/components/sidebar/SidebarTaskCreate.tsx  # Komplett neues Form
 ```
 
-**Entfernt:**
+**Nicht entfernt (noch verwendet für Edit/Duplicate):**
 ```
-frontend/src/components/sidebar/SidebarModeToggle.tsx
-frontend/src/pages/settings/OrganizationSettings.tsx
+frontend/src/components/dialogs/tasks/TaskFormDialog.tsx
+frontend/src/lib/openTaskForm.ts
 ```
+
+---
+
+## 🎯 Nächste Schritte (Phase 9)
+
+### Option A: Task Type Backend (wie im PLAN.md)
+- DB Migration: `task_type TEXT NOT NULL DEFAULT 'code'`
+- Rust Enum: `TaskType { Research, Note, Code }`
+- API: CreateTask/UpdateTask erweitern
+
+### Option B: TaskFormDialog Migration abschließen
+- Edit/Duplicate auch in Sidebar verschieben
+- TaskFormDialog.tsx und openTaskForm.ts entfernen
+
+### Option C: Knowledge Tags in Task-Cards
+- Tags als Badges in Kanban-Cards anzeigen
+- Quick-Filter nach Tags
 
 ---
 
@@ -76,6 +77,9 @@ pnpm run dev
 
 # TypeScript Check
 pnpm run check
+
+# Lint
+pnpm run lint
 
 # Frontend: http://localhost:3007
 ```
@@ -89,15 +93,16 @@ pnpm run check
 
 ---
 
-## 🏗️ Architektur nach Phase 8F
+## 🏗️ Architektur nach dieser Session
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                       NAVBAR                            │
-│  [≡] [📁] [⚙️] [🤖] [🧠] [◻] │ [⚙] [◻]                │
-│   ↓    ↓    ↓    ↓    ↓       │   ↓                    │
-│  toggle projects p-set mcp agents  settings             │
+│  [≡] [📁] [⚙️] [📖] [🤖] [⚙] [◻] │ [📝] [+] [⚙] [◻]  │
+│   ↓    ↓    ↓    ↓    ↓    ↓    ↓      ↓    ↓         │
+│  toggle proj p-set know mcp agents    IDE  CREATE set  │
 └─────────────────────────────────────────────────────────┘
+                                              ↓
 ┌───────────────────────────────┬─────────────────────────┐
 │                               │                         │
 │                               │     SIDEBAR             │
@@ -105,8 +110,10 @@ pnpm run check
 │     (Hauptfenster)            │                         │
 │                               │   Mode-abhängig:        │
 │    ProjectTasks               │   - Dashboard           │
-│    (immer sichtbar)           │   - Tasks               │
-│                               │   - Task-Detail         │
+│    (immer sichtbar)           │   - Tasks (Liste)       │
+│                               │   - Task-Detail ✏️▶️    │
+│                               │   - Task-Create ⭐ NEU  │
+│                               │   - Task-Edit ⭐ NEU    │
 │                               │   - Settings            │
 │                               │   - Projects            │
 │                               │   - Project-Settings    │
