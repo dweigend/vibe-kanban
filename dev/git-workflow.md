@@ -1,4 +1,4 @@
-# 🔀 Git-Workflow für Vibe Kanban
+# 🔀 Git-Workflow für Knowledge Orchestrator
 
 ## Initial Setup (einmalig)
 

@@ -4,6 +4,17 @@
 
 ---
 
+## Status (2026-01-10)
+
+| Phase | Status |
+|-------|--------|
+| **7** | ✅ Abgeschlossen |
+| **8A-C** | ✅ Abgeschlossen |
+| **8D** | 📋 Geplant (Sidebar-Konsolidierung) |
+| **9** | 📋 Wartet auf 8D |
+
+---
+
 ## Zusammenfassung
 
 | Phase | Fokus | Risiko | Aufwand |

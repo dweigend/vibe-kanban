@@ -1,10 +1,10 @@
-# 🔌 Extension Points für Wissensmanagement
+# 🔌 Extension Points - Knowledge Orchestrator
 
 ## MCP (Model Context Protocol) - Haupterweiterungspunkt
 
-Vibe Kanban nutzt MCP als standardisierte Schnittstelle. Zwei Richtungen:
+Knowledge Orchestrator nutzt MCP als standardisierte Schnittstelle. Zwei Richtungen:
 
-### 1. MCP-Server IN Vibe Kanban (für Agents)
+### 1. MCP-Server IN Knowledge Orchestrator (für Agents)
 Agents können externe Tools via MCP nutzen.
 
 ```json
@@ -19,8 +19,8 @@ Agents können externe Tools via MCP nutzen.
 }
 ```
 
-### 2. Vibe Kanban ALS MCP-Server (extern nutzbar)
-Andere Tools können Vibe Kanban steuern.
+### 2. Knowledge Orchestrator ALS MCP-Server (extern nutzbar)
+Andere Tools können Knowledge Orchestrator steuern.
 
 ```bash
 npx vibe-kanban@latest --mcp

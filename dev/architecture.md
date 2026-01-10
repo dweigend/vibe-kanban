@@ -1,8 +1,10 @@
-# 🏗️ Vibe Kanban - Systemarchitektur
+# 🏗️ Knowledge Orchestrator - Systemarchitektur
+
+> Ursprünglich "Vibe Kanban" - transformiert zu einem Wissensmanagement-System
 
 ## Übersicht
 
-Monorepo mit **Rust-Backend** (Axum) + **React-Frontend** (Vite). Orchestriert Coding-Agents für Task-basierte Entwicklung.
+Monorepo mit **Rust-Backend** (Axum) + **React-Frontend** (Vite). Orchestriert AI-Agents für Research und Wissensmanagement.
 
 ## Projektstruktur
 
