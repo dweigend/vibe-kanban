@@ -1,41 +1,40 @@
-# Übergabe - Session 2026-01-10 (Phase 8B abgeschlossen)
+# Übergabe - Session 2026-01-10 (Phase 8C abgeschlossen)
 
 ## Was wurde gemacht
 
-### Phase 8B: Header Integration ✅
+### Phase 8C: Sidebar Content ✅
 
-- **Hamburger-Menü komplett entfernt**
-- Alle Icons direkt sichtbar im Header
-- `NavIconButton` Komponente für konsistente Icon-Buttons mit Tooltips
-- OAuth/Login komplett entfernt (Single User System)
-- Active Route Highlighting für Navigation
+Sidebar-Inhalt nach Mockup implementiert mit 4 Sektionen:
 
-**Header-Layout jetzt:**
+1. **SidebarSearchBar** - Search Input mit Icon
+2. **ProjectOverview** - Projektname, Description (`//`), Tags als Badges
+3. **ActiveAgents** - 3 Agents (Architect, Coder, Researcher) mit Status
+4. **SystemLog** - Terminal-Style Log-Viewer mit farbigen Labels
+
+**Neue Dateien:**
 ```
-[>|] [📁] [📖?] [🤖] [⊞] | [+?] [⚙️] [□]
- ↓    ↓     ↓     ↓    ↓     ↓    ↓    ↓
-Side Proj Know  MCP Grid  New  Set Accent
+frontend/src/components/sidebar/
+├── SidebarContent.tsx      # Orchestrator
+├── SidebarSection.tsx      # Reusable Header (Icon + Title)
+├── SidebarSearchBar.tsx    # Search Input
+├── ProjectOverview.tsx     # Projekt Info Card
+├── ActiveAgents.tsx        # Agent Status Cards
+├── SystemLog.tsx           # Terminal Log
+└── index.ts                # Exports
 ```
 
-- `📖 Knowledge` nur sichtbar wenn Projekt ausgewählt
-- `+ New Task` nur sichtbar wenn Projekt ausgewählt
-- `⊞ View Toggle` und `□ Accent Color` als disabled Platzhalter
+**Screenshot:** Sidebar sichtbar mit allen 4 Sektionen
 
 ---
 
-## Nächste Session: Phase 8C - Sidebar Content
+## Nächste Session: Phase 9 - Task Type Backend
 
-### Aufgabe: Sidebar-Inhalt nach Mockup
+### Aufgabe: Task Type System im Backend
 
-**Datei:** `frontend/src/components/layout/Sidebar.tsx`
-
-**Mockup-Referenz:** `dev/ux/mockups/dashboard-style-01-orange.png`
-
-Sidebar soll enthalten:
-1. **Search Bar** (oben)
-2. **PROJECT OVERVIEW** - Projektname, Beschreibung, Tags
-3. **ACTIVE AGENTS** - Architect, Coder, Researcher mit Status
-4. **SYSTEM LOG** - Terminal-ähnliche Log-Ausgabe
+1. **DB Migration** - `task_type TEXT NOT NULL DEFAULT 'code'`
+2. **Rust Enum** - `TaskType { Research, Note, Code }`
+3. **API erweitern** - CreateTask/UpdateTask mit type
+4. **Migration** - Bestehende Tasks → type='code'
 
 ---
 
@@ -45,8 +44,8 @@ Sidebar soll enthalten:
 |-------|--------|--------------|
 | 8A | ✅ | VSCode Cleanup |
 | 8B | ✅ | Header-Integration |
-| 8C | 📋 | **Nächste:** Sidebar Content |
-| 9 | 📋 | Task Type Backend |
+| 8C | ✅ | Sidebar Content |
+| 9 | 📋 | **Nächste:** Task Type Backend |
 
 ---
 
@@ -54,25 +53,28 @@ Sidebar soll enthalten:
 
 | Datei | Aktion |
 |-------|--------|
-| `frontend/src/components/layout/Navbar.tsx` | UPDATE - Hamburger → Icons |
+| `frontend/src/components/sidebar/*.tsx` | CREATE (7 Dateien) |
+| `frontend/src/components/layout/NormalLayout.tsx` | UPDATE |
 
 ---
 
 ## Technische Notizen
 
-### NavIconButton Komponente
-Neue interne Komponente in Navbar.tsx für Icon-Buttons:
-- Automatische Tooltips
-- Link-Support (`to` prop)
-- Click-Handler (`onClick` prop)
-- Disabled-State mit "(coming soon)" Tooltip
-- Active-State Highlighting
+### Static Data Approach
+Alle Sidebar-Komponenten verwenden aktuell Mock-Daten:
+- `ProjectOverview`: Hardcoded name/description/tags
+- `ActiveAgents`: Static 3 Agents mit IDLE/BUSY
+- `SystemLog`: Mock log entries
 
-### Entfernte Features
-- DropdownMenu (Hamburger)
-- OAuth Login/Logout
-- External Links (Docs, Support)
-- INTERNAL_NAV und EXTERNAL_LINKS Arrays
+**Grund**: Fokus auf UI/Styling. Data-Integration in separater Phase.
+
+### Fehlende Backend-Felder
+`Project` hat aktuell keine `description` oder `tags` Felder.
+→ Später Backend erweitern oder Knowledge-Tags nutzen.
+
+### Reusable Components
+- `SidebarSection`: Wiederverwendbar mit Icon + Title Props
+- `AgentCard`: Interne Komponente in ActiveAgents.tsx
 
 ---
 
@@ -85,6 +87,6 @@ git status
 # 2. Dev-Server starten
 pnpm run dev
 
-# 3. Sidebar.tsx öffnen
-# 4. Content nach Mockup implementieren
+# 3. Sidebar testen
+# → Toggle Button im Header klicken
 ```

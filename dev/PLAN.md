@@ -205,9 +205,9 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 8: Sidebar & Layout
+## Phase 8: Sidebar & Layout ✅
 
-**Status:** In Arbeit
+**Status:** Abgeschlossen (2026-01-10)
 
 ### 8A: VSCode Cleanup ✅
 - [x] VSCode-System entfernt (bridge.ts, ContextMenu.tsx)
@@ -222,11 +222,11 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] OAuth/Login entfernt (Single User System)
 - [x] NavIconButton Komponente mit Tooltips
 
-### 8C: Sidebar Content 📋
-- [ ] Search Bar
-- [ ] Project Overview
-- [ ] Active Agents
-- [ ] System Log
+### 8C: Sidebar Content ✅
+- [x] Search Bar
+- [x] Project Overview
+- [x] Active Agents
+- [x] System Log
 
 ---
 
@@ -334,7 +334,7 @@ Ein modulares Wissensmanagement-Tool für:
 | 6D | 📋 Doc | System-Analyse | ✅ |
 | 6E | 📋 Doc | Refactoring-Strategie | ✅ |
 | 7 | Impl | UI Basis (Colors, Typography) | ✅ |
-| 8 | Impl | Sidebar & Layout | Geplant |
+| 8 | Impl | Sidebar & Layout | ✅ |
 | 9 | Impl | Task Type Backend | Geplant |
 | 10 | Impl | Task Type Frontend | Geplant |
 | 11 | 🔍 Review | Integration & Polish | Geplant |
