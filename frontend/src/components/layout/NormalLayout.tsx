@@ -2,6 +2,7 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 import { DevBanner } from '@/components/DevBanner';
 import { Navbar } from '@/components/layout/Navbar';
 import { Sidebar } from '@/components/layout/Sidebar';
+import { SidebarContent } from '@/components/sidebar';
 
 export function NormalLayout() {
   const [searchParams] = useSearchParams();
@@ -17,9 +18,7 @@ export function NormalLayout() {
           <Outlet />
         </main>
         <Sidebar>
-          <div className="text-sm text-muted-foreground">
-            Sidebar Content
-          </div>
+          <SidebarContent />
         </Sidebar>
       </div>
     </div>
