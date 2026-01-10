@@ -229,16 +229,46 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] System Log
 
 ### 8D: Sidebar-Konsolidierung 📋
-**Problem:** Doppelstruktur (2x Search, 2x Panel-System, Task-Content falsch platziert)
 
-**Session-Start:** Systematische Analyse mit Subagents + Chrome DevTools MCP
+**Problem:** Doppelstruktur im UI
+- 2x Suchleiste (Header + Sidebar)
+- 2x Panel-System (TasksLayout + neue Sidebar)
+- Task-Content in der Mitte statt in Sidebar
+- Sidebar nicht resizable
 
+**Session-Start: Systematische Analyse**
+
+1. **Explore-Subagents** (3x parallel):
+   - Layout-Struktur (NormalLayout, TasksLayout, Sidebar)
+   - Search-System (SearchBar, SearchContext)
+   - Panel-System (react-resizable-panels)
+
+2. **Chrome DevTools MCP**:
+   - `take_snapshot()` → DOM-Struktur
+   - `take_screenshot()` → Visuelle Probleme
+   - `list_console_messages()` → Errors/Warnings
+
+3. **Plan-Subagent** für Refactoring-Strategie
+
+4. **Review-Subagent** nach Implementation
+
+**Implementation Steps:**
 - [ ] SearchBar konsolidieren (Header → Sidebar)
 - [ ] Sidebar resizable machen (280-600px)
 - [ ] Task-Liste in Sidebar
 - [ ] Task-Details in Sidebar
 - [ ] TasksLayout vereinfachen (nur Kanban)
 - [ ] Sidebar-Modi (dashboard, tasks, task-detail, settings)
+
+**Dateien:**
+| Datei | Aktion |
+|-------|--------|
+| `Navbar.tsx` | SearchBar entfernen |
+| `Sidebar.tsx` | Resizable machen |
+| `SidebarContext.tsx` | Mode + Width State |
+| `TasksLayout.tsx` | Vereinfachen |
+| `TaskList.tsx` | CREATE |
+| `TaskDetail.tsx` | CREATE |
 
 ---
 
