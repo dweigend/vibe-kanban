@@ -253,7 +253,7 @@ Ein modulares Wissensmanagement-Tool für:
 - [ ] Default-Route ändern (Kanban statt Projects)
 - [ ] Navbar Settings-Dropdown
 
-**Detaillierter Plan:** `~/.claude/plans/replicated-hopping-whale.md`
+**Detaillierter Plan:** `dev/PLAN-PHASE-8F.md`
 
 ---
 

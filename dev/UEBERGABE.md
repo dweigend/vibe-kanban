@@ -37,7 +37,7 @@
 | 4 | **Task-Creation** | Pop-up Modal (TaskFormDialog) | In Sidebar |
 | 5 | **Menüstruktur** | Doppelt (Settings-Sidebar + Navbar) | Nur obere Leiste |
 
-**Detaillierter Plan:** `~/.claude/plans/replicated-hopping-whale.md`
+**Detaillierter Plan:** `dev/PLAN-PHASE-8F.md`
 
 ---
 
@@ -152,7 +152,7 @@ type SidebarMode =
 ```bash
 # 1. Context lesen
 cat dev/UEBERGABE.md
-cat ~/.claude/plans/replicated-hopping-whale.md
+cat dev/PLAN-PHASE-8F.md
 
 # 2. Dev-Server starten
 pnpm run dev
