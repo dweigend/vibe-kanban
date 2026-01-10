@@ -6,6 +6,7 @@ import { ActiveAgents } from './ActiveAgents';
 import { SystemLog } from './SystemLog';
 import { SidebarTaskList } from './SidebarTaskList';
 import { SidebarTaskDetail } from './SidebarTaskDetail';
+import { SidebarTaskCreate } from './SidebarTaskCreate';
 import { SidebarSettings } from './SidebarSettings';
 import { SidebarProjects } from './SidebarProjects';
 import { SidebarProjectSettings } from './SidebarProjectSettings';
@@ -51,6 +52,13 @@ export function SidebarContent() {
       return <SidebarAgents />;
     case 'knowledge':
       return <SidebarKnowledge />;
+    case 'dashboard':
+    case 'tasks':
+    case 'task-detail':
+    case 'task-create':
+    case 'task-edit':
+      // These modes use the search bar layout below
+      break;
   }
 
   // Dashboard and task modes with search bar
@@ -68,6 +76,9 @@ export function SidebarContent() {
           {mode === 'tasks' && <SidebarTaskList projectId={projectId} />}
           {mode === 'task-detail' && (
             <SidebarTaskDetail projectId={projectId} />
+          )}
+          {(mode === 'task-create' || mode === 'task-edit') && (
+            <SidebarTaskCreate projectId={projectId} />
           )}
         </>
       )}

@@ -1,10 +1,16 @@
-import { ArrowLeft, Loader2, Clock, GitBranch } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { ArrowLeft, Loader2, Clock, GitBranch, Play, Pencil, Tag as TagIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useSidebar } from '@/contexts/SidebarContext';
 import { useProjectTasks } from '@/hooks/useProjectTasks';
 import { useTaskAttempts } from '@/hooks/useTaskAttempts';
-import type { TaskStatus, Workspace } from 'shared/types';
+import { useTaskMutations, useProjectRepos, useRepoBranchSelection } from '@/hooks';
+import { useUserSystem } from '@/components/ConfigProvider';
+import { ExecutorProfileSelector } from '@/components/settings';
+import BranchSelector from '@/components/tasks/BranchSelector';
+import type { TaskStatus, Workspace, Tag, ExecutorProfileId } from 'shared/types';
+import { tagsApi } from '@/lib/api';
 
 const STATUS_COLORS: Record<TaskStatus, string> = {
   todo: 'bg-muted text-muted-foreground',
@@ -60,11 +66,84 @@ interface SidebarTaskDetailProps {
 }
 
 export function SidebarTaskDetail({ projectId }: SidebarTaskDetailProps) {
-  const { selectedTaskId, clearTask } = useSidebar();
+  const { selectedTaskId, clearTask, setMode } = useSidebar();
   const { tasksById } = useProjectTasks(projectId);
   const { data: attempts, isLoading: attemptsLoading } = useTaskAttempts(
     selectedTaskId ?? undefined
   );
+  const { createAndStart } = useTaskMutations(projectId);
+  const { system, profiles } = useUserSystem();
+  const { data: projectRepos = [] } = useProjectRepos(projectId);
+  const { configs: repoBranchConfigs, isLoading: branchesLoading } =
+    useRepoBranchSelection({
+      repos: projectRepos,
+      enabled: projectRepos.length > 0,
+    });
+
+  // Tags state
+  const [tags, setTags] = useState<Tag[]>([]);
+  useEffect(() => {
+    tagsApi.list().then(setTags).catch(console.error);
+  }, []);
+
+  // Start attempt state
+  const [showStartForm, setShowStartForm] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState<ExecutorProfileId | null>(
+    system.config?.executor_profile || null
+  );
+  const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
+  const [isStarting, setIsStarting] = useState(false);
+
+  // Set default branch when configs load
+  useEffect(() => {
+    if (repoBranchConfigs.length > 0 && !selectedBranch) {
+      setSelectedBranch(repoBranchConfigs[0].targetBranch);
+    }
+  }, [repoBranchConfigs, selectedBranch]);
+
+  const task = selectedTaskId ? tasksById[selectedTaskId] : null;
+
+  // Get tag names for display
+  const taskTagNames = useMemo(() => {
+    if (!task || !task.knowledge_tag_ids) return [];
+    return task.knowledge_tag_ids
+      .map((id) => tags.find((t) => t.id === id)?.tag_name)
+      .filter(Boolean) as string[];
+  }, [task, tags]);
+
+  const canStartAttempt = task && !task.has_in_progress_attempt && task.status !== 'done';
+
+  const handleStartAttempt = async () => {
+    if (!task || !selectedProfile || !selectedBranch) return;
+
+    setIsStarting(true);
+    try {
+      const repos = repoBranchConfigs.map((config) => ({
+        repo_id: config.repoId,
+        target_branch: selectedBranch,
+      }));
+
+      await createAndStart.mutateAsync({
+        task: {
+          project_id: projectId,
+          title: task.title,
+          description: task.description,
+          status: null,
+          parent_workspace_id: null,
+          image_ids: null,
+          shared_task_id: null,
+          knowledge_tag_ids: task.knowledge_tag_ids?.length ? task.knowledge_tag_ids : null,
+        },
+        executor_profile_id: selectedProfile,
+        repos,
+      });
+      setShowStartForm(false);
+    } catch (err) {
+      console.error('Failed to start attempt:', err);
+    } finally {
+      setIsStarting(false);
+    }
+  };
 
   if (!selectedTaskId) {
     return (
@@ -73,8 +152,6 @@ export function SidebarTaskDetail({ projectId }: SidebarTaskDetailProps) {
       </div>
     );
   }
-
-  const task = tasksById[selectedTaskId];
 
   if (!task) {
     return (
@@ -86,6 +163,7 @@ export function SidebarTaskDetail({ projectId }: SidebarTaskDetailProps) {
 
   return (
     <div className="space-y-4">
+      {/* Header */}
       <div className="flex items-center gap-2 pb-3 border-b">
         <Button
           variant="ghost"
@@ -96,8 +174,18 @@ export function SidebarTaskDetail({ projectId }: SidebarTaskDetailProps) {
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <h2 className="text-sm font-semibold truncate flex-1">{task.title}</h2>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setMode('task-edit')}
+          className="p-1 h-7 w-7"
+          title="Edit task"
+        >
+          <Pencil className="h-4 w-4" />
+        </Button>
       </div>
 
+      {/* Status and Progress */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
           <Badge variant="outline" className={STATUS_COLORS[task.status]}>
@@ -108,11 +196,93 @@ export function SidebarTaskDetail({ projectId }: SidebarTaskDetailProps) {
           )}
         </div>
 
+        {/* Description */}
         {task.description && (
           <p className="text-sm text-muted-foreground">{task.description}</p>
         )}
+
+        {/* Knowledge Tags */}
+        {taskTagNames.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {taskTagNames.map((tagName) => (
+              <Badge key={tagName} variant="secondary" className="text-xs gap-1">
+                <TagIcon className="h-3 w-3" />
+                {tagName}
+              </Badge>
+            ))}
+          </div>
+        )}
       </div>
 
+      {/* Start Attempt Section */}
+      {canStartAttempt && (
+        <div className="space-y-2 pt-2 border-t">
+          {!showStartForm ? (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowStartForm(true)}
+              className="w-full"
+            >
+              <Play className="h-4 w-4 mr-2" />
+              Start Attempt
+            </Button>
+          ) : (
+            <div className="space-y-3 p-3 border rounded-md bg-muted/30">
+              <ExecutorProfileSelector
+                profiles={profiles}
+                selectedProfile={selectedProfile}
+                onProfileSelect={setSelectedProfile}
+                showLabel={true}
+                className="space-y-2"
+              />
+
+              {repoBranchConfigs.length > 0 && !branchesLoading && (
+                <div className="space-y-2">
+                  <label className="text-xs font-medium">Branch</label>
+                  <BranchSelector
+                    branches={repoBranchConfigs[0].branches}
+                    selectedBranch={selectedBranch}
+                    onBranchSelect={setSelectedBranch}
+                    placeholder="Select branch..."
+                  />
+                </div>
+              )}
+
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowStartForm(false)}
+                  disabled={isStarting}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={handleStartAttempt}
+                  disabled={!selectedProfile || !selectedBranch || isStarting}
+                  className="flex-1"
+                >
+                  {isStarting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Starting...
+                    </>
+                  ) : (
+                    <>
+                      <Play className="h-4 w-4 mr-2" />
+                      Start
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Attempts List */}
       <div className="space-y-2 pt-2">
         <h3 className="text-xs font-semibold uppercase text-muted-foreground">
           Attempts

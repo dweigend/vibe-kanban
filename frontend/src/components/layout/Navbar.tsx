@@ -15,7 +15,6 @@ import {
   Square,
 } from 'lucide-react';
 import { useSidebar } from '@/contexts/SidebarContext';
-import { openTaskForm } from '@/lib/openTaskForm';
 import { useProject } from '@/contexts/ProjectContext';
 import { useOpenProjectInEditor } from '@/hooks/useOpenProjectInEditor';
 import { OpenInIdeButton } from '@/components/ide/OpenInIdeButton';
@@ -154,7 +153,7 @@ export function Navbar() {
 
   const handleCreateTask = () => {
     if (projectId) {
-      openTaskForm({ mode: 'create', projectId });
+      openSidebarMode('task-create');
     }
   };
 
@@ -164,6 +163,12 @@ export function Navbar() {
 
   const isOAuthLoggedIn = loginStatus?.status === 'loggedin';
 
+  // Helper to open sidebar with specific mode
+  const openSidebarMode = (mode: typeof sidebarMode) => {
+    setMode(mode);
+    setCollapsed(false);
+  };
+
   // Check active sidebar modes for highlighting
   const isProjectsActive = sidebarMode === 'projects';
   const isProjectSettingsActive = sidebarMode === 'project-settings';
@@ -171,12 +176,6 @@ export function Navbar() {
   const isAgentsActive = sidebarMode === 'agents';
   const isKnowledgeActive = sidebarMode === 'knowledge';
   const isSettingsActive = sidebarMode === 'settings';
-
-  // Helper to open sidebar with specific mode
-  const openSidebarMode = (mode: typeof sidebarMode) => {
-    setMode(mode);
-    setCollapsed(false);
-  };
 
   return (
     <div className="border-b bg-background">

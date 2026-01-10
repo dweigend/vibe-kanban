@@ -19,6 +19,8 @@ export type SidebarMode =
   | 'dashboard'
   | 'tasks'
   | 'task-detail'
+  | 'task-create'
+  | 'task-edit'
   | 'settings'
   | 'projects'
   | 'project-settings'

@@ -7,7 +7,6 @@ import { AlertTriangle, Plus, X } from 'lucide-react';
 import { Loader } from '@/components/ui/loader';
 import { tasksApi } from '@/lib/api';
 import type { RepoBranchStatus, Workspace } from 'shared/types';
-import { openTaskForm } from '@/lib/openTaskForm';
 import { FeatureShowcaseDialog } from '@/components/dialogs/global/FeatureShowcaseDialog';
 import { showcases } from '@/config/showcases';
 import { useUserSystem } from '@/components/ConfigProvider';
@@ -15,6 +14,7 @@ import { usePostHog } from 'posthog-js/react';
 
 import { useSearch } from '@/contexts/SearchContext';
 import { useProject } from '@/contexts/ProjectContext';
+import { useSidebar } from '@/contexts/SidebarContext';
 import { useTaskAttempts } from '@/hooks/useTaskAttempts';
 import { useTaskAttemptWithSession } from '@/hooks/useTaskAttempt';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -150,6 +150,7 @@ export function ProjectTasks() {
     isLoading: projectLoading,
     error: projectError,
   } = useProject();
+  const { setMode: setSidebarMode, setCollapsed: setSidebarCollapsed } = useSidebar();
 
   useEffect(() => {
     enableScope(Scope.KANBAN);
@@ -161,9 +162,10 @@ export function ProjectTasks() {
 
   const handleCreateTask = useCallback(() => {
     if (projectId) {
-      openTaskForm({ mode: 'create', projectId });
+      setSidebarMode('task-create');
+      setSidebarCollapsed(false);
     }
-  }, [projectId]);
+  }, [projectId, setSidebarMode, setSidebarCollapsed]);
   const { query: searchQuery, focusInput } = useSearch();
 
   const {
