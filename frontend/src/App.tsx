@@ -124,51 +124,51 @@ function AppContent() {
         <SidebarProvider>
           <SearchProvider>
             <div className="h-screen flex flex-col bg-background">
-            <SentryRoutes>
-              {/* VS Code full-page logs route (outside NormalLayout for minimal UI) */}
-              <Route
-                path="/projects/:projectId/tasks/:taskId/attempts/:attemptId/full"
-                element={<FullAttemptLogsPage />}
-              />
+              <SentryRoutes>
+                {/* VS Code full-page logs route (outside NormalLayout for minimal UI) */}
+                <Route
+                  path="/projects/:projectId/tasks/:taskId/attempts/:attemptId/full"
+                  element={<FullAttemptLogsPage />}
+                />
 
-              <Route element={<NormalLayout />}>
-                <Route path="/" element={<Projects />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/projects/:projectId" element={<Projects />} />
-                <Route
-                  path="/projects/:projectId/tasks"
-                  element={<ProjectTasks />}
-                />
-                <Route
-                  path="/projects/:projectId/knowledge"
-                  element={<KnowledgePage />}
-                />
-                <Route path="/styleguide" element={<StyleGuidePage />} />
-                <Route path="/settings/*" element={<SettingsLayout />}>
-                  <Route index element={<Navigate to="general" replace />} />
-                  <Route path="general" element={<GeneralSettings />} />
-                  <Route path="projects" element={<ProjectSettings />} />
+                <Route element={<NormalLayout />}>
+                  <Route path="/" element={<Projects />} />
+                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/projects/:projectId" element={<Projects />} />
                   <Route
-                    path="organizations"
-                    element={<OrganizationSettings />}
+                    path="/projects/:projectId/tasks"
+                    element={<ProjectTasks />}
                   />
-                  <Route path="agents" element={<AgentSettings />} />
-                  <Route path="mcp" element={<McpSettings />} />
+                  <Route
+                    path="/projects/:projectId/knowledge"
+                    element={<KnowledgePage />}
+                  />
+                  <Route path="/styleguide" element={<StyleGuidePage />} />
+                  <Route path="/settings/*" element={<SettingsLayout />}>
+                    <Route index element={<Navigate to="general" replace />} />
+                    <Route path="general" element={<GeneralSettings />} />
+                    <Route path="projects" element={<ProjectSettings />} />
+                    <Route
+                      path="organizations"
+                      element={<OrganizationSettings />}
+                    />
+                    <Route path="agents" element={<AgentSettings />} />
+                    <Route path="mcp" element={<McpSettings />} />
+                  </Route>
+                  <Route
+                    path="/mcp-servers"
+                    element={<Navigate to="/settings/mcp" replace />}
+                  />
+                  <Route
+                    path="/projects/:projectId/tasks/:taskId"
+                    element={<ProjectTasks />}
+                  />
+                  <Route
+                    path="/projects/:projectId/tasks/:taskId/attempts/:attemptId"
+                    element={<ProjectTasks />}
+                  />
                 </Route>
-                <Route
-                  path="/mcp-servers"
-                  element={<Navigate to="/settings/mcp" replace />}
-                />
-                <Route
-                  path="/projects/:projectId/tasks/:taskId"
-                  element={<ProjectTasks />}
-                />
-                <Route
-                  path="/projects/:projectId/tasks/:taskId/attempts/:attemptId"
-                  element={<ProjectTasks />}
-                />
-              </Route>
-            </SentryRoutes>
+              </SentryRoutes>
             </div>
           </SearchProvider>
         </SidebarProvider>

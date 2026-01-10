@@ -16,7 +16,11 @@ export function ProjectOverview() {
     <div className="rounded border border-border bg-card p-3 space-y-3">
       <div className="flex items-start justify-between">
         <h4 className="text-lg font-semibold">{MOCK_PROJECT.name}</h4>
-        <Button variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-6 w-6 text-muted-foreground"
+        >
           <Pencil className="h-3 w-3" />
         </Button>
       </div>

@@ -13,7 +13,12 @@ interface Agent {
 
 const AGENTS: Agent[] = [
   { name: 'Architect', icon: Compass, status: 'IDLE' },
-  { name: 'Coder', icon: Code, status: 'BUSY', task: '> refactoring sidebar_component.tsx' },
+  {
+    name: 'Coder',
+    icon: Code,
+    status: 'BUSY',
+    task: '> refactoring sidebar_component.tsx',
+  },
   { name: 'Researcher', icon: Search, status: 'IDLE' },
 ];
 
@@ -41,7 +46,9 @@ function AgentCard({ agent }: { agent: Agent }) {
       <div
         className={cn(
           'flex h-8 w-8 items-center justify-center rounded',
-          isBusy ? 'bg-coding text-coding-foreground' : 'bg-muted text-muted-foreground'
+          isBusy
+            ? 'bg-coding text-coding-foreground'
+            : 'bg-muted text-muted-foreground'
         )}
       >
         <Icon className="h-4 w-4" />
@@ -52,13 +59,18 @@ function AgentCard({ agent }: { agent: Agent }) {
           <span className="font-medium">{agent.name}</span>
           <Badge
             variant={isBusy ? 'default' : 'outline'}
-            className={cn('text-xs', isBusy && 'bg-coding text-coding-foreground')}
+            className={cn(
+              'text-xs',
+              isBusy && 'bg-coding text-coding-foreground'
+            )}
           >
             {agent.status}
           </Badge>
         </div>
         {agent.task && (
-          <p className="text-xs text-muted-foreground font-mono truncate">{agent.task}</p>
+          <p className="text-xs text-muted-foreground font-mono truncate">
+            {agent.task}
+          </p>
         )}
       </div>
     </div>
