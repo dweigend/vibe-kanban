@@ -1,19 +1,8 @@
-# Phase 8F: Sidebar-Konsolidierung - VOLLSTÄNDIG
+# Phase 8F: Sidebar-First Architecture
 
-> **Single Point of Truth**: Dieser Plan ist die einzige Quelle für Phase 8F.
-> Keine externen Pläne, keine Doppelstrukturen.
-
----
-
-## Erkannte Probleme
-
-| Problem | IST | SOLL |
-|---------|-----|------|
-| **1. Startseite** | Zeigt Projects-Liste | Kanban-Board direkt zeigen |
-| **2. Settings** | Eigene Route `/settings/*` mit eigener Sidebar links | In rechte Sidebar integrieren |
-| **3. Task-Details** | Öffnen im Hauptfenster (TasksLayout 3-Panel) | In rechter Sidebar anzeigen |
-| **4. Task-Creation** | Pop-up Modal (TaskFormDialog) | In Sidebar integrieren |
-| **5. Menüstruktur** | Doppelt (Settings-Sidebar + Navbar) | Alles in oberer Leiste |
+> **Ziel:** Hauptfenster = NUR Kanban-Board. Navbar = einziges Menü. Sidebar = Content-Container.
+>
+> **Prinzip:** KISS - Ein Menü, keine Doppelstrukturen, alles vereinfachen.
 
 ---
 
@@ -21,194 +10,94 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│ Navbar [Logo] [Sidebar] [Projects] [MCP] [Grid] [+] [Settings▼] │
-├─────────────────────────────────────────┬───────────────────────┤
-│                                         │ Sidebar (rechts)      │
-│  HAUPTFENSTER                           │ ├── Mode Toggle       │
-│  → NUR Kanban-Board                     │ ├── SearchBar         │
-│  → Keine Task-Details hier              │ ├── Content:          │
-│  → Keine Settings hier                  │ │   - Dashboard       │
-│                                         │ │   - Tasks/Details   │
-│                                         │ │   - Task-Creation   │
-│                                         │ │   - Settings        │
-│                                         │ │   - MCP Config      │
-└─────────────────────────────────────────┴───────────────────────┘
+│ Navbar [Sidebar] [Projects] [ProjectCfg] [MCP] [Agents] [+] [Settings] │
+├─────────────────────────────────┬───────────────────────────────┤
+│                                 │ Sidebar (rechts)              │
+│  HAUPTFENSTER                   │                               │
+│  → NUR Kanban-Board             │  Content je nach Navbar-Klick:│
+│  → KEINE Projects-Liste         │  - Projects → Projekt-Liste   │
+│  → KEINE Settings               │  - MCP → MCP Server Config    │
+│  → KEINE Task-Details           │  - Settings → General Settings│
+│                                 │  - Agents → Agent-Profile     │
+│                                 │                               │
+│                                 │  KEINE TABS IN SIDEBAR!       │
+└─────────────────────────────────┴───────────────────────────────┘
+```
+
+**Key Principles:**
+1. Hauptfenster zeigt IMMER NUR das Kanban-Board
+2. Navbar-Icons sind die EINZIGE Navigation
+3. Sidebar hat KEINE eigenen Tabs - nur Content
+4. SidebarModeToggle.tsx wird ENTFERNT
+
+---
+
+## Navbar Icon-Mapping
+
+| Icon | Mode | Sidebar Content |
+|------|------|-----------------|
+| Sidebar Toggle | - | Collapse/Expand |
+| Projects (Folder) | `projects` | Projekt-Liste + Create |
+| Project Config | `project-settings` | Repos, Scripts |
+| MCP (Robot) | `mcp` | MCP Server Config |
+| Agents (Cpu) | `agents` | Agent-Profile |
+| + | - | Task erstellen |
+| Settings (Gear) | `settings` | General Settings |
+
+**Aufräumen:**
+- MCP, Agents, Project-Config = eigene Features, NICHT Teil von Settings
+- OrganizationSettings = ENTFERNT (Single User System)
+- Settings = nur persönliche Einstellungen
+
+---
+
+## SidebarModes
+
+```typescript
+type SidebarMode =
+  | 'dashboard'        // Project Overview (Grid-Icon)
+  | 'tasks'            // Task-Liste (via Task-Klick)
+  | 'task-detail'      // Task-Details
+  | 'projects'         // Projekt-Auswahl
+  | 'project-settings' // Projekt-Config
+  | 'settings'         // General Settings ✅ bereits
+  | 'mcp'              // MCP Server Config
+  | 'agents';          // Agent-Profile
 ```
 
 ---
 
 ## Implementierungsschritte
 
-### Schritt 1: SidebarMode erweitern
+### Phase 1: Aufräumen
+1. **SidebarModeToggle.tsx** - ENTFERNEN
+2. **OrganizationSettings** - Route + Komponente ENTFERNEN
 
-**Datei:** `frontend/src/contexts/SidebarContext.tsx`
+### Phase 2: Modes erweitern
+3. **SidebarContext** - Modes erweitern
 
-```typescript
-// AKTUELL
-type SidebarMode = 'dashboard' | 'tasks' | 'task-detail';
+### Phase 3: Sidebar-Komponenten
+4. **SidebarProjects.tsx** - CREATE
+5. **SidebarProjectSettings.tsx** - CREATE
+6. **SidebarMcp.tsx** - CREATE
+7. **SidebarAgents.tsx** - CREATE
+8. **SidebarContent.tsx** - Router für alle Modes
 
-// NEU
-type SidebarMode =
-  | 'dashboard'
-  | 'tasks'
-  | 'task-detail'
-  | 'task-create'    // NEU
-  | 'settings'       // NEU
-  | 'mcp';           // NEU
-```
+### Phase 4: Navbar
+9. **Navbar.tsx** - ALLE Icons → onClick setMode()
 
----
+### Phase 5: Routes
+10. **App.tsx** - Default → Kanban, alte Routes entfernen
 
-### Schritt 2: Settings in Sidebar integrieren
-
-**Neue Datei:** `frontend/src/components/sidebar/SidebarSettings.tsx`
-
-- Accordion-basierte Settings (wie in MIGRATION-PLAN.md beschrieben)
-- Alle bestehenden Settings-Sections wiederverwenden
-- Kein eigenes Routing mehr
-
-**Änderung:** `frontend/src/components/sidebar/SidebarContent.tsx`
-
-```typescript
-{mode === 'settings' && <SidebarSettings />}
-```
+### Phase 6: Cleanup
+11. Entfernen: Projects.tsx, SettingsLayout.tsx, OrganizationSettings.tsx
 
 ---
 
-### Schritt 3: Task-Creation in Sidebar
+## Verification Checklist
 
-**Neue Datei:** `frontend/src/components/sidebar/SidebarTaskCreate.tsx`
-
-- Formular aus TaskFormDialog extrahieren
-- Inline-Rendering in Sidebar statt Modal
-- Cancel → zurück zu Tasks-Mode
-
-**Änderung:** Navbar "+" Button → `setMode('task-create')`
-
----
-
-### Schritt 4: TasksLayout vereinfachen
-
-**Datei:** `frontend/src/components/layout/TasksLayout.tsx`
-
-- Task-Panel/TaskAttemptPanel ENTFERNEN aus Hauptfenster
-- NUR Kanban-Board im Hauptfenster
-- Task-Details → Sidebar (SidebarTaskDetail)
-
-**Routing:** Task-Auswahl per URL-Parameter beibehalten
-- `/projects/:projectId/tasks/:taskId` → Sidebar zeigt Task-Details
-
----
-
-### Schritt 5: Settings-Route entfernen
-
-**Datei:** `frontend/src/App.tsx`
-
-- Route `/settings/*` entfernen
-- Settings-Link in Navbar → `setMode('settings')`
-
----
-
-### Schritt 6: Default-Route ändern
-
-**Datei:** `frontend/src/App.tsx`
-
-- `/` → Redirect zu letztem Projekt + Tasks
-- Oder: Modal für Projekt-Auswahl wenn keins gespeichert
-
----
-
-### Schritt 7: Navbar Settings-Dropdown
-
-**Datei:** `frontend/src/components/layout/Navbar.tsx`
-
-- Settings-Icon → Dropdown mit:
-  - General
-  - Projects
-  - MCP Servers
-  - Agents
-- Click → `setMode('settings')` + entsprechende Sub-Section
-
----
-
-## Dateien zu ändern
-
-| Datei | Aktion | Priorität |
-|-------|--------|-----------|
-| `SidebarContext.tsx` | Mode erweitern | P0 |
-| `SidebarContent.tsx` | Neue Modi rendern | P0 |
-| `SidebarSettings.tsx` | CREATE | P1 |
-| `SidebarTaskCreate.tsx` | CREATE | P1 |
-| `TasksLayout.tsx` | Vereinfachen (nur Kanban) | P1 |
-| `Navbar.tsx` | Settings-Dropdown | P1 |
-| `App.tsx` | Settings-Route entfernen | P2 |
-| `App.tsx` | Default-Route ändern | P2 |
-
----
-
-## Test-Checkliste
-
-```markdown
-## 1. Startseite
-- [ ] App öffnen → Kanban-Board sichtbar (nicht Projects-Liste)
-- [ ] Falls kein Projekt: Auswahl-Dialog/Redirect
-
-## 2. Sidebar-Modi
-- [ ] Dashboard-Tab zeigt: Overview, Agents, Log
-- [ ] Tasks-Tab zeigt: Task-Liste mit Filter
-- [ ] Task anklicken → Task-Detail in Sidebar (NICHT im Hauptfenster!)
-
-## 3. Task-Erstellung
-- [ ] "+" Button klicken → Sidebar zeigt Formular (KEIN Popup!)
-- [ ] Task erstellen → zurück zur Task-Liste
-- [ ] Cancel → zurück zur Task-Liste
-
-## 4. Settings
-- [ ] Settings-Icon → Sidebar zeigt Settings
-- [ ] Alle Settings-Sektionen als Accordion
-- [ ] KEINE separate Settings-Seite im Hauptfenster
-
-## 5. Hauptfenster
-- [ ] NUR Kanban-Board sichtbar
-- [ ] Keine Task-Details im Hauptfenster
-- [ ] Keine Settings im Hauptfenster
-
-## 6. Navigation
-- [ ] KEIN doppeltes Menü (nur obere Leiste + Sidebar)
-- [ ] Konsistente Icons
-```
-
----
-
-## Risiken & Mitigation
-
-| Risiko | Mitigation |
-|--------|------------|
-| TasksLayout hat komplexe Panel-Logik | Schrittweise refactoren, Tests |
-| Settings-Sections haben eigene Routen | Sections extrahieren, Routing entfernen |
-| TaskFormDialog ist komplex | Formular-Logik extrahieren, Modal-Wrapper behalten für Legacy |
-
----
-
-## Session-Aufteilung (Empfehlung)
-
-**Session A: Sidebar-Modi + Settings**
-1. SidebarContext erweitern
-2. SidebarSettings erstellen
-3. Settings-Route entfernen
-4. Navbar Settings-Dropdown
-
-**Session B: Task-Handling**
-1. SidebarTaskCreate erstellen
-2. TasksLayout vereinfachen
-3. Task-Details nur in Sidebar
-4. Default-Route ändern
-
----
-
-## Checkliste vor Start
-
-- [ ] `dev/UEBERGABE.md` lesen
-- [ ] Diesen Plan (`dev/PLAN-PHASE-8F.md`) lesen
-- [ ] `pnpm run dev` starten
-- [ ] Checkpoint erstellen
+- [ ] `localhost:3007/` → Kanban-Board sichtbar
+- [ ] Sidebar hat KEINE Tabs (Dashboard/Tasks/Settings weg)
+- [ ] Navbar-Icons → Sidebar-Content
+- [ ] `/projects`, `/settings/*` → Redirect
+- [ ] Hauptfenster = IMMER NUR Kanban-Board

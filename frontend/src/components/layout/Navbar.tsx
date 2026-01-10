@@ -118,7 +118,13 @@ export function Navbar() {
   const { projectId, project } = useProject();
   const handleOpenInEditor = useOpenProjectInEditor(project || null);
   const { loginStatus } = useUserSystem();
-  const { collapsed, toggle } = useSidebar();
+  const {
+    collapsed,
+    toggle,
+    mode: sidebarMode,
+    setMode,
+    setCollapsed,
+  } = useSidebar();
 
   const { data: repos } = useProjectRepos(projectId);
   const isSingleRepoProject = repos?.length === 1;
@@ -161,8 +167,7 @@ export function Navbar() {
   const isMcpActive = location.pathname.startsWith('/settings/mcp');
   const isKnowledgeActive =
     Boolean(projectId) && location.pathname.includes('/knowledge');
-  const isSettingsActive =
-    location.pathname.startsWith('/settings') && !isMcpActive;
+  const isSettingsActive = sidebarMode === 'settings';
 
   return (
     <div className="border-b bg-background">
@@ -263,11 +268,10 @@ export function Navbar() {
               <NavIconButton
                 icon={Settings}
                 label="Settings"
-                to={
-                  projectId
-                    ? `/settings/projects?projectId=${projectId}`
-                    : '/settings'
-                }
+                onClick={() => {
+                  setMode('settings');
+                  setCollapsed(false);
+                }}
                 active={isSettingsActive}
               />
               <NavIconButton icon={Square} label="Accent Color" disabled />

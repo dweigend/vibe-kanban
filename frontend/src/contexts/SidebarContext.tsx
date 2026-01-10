@@ -15,7 +15,7 @@ const STORAGE_KEYS = {
 
 const DEFAULT_WIDTH = 320;
 
-export type SidebarMode = 'dashboard' | 'tasks' | 'task-detail';
+export type SidebarMode = 'dashboard' | 'tasks' | 'task-detail' | 'settings';
 
 interface SidebarState {
   collapsed: boolean;

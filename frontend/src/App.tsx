@@ -14,7 +14,6 @@ import { usePreviousPath } from '@/hooks/usePreviousPath';
 
 import {
   AgentSettings,
-  GeneralSettings,
   McpSettings,
   OrganizationSettings,
   ProjectSettings,
@@ -145,8 +144,7 @@ function AppContent() {
                   />
                   <Route path="/styleguide" element={<StyleGuidePage />} />
                   <Route path="/settings/*" element={<SettingsLayout />}>
-                    <Route index element={<Navigate to="general" replace />} />
-                    <Route path="general" element={<GeneralSettings />} />
+                    <Route index element={<Navigate to="projects" replace />} />
                     <Route path="projects" element={<ProjectSettings />} />
                     <Route
                       path="organizations"

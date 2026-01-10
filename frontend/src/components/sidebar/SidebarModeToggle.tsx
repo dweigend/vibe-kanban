@@ -1,4 +1,4 @@
-import { LayoutDashboard, ListTodo } from 'lucide-react';
+import { LayoutDashboard, ListTodo, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSidebar, SidebarMode } from '@/contexts/SidebarContext';
 
@@ -9,6 +9,7 @@ const modes: {
 }[] = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { key: 'tasks', label: 'Tasks', icon: ListTodo },
+  { key: 'settings', label: 'Settings', icon: Settings },
 ];
 
 export function SidebarModeToggle() {

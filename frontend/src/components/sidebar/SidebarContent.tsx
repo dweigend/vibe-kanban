@@ -7,6 +7,7 @@ import { SystemLog } from './SystemLog';
 import { SidebarModeToggle } from './SidebarModeToggle';
 import { SidebarTaskList } from './SidebarTaskList';
 import { SidebarTaskDetail } from './SidebarTaskDetail';
+import { SidebarSettings } from './SidebarSettings';
 import { useSidebar } from '@/contexts/SidebarContext';
 import { useProject } from '@/contexts/ProjectContext';
 
@@ -31,6 +32,11 @@ function DashboardContent() {
 export function SidebarContent() {
   const { mode } = useSidebar();
   const { projectId } = useProject();
+
+  // Settings mode: full height, no toggle or search
+  if (mode === 'settings') {
+    return <SidebarSettings />;
+  }
 
   return (
     <div className="space-y-4">

@@ -244,14 +244,25 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] SidebarContent Integration
 - [x] 8 Unit Tests passing
 
-### 8F: Sidebar-Konsolidierung VOLLSTÄNDIG 📋
-- [ ] SidebarMode erweitern (+task-create, +settings)
-- [ ] SidebarSettings.tsx (Settings in Sidebar)
-- [ ] SidebarTaskCreate.tsx (Task-Erstellung in Sidebar)
-- [ ] TasksLayout vereinfachen (nur Kanban im Hauptfenster)
-- [ ] Settings-Route `/settings/*` entfernen
-- [ ] Default-Route ändern (Kanban statt Projects)
-- [ ] Navbar Settings-Dropdown
+### 8F: Sidebar-First Architecture 📋
+> **Ziel:** Navbar = einziges Menü, Sidebar = Content-Container, Hauptfenster = NUR Kanban
+
+**Bereits implementiert:**
+- [x] SidebarSettings.tsx (General Settings in Sidebar)
+- [x] Navbar Settings → onClick statt Route
+
+**Nächste Session - 11 Steps:**
+1. [ ] SidebarModeToggle.tsx ENTFERNEN
+2. [ ] OrganizationSettings ENTFERNEN (Single User)
+3. [ ] SidebarContext erweitern (+projects, +mcp, +agents, +project-settings)
+4. [ ] SidebarProjects.tsx CREATE
+5. [ ] SidebarMcp.tsx CREATE
+6. [ ] SidebarAgents.tsx CREATE
+7. [ ] SidebarProjectSettings.tsx CREATE
+8. [ ] SidebarContent.tsx Router erweitern
+9. [ ] Navbar.tsx - ALLE Icons → onClick setMode()
+10. [ ] App.tsx - Default → Kanban, alte Routes entfernen
+11. [ ] Cleanup: Projects.tsx, SettingsLayout.tsx entfernen
 
 **Detaillierter Plan:** `dev/PLAN-PHASE-8F.md`
 
@@ -290,14 +301,15 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 12: Feature Pages
+## Phase 12: Knowledge & Logs
 
-**Fokus:** Verbleibende Sidebar-Modi
+**Fokus:** Knowledge-System erweitern
 
-- [ ] MCP Servers Page
-- [ ] Knowledge/Logs Page
-- [ ] Settings Page (neues Layout)
-- [ ] Projects Overview
+> ℹ️ MCP, Settings, Projects werden in Phase 8F via Sidebar integriert
+
+- [ ] Knowledge Page in Sidebar-Mode integrieren
+- [ ] Logs/Attempts Ansicht verbessern
+- [ ] Knowledge-Suche und Filter
 
 ---
 
