@@ -1,40 +1,70 @@
-# Übergabe - Session 2026-01-10 (Phase 8C abgeschlossen)
+# Übergabe - Session 2026-01-10 (Phase 8D geplant)
 
 ## Was wurde gemacht
 
 ### Phase 8C: Sidebar Content ✅
+- SidebarSearchBar, ProjectOverview, ActiveAgents, SystemLog implementiert
+- Alles mit Mock-Daten (Static First Approach)
 
-Sidebar-Inhalt nach Mockup implementiert mit 4 Sektionen:
-
-1. **SidebarSearchBar** - Search Input mit Icon
-2. **ProjectOverview** - Projektname, Description (`//`), Tags als Badges
-3. **ActiveAgents** - 3 Agents (Architect, Coder, Researcher) mit Status
-4. **SystemLog** - Terminal-Style Log-Viewer mit farbigen Labels
-
-**Neue Dateien:**
-```
-frontend/src/components/sidebar/
-├── SidebarContent.tsx      # Orchestrator
-├── SidebarSection.tsx      # Reusable Header (Icon + Title)
-├── SidebarSearchBar.tsx    # Search Input
-├── ProjectOverview.tsx     # Projekt Info Card
-├── ActiveAgents.tsx        # Agent Status Cards
-├── SystemLog.tsx           # Terminal Log
-└── index.ts                # Exports
-```
-
-**Screenshot:** Sidebar sichtbar mit allen 4 Sektionen
+### Phase 8D: Planung ✅
+- Problem identifiziert: **Doppelstruktur** im UI
+- Konsolidierungsplan erstellt
 
 ---
 
-## Nächste Session: Phase 9 - Task Type Backend
+## Identifizierte Probleme (Screenshot-Analyse)
 
-### Aufgabe: Task Type System im Backend
+| Problem | Beschreibung |
+|---------|--------------|
+| 🔴 2x Suchleiste | Header (funktional) + Sidebar (Mock) |
+| 🔴 2x Panel-System | TasksLayout + neue Sidebar |
+| 🔴 Task-Content falsch | In der Mitte statt in Sidebar |
+| 🔴 Kein Resize | Sidebar ist 320px fixed |
 
-1. **DB Migration** - `task_type TEXT NOT NULL DEFAULT 'code'`
-2. **Rust Enum** - `TaskType { Research, Note, Code }`
-3. **API erweitern** - CreateTask/UpdateTask mit type
-4. **Migration** - Bestehende Tasks → type='code'
+---
+
+## Nächste Session: Phase 8D - Sidebar-Konsolidierung
+
+### Session-Start: Systematische Analyse
+
+**1. Explore-Subagents parallel starten:**
+```
+Task(subagent_type="Explore") x3:
+- Agent 1: Layout-Struktur
+- Agent 2: Search-System
+- Agent 3: Panel-System (react-resizable-panels)
+```
+
+**2. Chrome DevTools MCP nutzen:**
+```
+mcp__chrome-devtools__take_snapshot()
+mcp__chrome-devtools__take_screenshot()
+mcp__chrome-devtools__list_console_messages()
+```
+
+**3. Plan-Subagent für Strategie**
+
+**4. Review-Subagent nach Implementation**
+
+### Implementation Steps
+
+1. SearchBar konsolidieren (Header → Sidebar)
+2. Sidebar resizable machen (280-600px)
+3. Task-Liste in Sidebar integrieren
+4. Task-Details in Sidebar integrieren
+5. TasksLayout vereinfachen (nur Kanban)
+6. Sidebar-Modi implementieren (dashboard, tasks, task-detail, settings)
+
+### Dateien
+
+| Datei | Aktion |
+|-------|--------|
+| `Navbar.tsx` | UPDATE - SearchBar entfernen |
+| `Sidebar.tsx` | UPDATE - Resizable |
+| `SidebarContext.tsx` | UPDATE - Mode + Width |
+| `TasksLayout.tsx` | UPDATE - Vereinfachen |
+| `TaskList.tsx` | CREATE |
+| `TaskDetail.tsx` | CREATE |
 
 ---
 
@@ -44,49 +74,45 @@ frontend/src/components/sidebar/
 |-------|--------|--------------|
 | 8A | ✅ | VSCode Cleanup |
 | 8B | ✅ | Header-Integration |
-| 8C | ✅ | Sidebar Content |
-| 9 | 📋 | **Nächste:** Task Type Backend |
-
----
-
-## Geänderte Dateien dieser Session
-
-| Datei | Aktion |
-|-------|--------|
-| `frontend/src/components/sidebar/*.tsx` | CREATE (7 Dateien) |
-| `frontend/src/components/layout/NormalLayout.tsx` | UPDATE |
-
----
-
-## Technische Notizen
-
-### Static Data Approach
-Alle Sidebar-Komponenten verwenden aktuell Mock-Daten:
-- `ProjectOverview`: Hardcoded name/description/tags
-- `ActiveAgents`: Static 3 Agents mit IDLE/BUSY
-- `SystemLog`: Mock log entries
-
-**Grund**: Fokus auf UI/Styling. Data-Integration in separater Phase.
-
-### Fehlende Backend-Felder
-`Project` hat aktuell keine `description` oder `tags` Felder.
-→ Später Backend erweitern oder Knowledge-Tags nutzen.
-
-### Reusable Components
-- `SidebarSection`: Wiederverwendbar mit Icon + Title Props
-- `AgentCard`: Interne Komponente in ActiveAgents.tsx
+| 8C | ✅ | Sidebar Content (Mock) |
+| 8D | 📋 | **Nächste:** Sidebar-Konsolidierung |
+| 9 | 📋 | Task Type Backend |
 
 ---
 
 ## Schnellstart nächste Session
 
 ```bash
-# 1. Status prüfen
-git status
-
-# 2. Dev-Server starten
+# 1. Dev-Server starten
 pnpm run dev
 
-# 3. Sidebar testen
-# → Toggle Button im Header klicken
+# 2. Plan lesen
+cat ~/.claude/plans/replicated-sniffing-pony.md
+
+# 3. Systematische Analyse mit Subagents starten
+# → Siehe Plan für Details
 ```
+
+---
+
+## Technische Notizen
+
+### Ziel-Architektur
+```
+NormalLayout
+├── Navbar (OHNE SearchBar)
+├── Main Content
+│   └── Kanban Board (volle Breite)
+└── Sidebar (resizable)
+    ├── Search
+    ├── Task-Liste / Task-Details
+    ├── Project Overview
+    ├── Active Agents
+    └── System Log
+```
+
+### Out of Scope für Phase 8D
+- Settings in Sidebar (Phase 12)
+- Projekte in Sidebar (Phase 12)
+- Live-Daten für Agents/Logs
+- Ticket-Eingabe in Sidebar

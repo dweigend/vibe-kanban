@@ -205,9 +205,9 @@ Ein modulares Wissensmanagement-Tool für:
 
 ---
 
-## Phase 8: Sidebar & Layout ✅
+## Phase 8: Sidebar & Layout
 
-**Status:** Abgeschlossen (2026-01-10)
+**Status:** In Arbeit (8A-C ✅, 8D 📋)
 
 ### 8A: VSCode Cleanup ✅
 - [x] VSCode-System entfernt (bridge.ts, ContextMenu.tsx)
@@ -227,6 +227,18 @@ Ein modulares Wissensmanagement-Tool für:
 - [x] Project Overview
 - [x] Active Agents
 - [x] System Log
+
+### 8D: Sidebar-Konsolidierung 📋
+**Problem:** Doppelstruktur (2x Search, 2x Panel-System, Task-Content falsch platziert)
+
+**Session-Start:** Systematische Analyse mit Subagents + Chrome DevTools MCP
+
+- [ ] SearchBar konsolidieren (Header → Sidebar)
+- [ ] Sidebar resizable machen (280-600px)
+- [ ] Task-Liste in Sidebar
+- [ ] Task-Details in Sidebar
+- [ ] TasksLayout vereinfachen (nur Kanban)
+- [ ] Sidebar-Modi (dashboard, tasks, task-detail, settings)
 
 ---
 
@@ -334,7 +346,8 @@ Ein modulares Wissensmanagement-Tool für:
 | 6D | 📋 Doc | System-Analyse | ✅ |
 | 6E | 📋 Doc | Refactoring-Strategie | ✅ |
 | 7 | Impl | UI Basis (Colors, Typography) | ✅ |
-| 8 | Impl | Sidebar & Layout | ✅ |
+| 8A-C | Impl | Sidebar & Layout | ✅ |
+| 8D | Impl | Sidebar-Konsolidierung | 📋 Nächste |
 | 9 | Impl | Task Type Backend | Geplant |
 | 10 | Impl | Task Type Frontend | Geplant |
 | 11 | 🔍 Review | Integration & Polish | Geplant |
