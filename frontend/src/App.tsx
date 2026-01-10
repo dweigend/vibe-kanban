@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '@/i18n';
-import { Projects } from '@/pages/Projects';
 import { ProjectTasks } from '@/pages/ProjectTasks';
 import { FullAttemptLogsPage } from '@/pages/FullAttemptLogs';
 import KnowledgePage from '@/pages/KnowledgePage';
@@ -15,7 +14,6 @@ import { usePreviousPath } from '@/hooks/usePreviousPath';
 import {
   AgentSettings,
   McpSettings,
-  OrganizationSettings,
   ProjectSettings,
   SettingsLayout,
 } from '@/pages/settings/';
@@ -131,40 +129,32 @@ function AppContent() {
                 />
 
                 <Route element={<NormalLayout />}>
-                  <Route path="/" element={<Projects />} />
-                  <Route path="/projects" element={<Projects />} />
-                  <Route path="/projects/:projectId" element={<Projects />} />
-                  <Route
-                    path="/projects/:projectId/tasks"
-                    element={<ProjectTasks />}
-                  />
-                  <Route
-                    path="/projects/:projectId/knowledge"
-                    element={<KnowledgePage />}
-                  />
-                  <Route path="/styleguide" element={<StyleGuidePage />} />
+                  {/* Default: Show Kanban Board */}
+                  <Route path="/" element={<ProjectTasks />} />
+
+                  {/* Project routes - all show Kanban Board */}
+                  <Route path="/projects" element={<ProjectTasks />} />
+                  <Route path="/projects/:projectId" element={<ProjectTasks />} />
+                  <Route path="/projects/:projectId/tasks" element={<ProjectTasks />} />
+                  <Route path="/projects/:projectId/tasks/:taskId" element={<ProjectTasks />} />
+                  <Route path="/projects/:projectId/tasks/:taskId/attempts/:attemptId" element={<ProjectTasks />} />
+
+                  {/* Knowledge Page (full-page for now) */}
+                  <Route path="/projects/:projectId/knowledge" element={<KnowledgePage />} />
+
+                  {/* Settings - Full-page for complex configuration */}
                   <Route path="/settings/*" element={<SettingsLayout />}>
                     <Route index element={<Navigate to="projects" replace />} />
                     <Route path="projects" element={<ProjectSettings />} />
-                    <Route
-                      path="organizations"
-                      element={<OrganizationSettings />}
-                    />
                     <Route path="agents" element={<AgentSettings />} />
                     <Route path="mcp" element={<McpSettings />} />
                   </Route>
-                  <Route
-                    path="/mcp-servers"
-                    element={<Navigate to="/settings/mcp" replace />}
-                  />
-                  <Route
-                    path="/projects/:projectId/tasks/:taskId"
-                    element={<ProjectTasks />}
-                  />
-                  <Route
-                    path="/projects/:projectId/tasks/:taskId/attempts/:attemptId"
-                    element={<ProjectTasks />}
-                  />
+
+                  {/* Redirects for old routes */}
+                  <Route path="/mcp-servers" element={<Navigate to="/settings/mcp" replace />} />
+
+                  {/* Style Guide for development */}
+                  <Route path="/styleguide" element={<StyleGuidePage />} />
                 </Route>
               </SentryRoutes>
             </div>

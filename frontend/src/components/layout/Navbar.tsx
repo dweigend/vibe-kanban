@@ -3,12 +3,14 @@ import { useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   FolderOpen,
+  FolderCog,
   Settings,
   BookOpen,
   Plus,
   PanelRight,
   PanelRightClose,
   Bot,
+  Cpu,
   LayoutGrid,
   Square,
 } from 'lucide-react';
@@ -162,12 +164,19 @@ export function Navbar() {
 
   const isOAuthLoggedIn = loginStatus?.status === 'loggedin';
 
-  // Check active routes for highlighting
-  const isProjectsActive = location.pathname === '/projects';
-  const isMcpActive = location.pathname.startsWith('/settings/mcp');
-  const isKnowledgeActive =
-    Boolean(projectId) && location.pathname.includes('/knowledge');
+  // Check active sidebar modes for highlighting
+  const isProjectsActive = sidebarMode === 'projects';
+  const isProjectSettingsActive = sidebarMode === 'project-settings';
+  const isMcpActive = sidebarMode === 'mcp';
+  const isAgentsActive = sidebarMode === 'agents';
+  const isKnowledgeActive = sidebarMode === 'knowledge';
   const isSettingsActive = sidebarMode === 'settings';
+
+  // Helper to open sidebar with specific mode
+  const openSidebarMode = (mode: typeof sidebarMode) => {
+    setMode(mode);
+    setCollapsed(false);
+  };
 
   return (
     <div className="border-b bg-background">
@@ -217,22 +226,36 @@ export function Navbar() {
               <NavIconButton
                 icon={FolderOpen}
                 label="Projects"
-                to="/projects"
+                onClick={() => openSidebarMode('projects')}
                 active={isProjectsActive}
               />
               {projectId && (
-                <NavIconButton
-                  icon={BookOpen}
-                  label="Knowledge"
-                  to={`/projects/${projectId}/knowledge`}
-                  active={isKnowledgeActive}
-                />
+                <>
+                  <NavIconButton
+                    icon={FolderCog}
+                    label="Project Settings"
+                    onClick={() => openSidebarMode('project-settings')}
+                    active={isProjectSettingsActive}
+                  />
+                  <NavIconButton
+                    icon={BookOpen}
+                    label="Knowledge"
+                    onClick={() => openSidebarMode('knowledge')}
+                    active={isKnowledgeActive}
+                  />
+                </>
               )}
               <NavIconButton
                 icon={Bot}
                 label="MCP Servers"
-                to="/settings/mcp"
+                onClick={() => openSidebarMode('mcp')}
                 active={isMcpActive}
+              />
+              <NavIconButton
+                icon={Cpu}
+                label="Agents"
+                onClick={() => openSidebarMode('agents')}
+                active={isAgentsActive}
               />
               <NavIconButton icon={LayoutGrid} label="View Toggle" disabled />
             </div>
@@ -268,10 +291,7 @@ export function Navbar() {
               <NavIconButton
                 icon={Settings}
                 label="Settings"
-                onClick={() => {
-                  setMode('settings');
-                  setCollapsed(false);
-                }}
+                onClick={() => openSidebarMode('settings')}
                 active={isSettingsActive}
               />
               <NavIconButton icon={Square} label="Accent Color" disabled />

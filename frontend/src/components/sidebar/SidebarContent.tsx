@@ -4,10 +4,14 @@ import { SidebarSection } from './SidebarSection';
 import { ProjectOverview } from './ProjectOverview';
 import { ActiveAgents } from './ActiveAgents';
 import { SystemLog } from './SystemLog';
-import { SidebarModeToggle } from './SidebarModeToggle';
 import { SidebarTaskList } from './SidebarTaskList';
 import { SidebarTaskDetail } from './SidebarTaskDetail';
 import { SidebarSettings } from './SidebarSettings';
+import { SidebarProjects } from './SidebarProjects';
+import { SidebarProjectSettings } from './SidebarProjectSettings';
+import { SidebarMcp } from './SidebarMcp';
+import { SidebarAgents } from './SidebarAgents';
+import { SidebarKnowledge } from './SidebarKnowledge';
 import { useSidebar } from '@/contexts/SidebarContext';
 import { useProject } from '@/contexts/ProjectContext';
 
@@ -33,14 +37,25 @@ export function SidebarContent() {
   const { mode } = useSidebar();
   const { projectId } = useProject();
 
-  // Settings mode: full height, no toggle or search
-  if (mode === 'settings') {
-    return <SidebarSettings />;
+  // Full-height modes (no search bar)
+  switch (mode) {
+    case 'settings':
+      return <SidebarSettings />;
+    case 'projects':
+      return <SidebarProjects />;
+    case 'project-settings':
+      return <SidebarProjectSettings />;
+    case 'mcp':
+      return <SidebarMcp />;
+    case 'agents':
+      return <SidebarAgents />;
+    case 'knowledge':
+      return <SidebarKnowledge />;
   }
 
+  // Dashboard and task modes with search bar
   return (
     <div className="space-y-4">
-      <SidebarModeToggle />
       <SidebarSearchBar />
 
       {!projectId ? (
