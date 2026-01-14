@@ -129,6 +129,7 @@ export function SidebarTaskDetail({ projectId }: SidebarTaskDetailProps) {
           title: task.title,
           description: task.description,
           status: null,
+          task_type: null,
           parent_workspace_id: null,
           image_ids: null,
           shared_task_id: null,

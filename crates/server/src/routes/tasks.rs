@@ -276,6 +276,7 @@ pub async fn update_task(
         None => existing_task.description,      // Field omitted = keep existing
     };
     let status = payload.status.unwrap_or(existing_task.status);
+    let task_type = payload.task_type.unwrap_or(existing_task.task_type);
     let parent_workspace_id = payload
         .parent_workspace_id
         .or(existing_task.parent_workspace_id);
@@ -287,6 +288,7 @@ pub async fn update_task(
         title,
         description,
         status,
+        task_type,
         parent_workspace_id,
     )
     .await?;

@@ -1,14 +1,41 @@
-# 🧠 Knowledge Orchestrator
+# 🚫 PROJECT DISCONTINUED
 
-> **A Knowledge Management System based on [Vibe Kanban](https://github.com/BloopAI/vibe-kanban)**
+> **⚠️ This project is no longer being developed. It was an experiment.**
+
+I've moved on to building a new system from scratch using **Svelte + Python**.
 
 ---
 
-## ⚠️ Status: Experimental
+## 💡 Learnings
 
-This project is **not functional** and under active development. It serves as a personal learning project.
+The SDKs of CLI tools like **Claude Code**, **Codex**, or **OpenCode** are so powerful that only minimal infrastructure is actually needed. The Kanban board's real function is purely **orchestration**.
 
-**For a working version → [Original Vibe Kanban](https://github.com/BloopAI/vibe-kanban)**
+My approach was to keep it as lean as possible — because the more features I build into the system, the more I have to chase what the individual CLI tools can do. They evolve fast, and duplicating their capabilities is a losing game.
+
+**Conclusion:** I rebuilt the project to focus entirely on the **orchestration layer** — nothing more.
+
+---
+
+## 📂 Documentation
+
+All development documentation is preserved in the `dev/` folder:
+
+| File | Description |
+|------|-------------|
+| `dev/UEBERGABE.md` | Handover notes between sessions |
+| `dev/PLAN.md` | Development history and progress |
+| `dev/architecture.md` | System architecture overview |
+| `dev/extension-points.md` | How to extend the system |
+| `dev/WORKFLOW.md` | Development workflow |
+| `dev/migration-blueprint/` | Migration planning docs |
+
+---
+
+# 🧠 Knowledge Orchestrator (Archived)
+
+> **A Knowledge Management System based on [Vibe Kanban](https://github.com/BloopAI/vibe-kanban)**
+
+**For the working original → [Vibe Kanban](https://github.com/BloopAI/vibe-kanban)**
 
 ---
 

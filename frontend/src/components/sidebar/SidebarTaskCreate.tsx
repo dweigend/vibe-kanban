@@ -86,6 +86,7 @@ export function SidebarTaskCreate({ projectId }: SidebarTaskCreateProps) {
       title: value.title,
       description: value.description,
       status: null,
+      task_type: null,
       parent_workspace_id: null,
       image_ids: null,
       shared_task_id: null,
